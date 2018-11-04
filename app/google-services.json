@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "832171404998",
+    "firebase_url": "https://geogames-agh.firebaseio.com",
+    "project_id": "geogames-agh",
+    "storage_bucket": "geogames-agh.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832171404998:android:ee4a6dcac6c88271",
+        "android_client_info": {
+          "package_name": "com.kurocho.geogames"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "832171404998-ojkej31u5fkp2qftmrssbb466g2qfbq8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kurocho.geogames",
+            "certificate_hash": "48d14bf6573b1680793723866a15176c4807ca3a"
+          }
+        },
+        {
+          "client_id": "832171404998-ojjlogq38rjkhvh7npmr9k006o12s31o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgYAUWq-4KJgZ_oA7cs4HpL0Km8zMRKjU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "832171404998-ojjlogq38rjkhvh7npmr9k006o12s31o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
