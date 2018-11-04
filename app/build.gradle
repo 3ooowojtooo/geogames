@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:9.0.0-rc1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
 }
 
 apply plugin: 'com.google.gms.google-services'
