@@ -4,43 +4,30 @@
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
-
-    <!--Progress bar //TODO-->
-    <ProgressBar
-            android:id="@+id/login_progress"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone" />
-
-    <TextView
-            android:id="@+id/login_progress_text"
+    <include
+            android:id="@+id/progress_login"
+            layout="@layout/progress_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_gravity="center"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:textStyle="italic"
             android:visibility="gone" />
 
     <LinearLayout
             android:id="@+id/login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:visibility="visible" >
 
         <AutoCompleteTextView
-                android:id="@+id/login"
+                android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/login"
+                android:hint="@string/username"
                 android:inputType="textAutoComplete"
                 android:maxLines="1"
                 android:singleLine="true"/>
-
 
         <EditText
                 android:id="@+id/password"
@@ -51,7 +38,6 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true" />
-
 
         <Button
                 android:id="@+id/login_sign_in_button"
