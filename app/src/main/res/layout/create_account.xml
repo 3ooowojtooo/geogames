@@ -29,28 +29,28 @@
                 android:textAllCaps="true"/>
 
         <AutoCompleteTextView
-                android:id="@+id/mail"
+                android:id="@+id/create_account_mail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/mail"
+                android:hint="@string/create_account_mail"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true"/>
 
         <AutoCompleteTextView
-                android:id="@+id/username"
+                android:id="@+id/create_account_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/username"
+                android:hint="@string/create_account_username"
                 android:inputType="textAutoComplete"
                 android:maxLines="1"
                 android:singleLine="true"/>
 
         <EditText
-                android:id="@+id/password"
+                android:id="@+id/create_account_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/password"
+                android:hint="@string/create_account_password"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_up"
+                android:text="@string/create_account_action_sing_up"
                 android:textStyle="bold" />
 
     </LinearLayout>

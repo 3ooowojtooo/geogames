@@ -1,10 +1,18 @@
 <resources>
     <string name="app_name">GeoGames</string>
-    <string name="login">login</string>
-    <string name="username">username</string>
-    <string name="mail">mail</string>
-    <string name="password">password</string>
-    <string name="action_sign_in">sign In</string>
-    <string name="action_sign_up">sign Up</string>
+
+    <string name="create_account_action_sing_up">sign Up</string>
+    <string name="create_account_username">username</string>
+    <string name="create_account_mail">mail</string>
+    <string name="create_account_password">password</string>
     <string name="create_account_top_text">create your account here</string>
+
+    <string name="login_username">username</string>
+    <string name="login_password">password</string>
+    <string name="login_action_sign_in">sign In</string>
+
+    <string name="add_game_dialog_game_title">Game Title</string>
+    <string name="add_game_dialog_game_author">Game Author</string>
+    <string name="add_game_dialog_game_description">Game Description</string>
+    <string name="add_game_dialog_game_password">Password</string>
 </resources>

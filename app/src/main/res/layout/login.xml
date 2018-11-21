@@ -21,19 +21,19 @@
             android:visibility="visible" >
 
         <AutoCompleteTextView
-                android:id="@+id/username"
+                android:id="@+id/login_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/username"
+                android:hint="@string/login_username"
                 android:inputType="textAutoComplete"
                 android:maxLines="1"
                 android:singleLine="true"/>
 
         <EditText
-                android:id="@+id/password"
+                android:id="@+id/login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/password"
+                android:hint="@string/login_password"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
+                android:text="@string/login_action_sign_in"
                 android:textStyle="bold" />
 
     </LinearLayout>

@@ -13,10 +13,10 @@ import com.kurocho.geogames.viewmodels.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 
-    @BindView(R.id.username)
+    @BindView(R.id.login_username)
     AutoCompleteTextView username;
 
-    @BindView(R.id.password)
+    @BindView(R.id.login_password)
     EditText password;
 
     @BindView(R.id.login_sign_in_button)
