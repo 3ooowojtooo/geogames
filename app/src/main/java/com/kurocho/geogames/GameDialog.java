@@ -2,13 +2,11 @@ package com.kurocho.geogames;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 
-public class AddGameDialog extends DialogFragment {
+public class GameDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -33,8 +31,8 @@ public class AddGameDialog extends DialogFragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface I {
+    public interface IGameDialogInterface {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onInteraction();
     }
 }
