@@ -4,34 +4,35 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.kurocho.geogames.viewmodels.LoginViewModel;
+import com.kurocho.geogames.viewmodels.CreateAccountViewModel;
 
-public class LoginActivity extends AppCompatActivity {
+public class CreateAccountActivity extends AppCompatActivity {
 
-    @BindView(R.id.login_username)
+    @BindView(R.id.create_account_mail)
+    AutoCompleteTextView mail;
+
+    @BindView(R.id.create_account_username)
     AutoCompleteTextView username;
 
-    @BindView(R.id.login_password)
+    @BindView(R.id.create_account_password)
     EditText password;
 
-
-    private LoginViewModel viewModel;
-
+    private CreateAccountViewModel viewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.create_account);
         ButterKnife.bind(this);
-        viewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(CreateAccountViewModel.class);
     }
 
-    @OnClick(R.id.login_sign_in_button)
-    public void logInOnClick(){
+    @OnClick(R.id.create_account_button)
+    public void createAccountOnClick(){
 
     }
+
 }
