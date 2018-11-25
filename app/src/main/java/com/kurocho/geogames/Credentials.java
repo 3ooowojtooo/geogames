@@ -1,7 +1,5 @@
 package com.kurocho.geogames;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Credentials {
 
     private String username;
