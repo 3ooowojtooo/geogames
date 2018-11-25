@@ -11,7 +11,7 @@ interface Api {
     Call<String> signUp(@Header("login") String login, @Header("password") String passwordHash, @Header("mail") String mail);
 
     @POST("/auth/authenticate")
-    Call<Token> signIn(Credentials c);
+    Call<Void> signIn(@Body Credentials c);
 
 //    @POST("/games/upload")
 //    Call<GameDescription> uploadGame(@Header("token") String token, @Field('game') Game game);

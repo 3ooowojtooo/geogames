@@ -1,10 +1,13 @@
 package com.kurocho.geogames;
 
-public class Credentials {
-    String username;
-    String password;
+import com.google.gson.annotations.SerializedName;
 
-    public Credentials(String username, String password) {
+public class Credentials {
+
+    private String username;
+    private String password;
+
+    Credentials(String username, String password) {
         this.username = username;
         this.password = password;
     }
