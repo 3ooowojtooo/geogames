@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.crashlytics.android.Crashlytics;
@@ -14,6 +15,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.navigation)
     BottomNavigationView navigation;
+
+    @BindView(R.id.main_activity_progress_overlay)
+    View progressOverlay;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = (item) -> {
@@ -63,6 +67,14 @@ public class MainActivity extends AppCompatActivity {
         // Stop crashlytics for developing
         CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build();
         Fabric.with(this, new Crashlytics.Builder().core(core).build());
+    }
+
+    public void showProgressOverlay(){
+        progressOverlay.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgressOverlay(){
+        progressOverlay.setVisibility(View.GONE);
     }
 
 }

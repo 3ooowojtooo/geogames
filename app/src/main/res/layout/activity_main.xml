@@ -33,10 +33,10 @@
 
 
     <include
-            android:id="@+id/progress_login"
+            android:id="@+id/main_activity_progress_overlay"
             layout="@layout/progress_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
 </RelativeLayout>

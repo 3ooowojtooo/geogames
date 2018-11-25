@@ -26,6 +26,8 @@ public class LoginFragment extends Fragment {
 
     private LoginViewModel viewModel;
 
+    private MainActivity mainActivity;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +42,19 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(getActivity() instanceof MainActivity){
+            mainActivity = (MainActivity)getActivity();
+        } else{
+            throw new RuntimeException(this.getClass().getCanonicalName() + " can only be attached into MainActivity");
+        }
+    }
+
     @OnClick(R.id.login_sign_in_button)
     public void logInOnClick(){
-
+        mainActivity.showProgressOverlay();
     }
 
 
