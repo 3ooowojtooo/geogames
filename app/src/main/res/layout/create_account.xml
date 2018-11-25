@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+    <include
+            android:id="@+id/progress_create"
+            layout="@layout/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+    <LinearLayout
+            android:id="@+id/create_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible" >
+
+        <TextView
+                android:text="@string/create_account_top_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:textAlignment="center"
+                android:textAllCaps="true"/>
+
+        <AutoCompleteTextView
+                android:id="@+id/create_account_mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/create_account_mail"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:singleLine="true"/>
+
+        <AutoCompleteTextView
+                android:id="@+id/create_account_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/create_account_username"
+                android:inputType="textAutoComplete"
+                android:maxLines="1"
+                android:singleLine="true"/>
+
+        <EditText
+                android:id="@+id/create_account_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/create_account_password"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        <Button
+                android:id="@+id/create_account_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/create_account_action_sing_up"
+                android:textStyle="bold" />
+
+    </LinearLayout>
+</RelativeLayout>
