@@ -36,13 +36,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initializeListeners();
+        setDisplayedFragmentOnActivityCreated(savedInstanceState);
+        configureCrashlytics();
+    }
 
+    private void configureCrashlytics(){
         // Stop crashlytics for developing
         CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build();
         Fabric.with(this, new Crashlytics.Builder().core(core).build());
+    }
 
+    private void initializeListeners(){
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
 
+    private void setDisplayedFragmentOnActivityCreated(Bundle savedInstanceState){
         if(savedInstanceState == null){
             changeDisplayedFragmentToLoginFragment();
         }
@@ -52,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         LoginFragment loginFragment = new LoginFragment();
         transaction.replace(R.id.main_activity_fragment_container, loginFragment).commit();
+        navigation.setSelectedItemId(R.id.navigation_sign_in);
     }
 
 }
