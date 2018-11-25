@@ -41,11 +41,6 @@ public class MainActivity extends AppCompatActivity {
         configureCrashlytics();
     }
 
-    private void configureCrashlytics(){
-        // Stop crashlytics for developing
-        CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build();
-        Fabric.with(this, new Crashlytics.Builder().core(core).build());
-    }
 
     private void initializeListeners(){
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -62,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
         LoginFragment loginFragment = new LoginFragment();
         transaction.replace(R.id.main_activity_fragment_container, loginFragment).commit();
         navigation.setSelectedItemId(R.id.navigation_sign_in);
+    }
+
+    private void configureCrashlytics(){
+        // Stop crashlytics for developing
+        CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build();
+        Fabric.with(this, new Crashlytics.Builder().core(core).build());
     }
 
 }

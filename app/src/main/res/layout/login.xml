@@ -4,14 +4,6 @@
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
-    <include
-            android:id="@+id/progress_login"
-            layout="@layout/progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center"
-            android:visibility="gone" />
 
     <LinearLayout
             android:id="@+id/login_form"
