@@ -15,4 +15,7 @@
     <string name="add_game_dialog_game_author">Game Author</string>
     <string name="add_game_dialog_game_description">Game Description</string>
     <string name="add_game_dialog_game_password">Password</string>
+    <string name="title_search">Search</string>
+    <string name="title_my_games">Games</string>
+    <string name="title_sign_in">Sign In</string>
 </resources>
