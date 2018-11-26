@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiInstance {
     private static Api instance;
 
-    public Api getInstance(){
+    public static Api getInstance(){
         if(instance == null){
             Retrofit retrofit = new Retrofit.Builder().
                     baseUrl(Api.BASE_URL).
