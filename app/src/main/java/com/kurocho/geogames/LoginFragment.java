@@ -13,7 +13,7 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.kurocho.geogames.viewmodels.LoginViewModel;
+import com.kurocho.geogames.viewmodels.login.LoginViewModel;
 
 
 public class LoginFragment extends Fragment {

@@ -1,4 +1,4 @@
-package com.kurocho.geogames.viewmodels;
+package com.kurocho.geogames.viewmodels.login;
 
 import android.arch.lifecycle.ViewModel;
 
