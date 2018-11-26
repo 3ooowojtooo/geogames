@@ -69,11 +69,11 @@ public class MainActivity extends AppCompatActivity {
         Fabric.with(this, new Crashlytics.Builder().core(core).build());
     }
 
-    public void showProgressOverlay(){
+    void showProgressOverlay(){
         progressOverlay.setVisibility(View.VISIBLE);
     }
 
-    public void hideProgressOverlay(){
+    void hideProgressOverlay(){
         progressOverlay.setVisibility(View.GONE);
     }
 
