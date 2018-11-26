@@ -1,5 +1,5 @@
 package com.kurocho.geogames.viewmodels.login;
 
 public enum LogInLiveDataStatus {
-    IDLE, IN_PROGRESS, SUCCESS, ERROR_API, ERROR_DEVICE
+    IDLE, IN_PROGRESS, SUCCESS, API_ERROR, INTERNET_ERROR
 }
