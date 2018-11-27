@@ -33,6 +33,18 @@ public class LoginFragment extends Fragment {
 
     private MainActivity mainActivity;
 
+    @OnClick(R.id.login_sign_in_button)
+    public void logInOnClick(){
+        String username = this.username.getText().toString();
+        String password = this.password.getText().toString();
+        viewModel.login(username, password);
+    }
+
+    @OnClick(R.id.login_sign_up_button)
+    public void goToSignUpFragment(){
+        //TODO
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,13 +68,6 @@ public class LoginFragment extends Fragment {
         } else{
             throw new RuntimeException(this.getClass().getCanonicalName() + " can only be attached into MainActivity");
         }
-    }
-
-    @OnClick(R.id.login_sign_in_button)
-    public void logInOnClick(){
-        String username = this.username.getText().toString();
-        String password = this.password.getText().toString();
-        viewModel.login(username, password);
     }
 
     private void initializeViewModelObserver(){

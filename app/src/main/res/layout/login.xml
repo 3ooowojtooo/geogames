@@ -41,4 +41,11 @@
                 android:textStyle="bold" />
 
     </LinearLayout>
+    <TextView
+            android:id="@+id/login_sign_up_button"
+            android:text="@string/create_account_if_you_dont_have_it_yet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true" android:layout_marginTop="169dp"
+            android:textColor="@color/linkColor"/>
 </RelativeLayout>
