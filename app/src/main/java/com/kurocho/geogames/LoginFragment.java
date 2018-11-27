@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,8 +44,16 @@ public class LoginFragment extends Fragment {
 
     @OnClick(R.id.login_sign_up_button)
     public void goToSignUpFragment(){
-        //TODO
+        animateToFragment(new SignUpFragment(), "sign_up");
     }
+
+    private void animateToFragment(Fragment newFragment, String tag) {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.main_activity_fragment_container, newFragment, tag);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
