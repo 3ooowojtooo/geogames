@@ -10,9 +10,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.io.IOException;
-
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 
 public class ApiTest {
@@ -28,14 +27,29 @@ public class ApiTest {
     }
 
     @Test
-    public void testAuth(){
+    public void testLogin(){
         Call<Void> call = apiService.signIn(new Credentials("admin","Test1234"));
         try {
             Response<Void> response = call.execute();
             Token token = new Token(response.headers().get("Authorization"));
             assertNotNull(token.getToken());
-        }catch (IOException e){
-            e.printStackTrace();
+        }catch (Exception e){
+            fail();
+        }
+
+    }
+
+    @Test
+    public void testRegister(){
+        Credentials c = new Credentials("testowy1","okon123", "geogamestest@gmail.com");
+        Call<Void> call = apiService.signUp(c);
+        try {
+            Response<Void> response = call.execute();
+            if(!response.isSuccessful()) {
+                fail();
+            }
+        }catch (Exception e){
+            fail();
         }
 
     }
