@@ -8,7 +8,7 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.kurocho.geogames.viewmodels.CreateAccountViewModel;
+import com.kurocho.geogames.viewmodels.create_account.CreateAccountViewModel;
 
 public class CreateAccountActivity extends AppCompatActivity {
 

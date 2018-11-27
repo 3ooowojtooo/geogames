@@ -1,9 +1,11 @@
 package com.kurocho.geogames;
 
+import com.kurocho.geogames.api.Api;
+import com.kurocho.geogames.api.Credentials;
+import com.kurocho.geogames.api.Token;
 import org.junit.Before;
 import org.junit.Test;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -11,7 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 
 public class ApiTest {

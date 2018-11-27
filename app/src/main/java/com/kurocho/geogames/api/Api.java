@@ -1,10 +1,9 @@
-package com.kurocho.geogames;
+package com.kurocho.geogames.api;
 
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
-interface Api {
+public interface Api {
     String BASE_URL = "https://radiant-oasis-73704.herokuapp.com/";
 
     @POST("/signup")

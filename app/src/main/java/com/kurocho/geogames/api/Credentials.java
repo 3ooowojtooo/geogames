@@ -1,11 +1,11 @@
-package com.kurocho.geogames;
+package com.kurocho.geogames.api;
 
 public class Credentials {
 
     private String username;
     private String password;
 
-    Credentials(String username, String password) {
+    public Credentials(String username, String password) {
         this.username = username;
         this.password = password;
     }
