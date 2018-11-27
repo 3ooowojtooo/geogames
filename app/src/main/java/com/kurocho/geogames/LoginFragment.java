@@ -44,15 +44,10 @@ public class LoginFragment extends Fragment {
 
     @OnClick(R.id.login_sign_up_button)
     public void goToSignUpFragment(){
-        animateToFragment(new SignUpFragment(), "sign_up");
+        mainActivity.animateToFragment(new SignUpFragment(), "sign_up");
     }
 
-    private void animateToFragment(Fragment newFragment, String tag) {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.main_activity_fragment_container, newFragment, tag);
-        ft.addToBackStack(null);
-        ft.commit();
-    }
+
 
 
     @Override

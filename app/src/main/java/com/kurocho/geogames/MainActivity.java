@@ -78,5 +78,11 @@ public class MainActivity extends AppCompatActivity {
         progressOverlay.setVisibility(View.GONE);
     }
 
+    void animateToFragment(Fragment newFragment, String tag) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.main_activity_fragment_container, newFragment, tag);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
 }
