@@ -17,16 +17,24 @@ import com.kurocho.geogames.viewmodels.sign_up.SignUpViewModel;
 
 public class SignUpFragment extends Fragment {
 
-    @BindView(R.id.create_account_mail)
-    AutoCompleteTextView mail;
+    @BindView(R.id.sign_up_email)
+    AutoCompleteTextView email;
 
-    @BindView(R.id.create_account_username)
+    @BindView(R.id.sign_up_username)
     AutoCompleteTextView username;
 
-    @BindView(R.id.create_account_password)
+    @BindView(R.id.sign_up_password)
     EditText password;
 
     private SignUpViewModel viewModel;
+
+    @OnClick(R.id.sign_up_button)
+    public void createAccountOnClick(){
+        String email = this.email.getText().toString();
+        String username = this.username.getText().toString();
+        String password = this.password.getText().toString();
+//        viewModel.signUp(email, username, password);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,9 +51,6 @@ public class SignUpFragment extends Fragment {
     }
 
 
-    @OnClick(R.id.create_account_button)
-    public void createAccountOnClick(){
 
-    }
 
 }
