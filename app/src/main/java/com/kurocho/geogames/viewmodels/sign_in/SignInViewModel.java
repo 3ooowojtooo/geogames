@@ -1,4 +1,4 @@
-package com.kurocho.geogames.viewmodels.login;
+package com.kurocho.geogames.viewmodels.sign_in;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.LiveData;
@@ -12,20 +12,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginViewModel extends ViewModel {
+public class SignInViewModel extends ViewModel {
     private Api api;
-    private MutableLiveData<LogInLiveDataWrapper> logInLiveData;
+    private MutableLiveData<SignInLiveDataWrapper> logInLiveData;
 
-    public LoginViewModel(){
+    public SignInViewModel(){
         if(logInLiveData == null) {
             logInLiveData = new MutableLiveData<>();
-            logInLiveData.setValue(LogInLiveDataWrapper.idle());
+            logInLiveData.setValue(SignInLiveDataWrapper.idle());
         }
         if(api == null)
             api = ApiInstance.getInstance();
     }
 
-    public LiveData<LogInLiveDataWrapper> getLogInLiveData() {
+    public LiveData<SignInLiveDataWrapper> getLogInLiveData() {
         return logInLiveData;
     }
 
@@ -40,23 +40,23 @@ public class LoginViewModel extends ViewModel {
     }
 
     private void setIdleLogInLiveDataStatus(){
-        logInLiveData.setValue(LogInLiveDataWrapper.idle());
+        logInLiveData.setValue(SignInLiveDataWrapper.idle());
     }
 
     private void setInProgressLogInLiveDataStatus(){
-        logInLiveData.setValue(LogInLiveDataWrapper.inProgress());
+        logInLiveData.setValue(SignInLiveDataWrapper.inProgress());
     }
 
     private void setSuccessfulLogInLiveDataStatus(@NonNull Integer statusCode, @NonNull Token token){
-        logInLiveData.setValue(LogInLiveDataWrapper.success(statusCode, token));
+        logInLiveData.setValue(SignInLiveDataWrapper.success(statusCode, token));
     }
 
     private void setApiErrorLogInLiveDataStatus(@NonNull Integer statusCode){
-        logInLiveData.setValue(LogInLiveDataWrapper.apiError(statusCode));
+        logInLiveData.setValue(SignInLiveDataWrapper.apiError(statusCode));
     }
 
     private void setInternetErrorLogInLiveDataStatus(@NonNull Throwable error){
-        logInLiveData.setValue(LogInLiveDataWrapper.internetError(error));
+        logInLiveData.setValue(SignInLiveDataWrapper.internetError(error));
     }
 
     private void retrofitLogin(String username, String password){

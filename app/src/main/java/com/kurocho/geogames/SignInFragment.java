@@ -14,46 +14,42 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.kurocho.geogames.viewmodels.login.LogInLiveDataWrapper;
-import com.kurocho.geogames.viewmodels.login.LoginViewModel;
+import com.kurocho.geogames.viewmodels.sign_in.SignInLiveDataWrapper;
+import com.kurocho.geogames.viewmodels.sign_in.SignInViewModel;
 
 
-public class LoginFragment extends Fragment {
+public class SignInFragment extends Fragment {
 
-    @BindView(R.id.login_username)
+    @BindView(R.id.sign_in_username)
     AutoCompleteTextView username;
 
-    @BindView(R.id.login_password)
+    @BindView(R.id.sign_in_password)
     EditText password;
 
-    private LoginViewModel viewModel;
+    private SignInViewModel viewModel;
 
     private MainActivity mainActivity;
 
-    @OnClick(R.id.login_sign_in_button)
+    @OnClick(R.id.sign_in_button)
     public void logInOnClick(){
         String username = this.username.getText().toString();
         String password = this.password.getText().toString();
         viewModel.login(username, password);
     }
 
-    @OnClick(R.id.login_sign_up_button)
+    @OnClick(R.id.log_in_sign_up_button)
     public void goToSignUpFragment(){
-        mainActivity.fragNavController.pushFragment(new SignUpFragment());
+        mainActivity.getFragNavController().pushFragment(new SignUpFragment());
     }
 
-    public static LoginFragment newInstance(int index) {
-        LoginFragment f = new LoginFragment();
-        Bundle args = new Bundle();
-        args.putInt("index", index);
-        f.setArguments(args);
-        return f;
+    public static SignInFragment newInstance() {
+        return new SignInFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(SignInViewModel.class);
     }
 
     @Nullable
@@ -76,7 +72,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void initializeViewModelObserver(){
-        viewModel.getLogInLiveData().observe(this, (@Nullable LogInLiveDataWrapper wrapper) -> {
+        viewModel.getLogInLiveData().observe(this, (@Nullable SignInLiveDataWrapper wrapper) -> {
            if(wrapper != null){
                if(wrapper.isIdle()){
                     processIdleLogInViewModelStatus();
@@ -101,17 +97,17 @@ public class LoginFragment extends Fragment {
         mainActivity.showProgressOverlay();
     }
 
-    private void processSuccessfulLogInViewModelStatus(@NonNull LogInLiveDataWrapper wrapper){
+    private void processSuccessfulLogInViewModelStatus(@NonNull SignInLiveDataWrapper wrapper){
         mainActivity.hideProgressOverlay();
         Toast.makeText(getActivity(), "Success. " + wrapper.getToken().getToken(), Toast.LENGTH_LONG).show();
     }
 
-    private void processApiErrorLogInViewModelStatus(@NonNull LogInLiveDataWrapper wrapper){
+    private void processApiErrorLogInViewModelStatus(@NonNull SignInLiveDataWrapper wrapper){
         mainActivity.hideProgressOverlay();
         Toast.makeText(getActivity(), "api error. code: " + String.valueOf(wrapper.getStatusCode()), Toast.LENGTH_LONG).show();
     }
 
-    private void processInternetErrorLogInViewModelStatus(@NonNull LogInLiveDataWrapper wrapper){
+    private void processInternetErrorLogInViewModelStatus(@NonNull SignInLiveDataWrapper wrapper){
         mainActivity.hideProgressOverlay();
         Toast.makeText(getActivity(), "internet error. " + wrapper.getErrorThrowable().getMessage(), Toast.LENGTH_LONG).show();
     }

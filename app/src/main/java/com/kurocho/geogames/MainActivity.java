@@ -11,14 +11,15 @@ import butterknife.OnClick;
 import com.crashlytics.android.Crashlytics;
 import com.ncapdevi.fragnav.FragNavController;
 import io.fabric.sdk.android.Fabric;
+import org.jetbrains.annotations.NotNull;
 
 
 public class MainActivity extends AppCompatActivity implements FragNavController.RootFragmentListener  {
 
-    final int INDEX_SEARCH = 0;
-    final int INDEX_GAMES = 1;
-    final int INDEX_SIGNIN = 2;
-    final int ROOT_FRAGMENTS_NUMBER = 3;
+    private static final int INDEX_SEARCH = 0;
+    private static final int INDEX_GAMES = 1;
+    private static final int INDEX_SIGN_IN = 2;
+    private static final int ROOT_FRAGMENTS_NUMBER = 3;
 
 
     @BindView(R.id.navigation)
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     @BindView(R.id.main_activity_progress_overlay)
     View progressOverlay;
 
-    FragNavController fragNavController;
+    private FragNavController fragNavController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +64,16 @@ public class MainActivity extends AppCompatActivity implements FragNavController
         }
     }
 
+    @NotNull
     @Override
     public Fragment getRootFragment(int index) {
         switch (index) {
-            case INDEX_SIGNIN:
-                return LoginFragment.newInstance(0);
+            case INDEX_SIGN_IN:
+                return SignInFragment.newInstance();
             case INDEX_GAMES:
-                return MyGamesFragment.newInstance(0);
+                return MyGamesFragment.newInstance();
             case INDEX_SEARCH:
-                return SearchFragment.newInstance(0);
+                return SearchFragment.newInstance();
 
         }
         throw new IllegalStateException("Need to send an index that we know");
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
 
     @OnClick(R.id.navigation_sign_in)
     void changeDisplayedFragmentToLoginFragment() {
-        fragNavController.switchTab(INDEX_SIGNIN);
+        fragNavController.switchTab(INDEX_SIGN_IN);
         navigation.setSelectedItemId(R.id.navigation_sign_in);
     }
 
@@ -111,6 +113,10 @@ public class MainActivity extends AppCompatActivity implements FragNavController
         else
             super.onBackPressed();
 
+    }
+
+    FragNavController getFragNavController(){
+        return fragNavController;
     }
 
 }

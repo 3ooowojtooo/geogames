@@ -13,12 +13,8 @@ public class SearchFragment extends Fragment {
 
     private MainActivity mainActivity;
 
-    public static SearchFragment newInstance(int index) {
-        SearchFragment f = new SearchFragment();
-        Bundle args = new Bundle();
-        args.putInt("index", index);
-        f.setArguments(args);
-        return f;
+    public static SearchFragment newInstance() {
+        return new SearchFragment();
     }
 
     @Override

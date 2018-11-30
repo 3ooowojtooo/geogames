@@ -14,12 +14,8 @@ public class MyGamesFragment extends Fragment {
 
     MainActivity mainActivity;
 
-    public static MyGamesFragment newInstance(int index) {
-        MyGamesFragment f = new MyGamesFragment();
-        Bundle args = new Bundle();
-        args.putInt("index", index);
-        f.setArguments(args);
-        return f;
+    public static MyGamesFragment newInstance() {
+        return new MyGamesFragment();
     }
 
     @Override

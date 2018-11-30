@@ -6,44 +6,44 @@
                 android:orientation="vertical">
 
     <LinearLayout
-            android:id="@+id/login_form"
+            android:id="@+id/sign_in_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="visible" >
 
         <AutoCompleteTextView
-                android:id="@+id/login_username"
+                android:id="@+id/sign_in_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/login_username"
+                android:hint="@string/sign_in_username"
                 android:inputType="textAutoComplete"
                 android:maxLines="1"
                 android:singleLine="true"/>
 
         <EditText
-                android:id="@+id/login_password"
+                android:id="@+id/sign_in_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/login_password"
+                android:hint="@string/sign_in_password"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true" />
 
         <Button
-                android:id="@+id/login_sign_in_button"
+                android:id="@+id/sign_in_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/login_action_sign_in"
+                android:text="@string/sign_in_action_sign_in"
                 android:textStyle="bold" />
 
     </LinearLayout>
     <TextView
-            android:id="@+id/login_sign_up_button"
-            android:text="@string/create_account_if_you_dont_have_it_yet"
+            android:id="@+id/log_in_sign_up_button"
+            android:text="@string/sign_in_create_account_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true" android:layout_marginTop="169dp"
