@@ -11,7 +11,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
-        versionName "0.01"
+        versionName "0.02"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -46,6 +46,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
+    implementation 'com.ncapdevi:frag-nav:3.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
