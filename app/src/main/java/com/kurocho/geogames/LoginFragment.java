@@ -1,6 +1,5 @@
 package com.kurocho.geogames;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,13 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.kurocho.geogames.viewmodels.login.LogInLiveDataStatus;
 import com.kurocho.geogames.viewmodels.login.LogInLiveDataWrapper;
 import com.kurocho.geogames.viewmodels.login.LoginViewModel;
 
@@ -42,7 +39,15 @@ public class LoginFragment extends Fragment {
 
     @OnClick(R.id.login_sign_up_button)
     public void goToSignUpFragment(){
-        //TODO
+        mainActivity.fragNavController.pushFragment(new SignUpFragment());
+    }
+
+    public static LoginFragment newInstance(int index) {
+        LoginFragment f = new LoginFragment();
+        Bundle args = new Bundle();
+        args.putInt("index", index);
+        f.setArguments(args);
+        return f;
     }
 
     @Override

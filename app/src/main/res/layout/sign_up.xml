@@ -4,17 +4,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
-    <include
-            android:id="@+id/progress_create"
-            layout="@layout/progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center"
-            android:visibility="gone" />
-
     <LinearLayout
-            android:id="@+id/create_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -24,12 +14,12 @@
                 android:text="@string/create_account_top_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="25dp"
+                android:textSize="25sp"
                 android:textAlignment="center"
                 android:textAllCaps="true"/>
 
         <AutoCompleteTextView
-                android:id="@+id/create_account_mail"
+                android:id="@+id/sign_up_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/create_account_mail"
@@ -38,7 +28,7 @@
                 android:singleLine="true"/>
 
         <AutoCompleteTextView
-                android:id="@+id/create_account_username"
+                android:id="@+id/sign_up_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/create_account_username"
@@ -47,7 +37,7 @@
                 android:singleLine="true"/>
 
         <EditText
-                android:id="@+id/create_account_password"
+                android:id="@+id/sign_up_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/create_account_password"
@@ -57,7 +47,7 @@
                 android:singleLine="true" />
 
         <Button
-                android:id="@+id/create_account_button"
+                android:id="@+id/sign_up_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
