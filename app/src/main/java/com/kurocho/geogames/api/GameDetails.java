@@ -3,10 +3,10 @@ package com.kurocho.geogames.api;
 public class GameDetails {
     private String title;
     private String author;
-    private int progress = 0;
-    private int numberOfStages;
+    private Integer progress;
+    private Integer numberOfStages;
 
-    public GameDetails(String title, String author, int progress, int numberOfStages) {
+    public GameDetails(String title, String author, Integer progress, Integer numberOfStages) {
         this.title = title;
         this.author = author;
         this.progress = progress;
@@ -21,7 +21,7 @@ public class GameDetails {
         return author;
     }
 
-    public int getProgressInPercent() {
-        return progress/numberOfStages;
+    public Integer getProgressInPercent() {
+        return Math.round((progress.floatValue()/numberOfStages.floatValue())*100);
     }
 }
