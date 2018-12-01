@@ -1,6 +1,8 @@
 package com.kurocho.geogames;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,8 +16,11 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.kurocho.geogames.viewmodels.factory.DaggerViewModelComponent;
 import com.kurocho.geogames.viewmodels.sign_in.SignInLiveDataWrapper;
 import com.kurocho.geogames.viewmodels.sign_in.SignInViewModel;
+
+import javax.inject.Inject;
 
 
 public class SignInFragment extends Fragment {
@@ -26,6 +31,9 @@ public class SignInFragment extends Fragment {
     @BindView(R.id.sign_in_password)
     EditText password;
 
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+
     private SignInViewModel viewModel;
 
     private MainActivity mainActivity;
@@ -35,6 +43,7 @@ public class SignInFragment extends Fragment {
         String username = this.username.getText().toString();
         String password = this.password.getText().toString();
         viewModel.login(username, password);
+        Toast.makeText(getActivity(), String.valueOf(viewModelFactory != null), Toast.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.log_in_sign_up_button)
@@ -69,6 +78,12 @@ public class SignInFragment extends Fragment {
         } else{
             throw new RuntimeException(this.getClass().getCanonicalName() + " can only be attached into MainActivity");
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        DaggerViewModelComponent.builder().build().signInFragmentBinding(this);
+        super.onAttach(context);
     }
 
     private void initializeViewModelObserver(){

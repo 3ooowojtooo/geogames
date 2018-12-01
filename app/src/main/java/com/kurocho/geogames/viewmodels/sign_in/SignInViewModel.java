@@ -12,10 +12,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import javax.inject.Inject;
+
 public class SignInViewModel extends ViewModel {
     private Api api;
     private MutableLiveData<SignInLiveDataWrapper> logInLiveData;
 
+    @Inject
     public SignInViewModel(){
         if(logInLiveData == null) {
             logInLiveData = new MutableLiveData<>();
