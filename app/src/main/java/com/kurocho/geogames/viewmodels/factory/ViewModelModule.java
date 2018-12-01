@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import com.kurocho.geogames.viewmodels.sign_in.SignInViewModel;
 import dagger.Binds;
 import dagger.Module;
+import dagger.Provides;
 import dagger.multibindings.IntoMap;
 
 @Module
@@ -16,4 +17,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SignInViewModel.class)
     abstract ViewModel bindSignInViewModel(SignInViewModel userViewModel);
+
+    @Provides
+    static String provideString(){
+        return "yes";
+    }
 }

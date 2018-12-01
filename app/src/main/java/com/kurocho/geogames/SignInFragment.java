@@ -43,7 +43,6 @@ public class SignInFragment extends Fragment {
         String username = this.username.getText().toString();
         String password = this.password.getText().toString();
         viewModel.login(username, password);
-        Toast.makeText(getActivity(), String.valueOf(viewModelFactory != null), Toast.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.log_in_sign_up_button)
@@ -58,7 +57,8 @@ public class SignInFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(SignInViewModel.class);
+        DaggerViewModelComponent.create().signInFragmentBinding(this);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SignInViewModel.class);
     }
 
     @Nullable
@@ -80,11 +80,6 @@ public class SignInFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        DaggerViewModelComponent.builder().build().signInFragmentBinding(this);
-        super.onAttach(context);
-    }
 
     private void initializeViewModelObserver(){
         viewModel.getLogInLiveData().observe(this, (@Nullable SignInLiveDataWrapper wrapper) -> {

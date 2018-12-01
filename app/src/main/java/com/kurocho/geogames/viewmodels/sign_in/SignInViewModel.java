@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import com.kurocho.geogames.api.Api;
 import com.kurocho.geogames.api.ApiInstance;
 import com.kurocho.geogames.api.Credentials;
@@ -19,10 +20,11 @@ public class SignInViewModel extends ViewModel {
     private MutableLiveData<SignInLiveDataWrapper> logInLiveData;
 
     @Inject
-    public SignInViewModel(){
+    public SignInViewModel(String resource){
         if(logInLiveData == null) {
             logInLiveData = new MutableLiveData<>();
             logInLiveData.setValue(SignInLiveDataWrapper.idle());
+            Log.i("viewmodel", resource);
         }
         if(api == null)
             api = ApiInstance.getInstance();
