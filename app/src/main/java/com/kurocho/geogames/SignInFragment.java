@@ -1,8 +1,6 @@
 package com.kurocho.geogames;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,11 +14,9 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.kurocho.geogames.viewmodels.factory.DaggerViewModelComponent;
 import com.kurocho.geogames.viewmodels.sign_in.SignInLiveDataWrapper;
 import com.kurocho.geogames.viewmodels.sign_in.SignInViewModel;
 
-import javax.inject.Inject;
 
 
 public class SignInFragment extends Fragment {
@@ -30,9 +26,6 @@ public class SignInFragment extends Fragment {
 
     @BindView(R.id.sign_in_password)
     EditText password;
-
-    @Inject
-    ViewModelProvider.Factory viewModelFactory;
 
     private SignInViewModel viewModel;
 
@@ -57,8 +50,7 @@ public class SignInFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DaggerViewModelComponent.create().signInFragmentBinding(this);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SignInViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(SignInViewModel.class);
     }
 
     @Nullable

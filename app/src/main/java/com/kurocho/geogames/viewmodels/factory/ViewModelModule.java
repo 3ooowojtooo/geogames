@@ -18,8 +18,4 @@ abstract class ViewModelModule {
     @ViewModelKey(SignInViewModel.class)
     abstract ViewModel bindSignInViewModel(SignInViewModel userViewModel);
 
-    @Provides
-    static String provideString(){
-        return "yes";
-    }
 }
