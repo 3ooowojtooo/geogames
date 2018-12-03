@@ -3,7 +3,7 @@ package com.kurocho.geogames;
 import com.kurocho.geogames.api.Api;
 import com.kurocho.geogames.api.SignInCredentials;
 import com.kurocho.geogames.api.Token;
-import com.kurocho.geogames.api.SignUpCredentials;
+import com.kurocho.geogames.api.sign_up.SignUpCredentials;
 import org.junit.Before;
 import org.junit.Test;
 import retrofit2.Call;

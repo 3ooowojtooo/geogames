@@ -1,4 +1,4 @@
-package com.kurocho.geogames.api;
+package com.kurocho.geogames.api.sign_up;
 
 import android.support.annotation.NonNull;
 
