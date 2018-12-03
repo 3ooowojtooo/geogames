@@ -4,9 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import com.kurocho.geogames.api.Api;
-import com.kurocho.geogames.api.ApiInstance;
 import com.kurocho.geogames.api.Credentials;
 import com.kurocho.geogames.api.Token;
 import retrofit2.Call;
@@ -20,7 +18,7 @@ public class SignInViewModel extends ViewModel {
     private MutableLiveData<SignInLiveDataWrapper> logInLiveData;
 
     @Inject
-    public SignInViewModel(Api api){
+    SignInViewModel(Api api){
         if(logInLiveData == null) {
             logInLiveData = new MutableLiveData<>();
             logInLiveData.setValue(SignInLiveDataWrapper.idle());
@@ -69,7 +67,7 @@ public class SignInViewModel extends ViewModel {
         api.signIn(credentials).
                 enqueue(new Callback<Void>() {
                     @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
+                    public void onResponse(@NonNull  Call<Void> call, @NonNull Response<Void> response) {
                         if(response.isSuccessful()){
                             Integer statusCode = response.code();
                             Token token = new Token(response.headers().get("Authorization"));
@@ -81,7 +79,7 @@ public class SignInViewModel extends ViewModel {
                     }
 
                     @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
+                    public void onFailure(@NonNull  Call<Void> call, @NonNull Throwable t) {
                         setInternetErrorLogInLiveDataStatus(t);
                     }
                 });

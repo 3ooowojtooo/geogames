@@ -1,6 +1,8 @@
 package com.kurocho.geogames;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.kurocho.geogames.viewmodels.sign_up.SignUpViewModel;
+import dagger.android.support.AndroidSupportInjection;
+
+import javax.inject.Inject;
 
 public class SignUpFragment extends Fragment {
 
@@ -28,6 +33,9 @@ public class SignUpFragment extends Fragment {
 
     private SignUpViewModel viewModel;
 
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+
     @OnClick(R.id.sign_up_button)
     public void createAccountOnClick(){
         String email = this.email.getText().toString();
@@ -37,9 +45,15 @@ public class SignUpFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(SignUpViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SignUpViewModel.class);
     }
 
     @Nullable
