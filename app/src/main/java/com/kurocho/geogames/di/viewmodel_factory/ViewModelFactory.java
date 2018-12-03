@@ -1,4 +1,4 @@
-package com.kurocho.geogames.viewmodels.factory;
+package com.kurocho.geogames.di.viewmodel_factory;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;

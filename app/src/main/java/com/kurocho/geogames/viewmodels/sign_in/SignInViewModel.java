@@ -20,14 +20,13 @@ public class SignInViewModel extends ViewModel {
     private MutableLiveData<SignInLiveDataWrapper> logInLiveData;
 
     @Inject
-    public SignInViewModel(String resource){
+    public SignInViewModel(Api api){
         if(logInLiveData == null) {
             logInLiveData = new MutableLiveData<>();
             logInLiveData.setValue(SignInLiveDataWrapper.idle());
-            Log.i("viewmodel", resource);
         }
-        if(api == null)
-            api = ApiInstance.getInstance();
+        if(this.api == null)
+            this.api = api;
     }
 
     public LiveData<SignInLiveDataWrapper> getLogInLiveData() {
