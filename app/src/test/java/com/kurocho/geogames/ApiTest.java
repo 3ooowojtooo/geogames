@@ -1,8 +1,9 @@
 package com.kurocho.geogames;
 
 import com.kurocho.geogames.api.Api;
-import com.kurocho.geogames.api.Credentials;
+import com.kurocho.geogames.api.SignInCredentials;
 import com.kurocho.geogames.api.Token;
+import com.kurocho.geogames.api.SignUpCredentials;
 import org.junit.Before;
 import org.junit.Test;
 import retrofit2.Call;
@@ -28,7 +29,7 @@ public class ApiTest {
 
     @Test
     public void testLogin(){
-        Call<Void> call = apiService.signIn(new Credentials("admin","Test1234"));
+        Call<Void> call = apiService.signIn(new SignInCredentials("admin","Test1234"));
         try {
             Response<Void> response = call.execute();
             Token token = new Token(response.headers().get("Authorization"));
@@ -41,7 +42,7 @@ public class ApiTest {
 
     @Test
     public void testRegister(){
-        Credentials c = new Credentials("testowy1","okon123", "geogamestest@gmail.com");
+        SignUpCredentials c = new SignUpCredentials("testowy1","okon123", "geogamestest@gmail.com");
         Call<Void> call = apiService.signUp(c);
         try {
             Response<Void> response = call.execute();

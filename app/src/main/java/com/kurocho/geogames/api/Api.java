@@ -4,13 +4,13 @@ import retrofit2.Call;
 import retrofit2.http.*;
 
 public interface Api {
-    String BASE_URL = "https://radiant-oasis-73704.herokuapp.com/";
+    String BASE_URL = "https://geogames.herokuapp.com/";
 
     @POST("/auth/register")
-    Call<Void> signUp(@Body Credentials c);
+    Call<Void> signUp(@Body SignUpCredentials c);
 
     @POST("/auth/authenticate")
-    Call<Void> signIn(@Body Credentials c);
+    Call<Void> signIn(@Body SignInCredentials c);
 
     @POST("/users/{user}")
     Call<User> getUser(@Path("user") String username);

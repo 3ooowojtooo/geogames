@@ -1,8 +1,5 @@
 package com.kurocho.geogames.api;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 public class Token {
 
     private String token;
