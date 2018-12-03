@@ -5,24 +5,26 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import com.kurocho.geogames.api.Api;
-import com.kurocho.geogames.api.ApiInstance;
 import com.kurocho.geogames.api.Credentials;
 import com.kurocho.geogames.api.Token;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import javax.inject.Inject;
+
 public class SignInViewModel extends ViewModel {
     private Api api;
     private MutableLiveData<SignInLiveDataWrapper> logInLiveData;
 
-    public SignInViewModel(){
+    @Inject
+    SignInViewModel(Api api){
         if(logInLiveData == null) {
             logInLiveData = new MutableLiveData<>();
             logInLiveData.setValue(SignInLiveDataWrapper.idle());
         }
-        if(api == null)
-            api = ApiInstance.getInstance();
+        if(this.api == null)
+            this.api = api;
     }
 
     public LiveData<SignInLiveDataWrapper> getLogInLiveData() {
@@ -65,7 +67,7 @@ public class SignInViewModel extends ViewModel {
         api.signIn(credentials).
                 enqueue(new Callback<Void>() {
                     @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
+                    public void onResponse(@NonNull  Call<Void> call, @NonNull Response<Void> response) {
                         if(response.isSuccessful()){
                             Integer statusCode = response.code();
                             Token token = new Token(response.headers().get("Authorization"));
@@ -77,7 +79,7 @@ public class SignInViewModel extends ViewModel {
                     }
 
                     @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
+                    public void onFailure(@NonNull  Call<Void> call, @NonNull Throwable t) {
                         setInternetErrorLogInLiveDataStatus(t);
                     }
                 });

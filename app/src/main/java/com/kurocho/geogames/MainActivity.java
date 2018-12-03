@@ -10,11 +10,17 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.crashlytics.android.Crashlytics;
 import com.ncapdevi.fragnav.FragNavController;
+import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import io.fabric.sdk.android.Fabric;
 import org.jetbrains.annotations.NotNull;
 
+import javax.inject.Inject;
 
-public class MainActivity extends AppCompatActivity implements FragNavController.RootFragmentListener  {
+
+public class MainActivity extends AppCompatActivity implements FragNavController.RootFragmentListener, HasSupportFragmentInjector {
 
     private static final int INDEX_SEARCH = 0;
     private static final int INDEX_GAMES = 1;
@@ -30,8 +36,12 @@ public class MainActivity extends AppCompatActivity implements FragNavController
 
     private FragNavController fragNavController;
 
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentInjector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -119,4 +129,8 @@ public class MainActivity extends AppCompatActivity implements FragNavController
         return fragNavController;
     }
 
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentInjector;
+    }
 }

@@ -7,7 +7,7 @@ import io.reactivex.annotations.Nullable;
 
 public class SignInLiveDataWrapper {
     @NonNull private SignInLiveDataStatus status;
-    @Nullable Integer statusCode;
+    @Nullable private  Integer statusCode;
     @Nullable private Token token;
     @Nullable private Throwable errorThrowable;
 
@@ -64,23 +64,23 @@ public class SignInLiveDataWrapper {
         return errorThrowable;
     }
 
-    public static SignInLiveDataWrapper idle(){
+    static SignInLiveDataWrapper idle(){
         return new SignInLiveDataWrapper(SignInLiveDataStatus.IDLE, null, null, null);
     }
 
-    public static SignInLiveDataWrapper inProgress(){
+    static SignInLiveDataWrapper inProgress(){
         return new SignInLiveDataWrapper(SignInLiveDataStatus.IN_PROGRESS, null, null, null);
     }
 
-    public static SignInLiveDataWrapper success(@NonNull Integer statusCode, @NonNull Token token){
+    static SignInLiveDataWrapper success(@NonNull Integer statusCode, @NonNull Token token){
         return new SignInLiveDataWrapper(SignInLiveDataStatus.SUCCESS, statusCode, token, null);
     }
 
-    public static SignInLiveDataWrapper apiError(@NonNull Integer statusCode){
+    static SignInLiveDataWrapper apiError(@NonNull Integer statusCode){
         return new SignInLiveDataWrapper(SignInLiveDataStatus.API_ERROR, statusCode, null, null);
     }
 
-    public static SignInLiveDataWrapper internetError(@NonNull Throwable error){
+    static SignInLiveDataWrapper internetError(@NonNull Throwable error){
         return new SignInLiveDataWrapper(SignInLiveDataStatus.INTERNET_ERROR, null, null, error);
     }
 
