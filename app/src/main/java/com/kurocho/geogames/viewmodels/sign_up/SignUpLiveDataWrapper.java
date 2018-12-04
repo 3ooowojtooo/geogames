@@ -58,4 +58,16 @@ public class SignUpLiveDataWrapper {
     static SignUpLiveDataWrapper inProgress(){
         return new SignUpLiveDataWrapper(SignUpLiveDataStatus.IN_PROGRESS, null, null, null);
     }
+
+    static SignUpLiveDataWrapper success(@NonNull Integer statusCode, @NonNull String message){
+        return new SignUpLiveDataWrapper(SignUpLiveDataStatus.SUCCESS, statusCode, message, null);
+    }
+
+    static SignUpLiveDataWrapper apiError(@NonNull Integer statusCode, @NonNull String message){
+        return new SignUpLiveDataWrapper(SignUpLiveDataStatus.API_ERROR, statusCode, message, null);
+    }
+
+    static SignUpLiveDataWrapper internetError(@NonNull Throwable error){
+        return new SignUpLiveDataWrapper(SignUpLiveDataStatus.INTERNET_ERROR, null, null, error);
+    }
 }
