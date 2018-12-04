@@ -4,14 +4,19 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kurocho.geogames.api.Api;
 import com.kurocho.geogames.api.sign_up.SignUpApiResponse;
 import com.kurocho.geogames.api.sign_up.SignUpCredentials;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import javax.inject.Inject;
+import java.io.IOException;
 
 public class SignUpViewModel extends ViewModel {
     private Api api;
@@ -47,21 +52,27 @@ public class SignUpViewModel extends ViewModel {
                 enqueue(new Callback<SignUpApiResponse>() {
                     @Override
                     public void onResponse(@NonNull  Call<SignUpApiResponse> call, @NonNull Response<SignUpApiResponse> response) {
-                        Integer statusCode = response.code();
-                        SignUpApiResponse body = response.body();
+                        int statusCode = response.code();
 
-                        if(body != null){
-                            String message = body.getMessage();
+                        if(response.isSuccessful()){
+                            SignUpApiResponse body = response.body();
 
-                            if(response.isSuccessful() && body.isSuccess()){
-                                setSuccessSignUpLiveDataStatus(statusCode, message);
+                            if(body != null && body.isSuccess()){
+                                setSuccessSignUpLiveDataStatus(statusCode, body.getMessage());
                             } else{
-                                setApiErrorSignUpLiveDataStatus(statusCode, message);
+                                // code is ok but body is empty or status not equals "success" - internal server error
+                                setInternalServerErrorSignUpLiveDataStatus(statusCode);
+                            }
+                        } else{
+                            SignUpApiResponse errorBody = jsonErrorBodyToObject(response.errorBody());
+
+                            if(errorBody != null && errorBody.isFailure()){
+                                setApiErrorSignUpLiveDataStatus(statusCode, errorBody.getMessage());
+                            } else{
+                                // code is failure but error body is empty or status not equals "failure" - internal server error
+                                setInternalServerErrorSignUpLiveDataStatus(statusCode);
                             }
 
-                        } else{
-                            // response body is null. internal server error
-                            setApiErrorSignUpLiveDataStatus(statusCode, "Internal server error");
                         }
                     }
 
@@ -90,6 +101,25 @@ public class SignUpViewModel extends ViewModel {
 
     private void setInternetErrorSignUpLiveDataStatus(@NonNull Throwable error){
         signUpLiveData.setValue(SignUpLiveDataWrapper.internetError(error));
+    }
+
+    private void setInternalServerErrorSignUpLiveDataStatus(@NonNull Integer statusCode){
+        signUpLiveData.setValue(SignUpLiveDataWrapper.apiError(statusCode, "Internal server error"));
+    }
+
+    private SignUpApiResponse jsonErrorBodyToObject(@Nullable ResponseBody errorBody){
+        if(errorBody == null){
+            // empty errorBody - internal server error
+            return null;
+        }
+
+        Gson gson = new GsonBuilder().create();
+        try {
+            return gson.fromJson(errorBody.string(), SignUpApiResponse.class);
+        } catch (IOException e) {
+            // invalid json object in errorBody - internal server error
+            return null;
+        }
     }
 
 

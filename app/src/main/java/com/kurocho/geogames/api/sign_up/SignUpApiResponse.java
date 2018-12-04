@@ -25,4 +25,8 @@ public class SignUpApiResponse {
     public boolean isSuccess(){
         return status.equals("success");
     }
+
+    public boolean isFailure(){
+        return status.equals("failure");
+    }
 }
