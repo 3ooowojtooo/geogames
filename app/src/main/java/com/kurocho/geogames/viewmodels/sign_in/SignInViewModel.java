@@ -5,7 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import com.kurocho.geogames.api.Api;
-import com.kurocho.geogames.api.Credentials;
+import com.kurocho.geogames.api.SignInCredentials;
 import com.kurocho.geogames.api.Token;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,7 +63,7 @@ public class SignInViewModel extends ViewModel {
 
     private void retrofitLogin(String username, String password){
         setInProgressLogInLiveDataStatus();
-        Credentials credentials = new Credentials(username, password);
+        SignInCredentials credentials = new SignInCredentials(username, password);
         api.signIn(credentials).
                 enqueue(new Callback<Void>() {
                     @Override

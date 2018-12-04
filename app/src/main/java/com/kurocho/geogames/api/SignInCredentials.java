@@ -1,24 +1,20 @@
 package com.kurocho.geogames.api;
 
+import android.support.annotation.NonNull;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Credentials {
+public class SignInCredentials {
 
-    private String username;
-    private String password;
-    private String email;
+    @NonNull private String username;
+    @NonNull private String password;
 
-    public Credentials(String username, String password) {
+    public SignInCredentials(@NonNull String username, @NonNull String password) {
         this.username = username;
         this.password = password;
     }
 
-    public Credentials(String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-    }
 
     private String hashPassword(String password){
         MessageDigest digest;
