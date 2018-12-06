@@ -40,6 +40,7 @@ public class ApiTest {
 
     }
 
+    /*
     @Test
     public void testRegister(){
         SignUpCredentials c = new SignUpCredentials("testowy1","okon123", "geogamestest@gmail.com");
@@ -53,5 +54,5 @@ public class ApiTest {
             fail();
         }
 
-    }
+    }*/
 }
