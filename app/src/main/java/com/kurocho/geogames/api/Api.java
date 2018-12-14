@@ -6,16 +6,18 @@ import retrofit2.Call;
 import retrofit2.http.*;
 
 public interface Api {
-    String BASE_URL = "https://geogames.herokuapp.com/";
 
-    @POST("/auth/register")
+    String BASE_URL = "https://geogamesapi.herokuapp.com/";
+    String AUTH_API_URL = "https://geogames.herokuapp.com/";
+
+    @POST(AUTH_API_URL+"auth/register")
     Call<SignUpApiResponse> signUp(@Body SignUpCredentials c);
 
-    @POST("/auth/authenticate")
+    @POST(AUTH_API_URL+"auth/authenticate")
     Call<Void> signIn(@Body SignInCredentials c);
 
-    @POST("/users/{user}")
-    Call<User> getUser(@Path("user") String username);
+//    @POST("users/{user}")
+//    Call<User> getUser(@Path("user") String username);
 
 //    @POST("/games/upload")
 //    Call<GameDescription> uploadGame(@Header("token") String token, @Field('game') Game game);

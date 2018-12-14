@@ -27,6 +27,11 @@ public class SignInViewModel extends ViewModel {
             this.api = api;
     }
 
+    SignInViewModel(Api api, MutableLiveData<SignInLiveDataWrapper> logInLiveData){
+        this.api = api;
+        this.logInLiveData = logInLiveData;
+    }
+
     public LiveData<SignInLiveDataWrapper> getLogInLiveData() {
         return logInLiveData;
     }
