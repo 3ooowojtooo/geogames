@@ -18,7 +18,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.kurocho.geogames.viewmodels.sign_in.SignInLiveDataWrapper;
 import com.kurocho.geogames.viewmodels.sign_in.SignInViewModel;
-import dagger.android.AndroidInjection;
 import dagger.android.support.AndroidSupportInjection;
 
 import javax.inject.Inject;
@@ -70,7 +69,7 @@ public class SignInFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.login, container, false);
+        View view = inflater.inflate(R.layout.sign_in, container, false);
         ButterKnife.bind(this, view);
         return view;
     }

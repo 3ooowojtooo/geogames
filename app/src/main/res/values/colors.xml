@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="linkColor">#1b21d8</color>
+    <color name="errorColor">@android:color/holo_red_dark</color>
 </resources>
