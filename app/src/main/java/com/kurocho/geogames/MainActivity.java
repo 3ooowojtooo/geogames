@@ -11,7 +11,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.crashlytics.android.Crashlytics;
+import com.kurocho.geogames.api.Token;
 import com.kurocho.geogames.di.qualifiers.ApplicationContext;
+import com.kurocho.geogames.utils.SignInUtils;
 import com.ncapdevi.fragnav.FragNavController;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
@@ -41,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements FragNavController
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentInjector;
+
+    @Inject
+    SignInUtils signInUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
