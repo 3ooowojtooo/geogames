@@ -10,6 +10,9 @@
     <string name="create_account_mail">mail</string>
     <string name="create_account_password">password</string>
     <string name="create_account_top_text">create your account here</string>
+    <string name="create_account_account_created">Your account has been created successfully. You can sign in now.</string>
+    <string name="create_account_api_error">Internal server error. Please, contact the administrator.</string>
+    <string name="create_account_internet_error">Couldn`t connect to the server. Check your internet connection.</string>
 
     <string name="sign_in_username">username</string>
     <string name="sign_in_password">password</string>
