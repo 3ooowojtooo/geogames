@@ -12,10 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.kurocho.geogames.utils.SignInErrorMessageUtils;
 import com.kurocho.geogames.viewmodels.sign_in.SignInLiveDataWrapper;
 import com.kurocho.geogames.viewmodels.sign_in.SignInViewModel;
 import dagger.android.support.AndroidSupportInjection;
@@ -31,8 +33,14 @@ public class SignInFragment extends Fragment {
     @BindView(R.id.sign_in_password)
     EditText password;
 
+    @BindView(R.id.sign_in_error)
+    TextView error;
+
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+
+    @Inject
+    SignInErrorMessageUtils errorMessageUtils;
 
     private SignInViewModel viewModel;
 
@@ -45,7 +53,7 @@ public class SignInFragment extends Fragment {
         viewModel.login(username, password);
     }
 
-    @OnClick(R.id.log_in_sign_up_button)
+    @OnClick(R.id.sign_in_sign_up_button)
     public void goToSignUpFragment(){
         mainActivity.getFragNavController().pushFragment(new SignUpFragment());
     }
@@ -106,10 +114,12 @@ public class SignInFragment extends Fragment {
 
     private void processIdleLogInViewModelStatus(){
         mainActivity.hideProgressOverlay();
+        clearErrorMessage();
     }
 
     private void processInProgressLogInViewModelStatus(){
         mainActivity.showProgressOverlay();
+        clearErrorMessage();
     }
 
     private void processSuccessfulLogInViewModelStatus(@NonNull SignInLiveDataWrapper wrapper){
@@ -125,6 +135,16 @@ public class SignInFragment extends Fragment {
     private void processInternetErrorLogInViewModelStatus(@NonNull SignInLiveDataWrapper wrapper){
         mainActivity.hideProgressOverlay();
         Toast.makeText(getActivity(), "internet error. " + wrapper.getErrorThrowable().getMessage(), Toast.LENGTH_LONG).show();
+    }
+
+    private void showErrorMessage(String message){
+        error.setText(message);
+        error.setVisibility(View.VISIBLE);
+    }
+
+    private void clearErrorMessage(){
+        error.setVisibility(View.GONE);
+        error.setText("");
     }
 
 }

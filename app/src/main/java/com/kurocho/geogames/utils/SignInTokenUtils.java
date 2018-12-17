@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class SignInUtils {
+public class SignInTokenUtils {
 
     private static final String TOKEN_KEY = "token";
     private static final String TOKEN_NOT_SET = "NOT_SET";
@@ -18,7 +18,7 @@ public class SignInUtils {
     private SharedPreferences signInSharedPreferences;
 
     @Inject
-    public SignInUtils(@SignInSharedPreferences SharedPreferences signInSharedPreferences){
+    public SignInTokenUtils(@SignInSharedPreferences SharedPreferences signInSharedPreferences){
         this.signInSharedPreferences = signInSharedPreferences;
     }
 

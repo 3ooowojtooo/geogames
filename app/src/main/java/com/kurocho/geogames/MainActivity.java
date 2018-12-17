@@ -1,19 +1,15 @@
 package com.kurocho.geogames;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.crashlytics.android.Crashlytics;
-import com.kurocho.geogames.api.Token;
-import com.kurocho.geogames.di.qualifiers.ApplicationContext;
-import com.kurocho.geogames.utils.SignInUtils;
+import com.kurocho.geogames.utils.SignInTokenUtils;
 import com.ncapdevi.fragnav.FragNavController;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
@@ -45,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     DispatchingAndroidInjector<Fragment> fragmentInjector;
 
     @Inject
-    SignInUtils signInUtils;
+    SignInTokenUtils signInTokenUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
