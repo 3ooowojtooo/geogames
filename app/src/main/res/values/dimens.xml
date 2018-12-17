@@ -4,4 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="sign_in_fragment_error_font_size">17sp</dimen>
+
+    <dimen name="sign_up_fragment_error_font_size">17sp</dimen>
+    <dimen name="sign_up_fragment_success_font_size">17sp</dimen>
 </resources>
