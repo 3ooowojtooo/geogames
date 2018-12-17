@@ -103,10 +103,8 @@ public class SignInFragment extends Fragment {
                     processInProgressLogInViewModelStatus();
                } else if(wrapper.isSuccessful()){
                     processSuccessfulLogInViewModelStatus(wrapper);
-               } else if(wrapper.isApiError()){
-                    processApiErrorLogInViewModelStatus(wrapper);
-               } else if(wrapper.isInternetError()){
-                   processInternetErrorLogInViewModelStatus(wrapper);
+               } else if(wrapper.isError()){
+                   processErrorLogInViewModelStatus(wrapper);
                }
            }
         });
@@ -127,14 +125,19 @@ public class SignInFragment extends Fragment {
         Toast.makeText(getActivity(), "Success. " + wrapper.getToken().getToken(), Toast.LENGTH_LONG).show();
     }
 
-    private void processApiErrorLogInViewModelStatus(@NonNull SignInLiveDataWrapper wrapper){
+    private void processErrorLogInViewModelStatus(@NonNull SignInLiveDataWrapper wrapper){
         mainActivity.hideProgressOverlay();
-        Toast.makeText(getActivity(), "api error. code: " + String.valueOf(wrapper.getStatusCode()), Toast.LENGTH_LONG).show();
+        getAndShowErrorMessage(wrapper);
     }
 
-    private void processInternetErrorLogInViewModelStatus(@NonNull SignInLiveDataWrapper wrapper){
-        mainActivity.hideProgressOverlay();
-        Toast.makeText(getActivity(), "internet error. " + wrapper.getErrorThrowable().getMessage(), Toast.LENGTH_LONG).show();
+    private void getAndShowErrorMessage(@NonNull SignInLiveDataWrapper wrapper){
+        String errorMessage = getErrorMessage(wrapper);
+        showErrorMessage(errorMessage);
+    }
+
+    @NonNull
+    private String getErrorMessage(@NonNull SignInLiveDataWrapper wrapper){
+        return errorMessageUtils.getErrorStringMessage(wrapper);
     }
 
     private void showErrorMessage(String message){
