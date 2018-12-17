@@ -12,12 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.kurocho.geogames.viewmodels.sign_up.SignUpLiveDataWrapper;
 import com.kurocho.geogames.viewmodels.sign_up.SignUpViewModel;
+import dagger.Binds;
 import dagger.android.support.AndroidSupportInjection;
 
 import javax.inject.Inject;
@@ -32,6 +34,12 @@ public class SignUpFragment extends Fragment {
 
     @BindView(R.id.sign_up_password)
     EditText password;
+
+    @BindView(R.id.sign_up_error)
+    TextView error;
+
+    @BindView(R.id.sign_up_success)
+    TextView success;
 
     private SignUpViewModel viewModel;
 
@@ -126,5 +134,18 @@ public class SignUpFragment extends Fragment {
         Toast.makeText(getActivity(), "internet error. message: " + message, Toast.LENGTH_LONG).show();
     }
 
+    private void showErrorMessage(String message){
+        error.setText(message);
+        error.setVisibility(View.VISIBLE);
+    }
 
+    private void showSuccessMessage(String message){
+        success.setVisibility(View.GONE);
+        success.setText("");
+    }
+
+    private void clearMessages(){
+        error.setVisibility(View.GONE);
+        error.setText("");
+    }
 }
