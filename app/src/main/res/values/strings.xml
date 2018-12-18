@@ -18,8 +18,9 @@
     <string name="sign_in_password">password</string>
     <string name="sign_in_action_sign_in">sign In</string>
     <string name="sign_in_create_account_label">You don\'t have an account? Create it here.</string>
+    <string name="sign_in_empty_credentials">Not username nor password can be empty.</string>
     <string name="sign_in_incorrect_credentials">Incorrect username or password.</string>
-    <string name="sign_in_api_error">Internal server error. Please, contact the administrator.</string>
+    <string name="sign_in_undefined_api_error">Internal server error. Please, contact the administrator.</string>
     <string name="sign_in_internet_error">Couldn`t connect to the server. Check your internet connection.</string>
 
     <string name="add_game_dialog_game_title">Game Title</string>

@@ -3,32 +3,27 @@ package com.kurocho.geogames.viewmodels.sign_in;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
-import android.support.annotation.NonNull;
-import com.kurocho.geogames.api.Api;
 import com.kurocho.geogames.api.SignInCredentials;
-import com.kurocho.geogames.api.Token;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.kurocho.geogames.utils.SignInUtils;
 
 import javax.inject.Inject;
 
 public class SignInViewModel extends ViewModel {
-    private Api api;
+    private SignInUtils signInUtils;
     private MutableLiveData<SignInLiveDataWrapper> logInLiveData;
 
     @Inject
-    SignInViewModel(Api api){
+    SignInViewModel(SignInUtils signInUtils){
         if(logInLiveData == null) {
             logInLiveData = new MutableLiveData<>();
             logInLiveData.setValue(SignInLiveDataWrapper.idle());
         }
-        if(this.api == null)
-            this.api = api;
+        if(this.signInUtils == null)
+            this.signInUtils = signInUtils;
     }
 
-    SignInViewModel(Api api, MutableLiveData<SignInLiveDataWrapper> logInLiveData){
-        this.api = api;
+    SignInViewModel(SignInUtils signInUtils, MutableLiveData<SignInLiveDataWrapper> logInLiveData){
+        this.signInUtils = signInUtils;
         this.logInLiveData = logInLiveData;
     }
 
@@ -36,24 +31,48 @@ public class SignInViewModel extends ViewModel {
         return logInLiveData;
     }
 
-    public void login(String username, String password){
+    public void signIn(String username, String password){
         if(logInLiveData != null && logInLiveData.getValue() != null){
             if(!logInLiveData.getValue().isInProgress()){
-                setIdleLogInLiveDataStatus();
-                retrofitLogin(username, password);
+                setIdleSignInLiveDataStatus();
+                setInProgressSignInLiveDataStatus();
+                performSignIn(username, password);
             }
         }
 
     }
 
-    private void setIdleLogInLiveDataStatus(){
+    private void performSignIn(String username, String password){
+        SignInCredentials credentials = new SignInCredentials(username, password);
+        signInUtils.signIn(credentials, new SignInUtils.SignInCallback() {
+            @Override
+            public void onSuccess() {
+                setSuccessSignInLiveDataStatus();
+            }
+
+            @Override
+            public void onError(String message) {
+                setErrorSignInLiveDataStatus(message);
+            }
+        });
+    }
+
+    private void setIdleSignInLiveDataStatus(){
         logInLiveData.setValue(SignInLiveDataWrapper.idle());
     }
 
-    private void setInProgressLogInLiveDataStatus(){
+    private void setInProgressSignInLiveDataStatus(){
         logInLiveData.setValue(SignInLiveDataWrapper.inProgress());
     }
 
+    private void setSuccessSignInLiveDataStatus(){
+        logInLiveData.setValue(SignInLiveDataWrapper.success());
+    }
+
+    private void setErrorSignInLiveDataStatus(String message){
+        logInLiveData.setValue(SignInLiveDataWrapper.error(message));
+    }
+    /*
     private void setSuccessfulLogInLiveDataStatus(@NonNull Integer statusCode, @NonNull Token token){
         logInLiveData.setValue(SignInLiveDataWrapper.success(statusCode, token));
     }
@@ -66,8 +85,8 @@ public class SignInViewModel extends ViewModel {
         logInLiveData.setValue(SignInLiveDataWrapper.internetError(error));
     }
 
-    private void retrofitLogin(String username, String password){
-        setInProgressLogInLiveDataStatus();
+   private void retrofitLogin(String username, String password){
+        setInProgressSignInLiveDataStatus();
         SignInCredentials credentials = new SignInCredentials(username, password);
         api.signIn(credentials).
                 enqueue(new Callback<Void>() {
@@ -88,5 +107,5 @@ public class SignInViewModel extends ViewModel {
                         setInternetErrorLogInLiveDataStatus(t);
                     }
                 });
-    }
+    }*/
 }

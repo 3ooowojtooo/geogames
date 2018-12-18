@@ -18,21 +18,22 @@ public class SignInTokenUtils {
     private SharedPreferences signInSharedPreferences;
 
     @Inject
-    public SignInTokenUtils(@SignInSharedPreferences SharedPreferences signInSharedPreferences){
+    SignInTokenUtils(@SignInSharedPreferences SharedPreferences signInSharedPreferences){
         this.signInSharedPreferences = signInSharedPreferences;
     }
+
 
     @NonNull
     public Token getToken() throws TokenNotSetException {
         return new Token(getTokenAsString());
     }
 
-    public void setTokenDeletingExistingOne(@NonNull Token token){
+    void setTokenDeletingExistingOne(@NonNull Token token){
         deleteToken();
         setToken(token.getToken());
     }
 
-    public void deleteToken(){
+    private void deleteToken(){
         signInSharedPreferences.edit().
                 putString(TOKEN_KEY, TOKEN_NOT_SET).
                 apply();

@@ -1,10 +1,8 @@
 package com.kurocho.geogames.utils;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import com.kurocho.geogames.R;
 import com.kurocho.geogames.di.qualifiers.ApplicationContext;
-import com.kurocho.geogames.viewmodels.sign_in.SignInLiveDataWrapper;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,45 +12,39 @@ public class SignInErrorMessageUtils {
 
     private Context context;
 
+    private String emptyCredentialsMessage;
     private String incorrectCredentialsMessage;
-    private String apiErrorMessage;
+    private String undefinedApiError;
     private String internetErrorMessage;
 
-    @NonNull
-    public String getErrorMessage(@NonNull SignInLiveDataWrapper wrapper){
-        if(wrapper.isApiError()){
-            return getStringMessageForApiError(wrapper);
-        } else if(wrapper.isInternetError()){
-            return getStringMessageForInternetError();
-        } else{
-            throw new IllegalArgumentException("getErrorMessage called for non-error SignInLiveDataWrapper.");
-        }
+    String getEmptyCredentialsMessage(){
+        return emptyCredentialsMessage;
     }
 
-    @NonNull
-    private String getStringMessageForApiError(@NonNull SignInLiveDataWrapper wrapper){
-        switch(wrapper.getStatusCode()){
+    String getApiErrorMessage(int code){
+        switch(code){
             case 401:
                 return incorrectCredentialsMessage;
                 default:
-                return apiErrorMessage;
+                    return undefinedApiError;
         }
     }
 
-    @NonNull
-    private String getStringMessageForInternetError(){
+    String getInternetErrorMessage(){
         return internetErrorMessage;
     }
 
+
     @Inject
-    public SignInErrorMessageUtils(@ApplicationContext Context context){
+    SignInErrorMessageUtils(@ApplicationContext Context context){
         this.context = context;
         initialize();
     }
 
     private void initialize(){
+        emptyCredentialsMessage = context.getString(R.string.sign_in_empty_credentials);
         incorrectCredentialsMessage = context.getString(R.string.sign_in_incorrect_credentials);
-        apiErrorMessage = context.getString(R.string.sign_in_api_error);
+        undefinedApiError = context.getString(R.string.sign_in_undefined_api_error);
         internetErrorMessage = context.getString(R.string.sign_in_internet_error);
     }
 }
