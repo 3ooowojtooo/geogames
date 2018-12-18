@@ -19,13 +19,13 @@ public class SignInErrorMessageUtils {
     private String internetErrorMessage;
 
     @NonNull
-    public String getErrorStringMessage(@NonNull SignInLiveDataWrapper wrapper){
+    public String getErrorMessage(@NonNull SignInLiveDataWrapper wrapper){
         if(wrapper.isApiError()){
             return getStringMessageForApiError(wrapper);
         } else if(wrapper.isInternetError()){
             return getStringMessageForInternetError();
         } else{
-            throw new IllegalArgumentException("getErrorStringMessage called for non-error SignInLiveDataWrapper.");
+            throw new IllegalArgumentException("getErrorMessage called for non-error SignInLiveDataWrapper.");
         }
     }
 

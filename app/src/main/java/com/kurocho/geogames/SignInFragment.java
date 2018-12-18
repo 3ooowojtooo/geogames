@@ -137,7 +137,7 @@ public class SignInFragment extends Fragment {
 
     @NonNull
     private String getErrorMessage(@NonNull SignInLiveDataWrapper wrapper){
-        return errorMessageUtils.getErrorStringMessage(wrapper);
+        return errorMessageUtils.getErrorMessage(wrapper);
     }
 
     private void showErrorMessage(String message){
