@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -91,7 +90,7 @@ public class SignInFragment extends Fragment {
 
 
     private void initializeViewModelObserver(){
-        viewModel.getLogInLiveData().observe(this, (@Nullable SignInLiveDataWrapper wrapper) -> {
+        viewModel.getSignInLiveData().observe(this, (@Nullable SignInLiveDataWrapper wrapper) -> {
            if(wrapper != null){
                if(wrapper.isIdle()){
                     processIdleLogInViewModelStatus();
@@ -118,8 +117,8 @@ public class SignInFragment extends Fragment {
     }
 
     private void processSuccessfulLogInViewModelStatus(){
-        mainActivity.hideProgressOverlay();
-        Toast.makeText(getActivity(), "Success. ", Toast.LENGTH_LONG).show();
+        reset();
+        mainActivity.onLoginSuccess();
     }
 
     private void processErrorLogInViewModelStatus(String message){
@@ -127,6 +126,12 @@ public class SignInFragment extends Fragment {
         showErrorMessage(message);
     }
 
+    private void reset(){
+        viewModel.reset();
+        username.setText("");
+        password.setText("");
+        clearErrorMessage();
+    }
 
     private void showErrorMessage(String message){
         error.setText(message);

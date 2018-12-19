@@ -10,30 +10,30 @@ import javax.inject.Inject;
 
 public class SignInViewModel extends ViewModel {
     private SignInUtils signInUtils;
-    private MutableLiveData<SignInLiveDataWrapper> logInLiveData;
+    private MutableLiveData<SignInLiveDataWrapper> signInLiveData;
 
     @Inject
     SignInViewModel(SignInUtils signInUtils){
-        if(logInLiveData == null) {
-            logInLiveData = new MutableLiveData<>();
-            logInLiveData.setValue(SignInLiveDataWrapper.idle());
+        if(signInLiveData == null) {
+            signInLiveData = new MutableLiveData<>();
+            signInLiveData.setValue(SignInLiveDataWrapper.idle());
         }
         if(this.signInUtils == null)
             this.signInUtils = signInUtils;
     }
 
-    SignInViewModel(SignInUtils signInUtils, MutableLiveData<SignInLiveDataWrapper> logInLiveData){
+    SignInViewModel(SignInUtils signInUtils, MutableLiveData<SignInLiveDataWrapper> signInLiveData){
         this.signInUtils = signInUtils;
-        this.logInLiveData = logInLiveData;
+        this.signInLiveData = signInLiveData;
     }
 
-    public LiveData<SignInLiveDataWrapper> getLogInLiveData() {
-        return logInLiveData;
+    public LiveData<SignInLiveDataWrapper> getSignInLiveData() {
+        return signInLiveData;
     }
 
     public void signIn(String username, String password){
-        if(logInLiveData != null && logInLiveData.getValue() != null){
-            if(!logInLiveData.getValue().isInProgress()){
+        if(signInLiveData != null && signInLiveData.getValue() != null){
+            if(!signInLiveData.getValue().isInProgress()){
                 setIdleSignInLiveDataStatus();
                 setInProgressSignInLiveDataStatus();
                 performSignIn(username, password);
@@ -58,19 +58,22 @@ public class SignInViewModel extends ViewModel {
     }
 
     private void setIdleSignInLiveDataStatus(){
-        logInLiveData.setValue(SignInLiveDataWrapper.idle());
+        signInLiveData.setValue(SignInLiveDataWrapper.idle());
     }
 
     private void setInProgressSignInLiveDataStatus(){
-        logInLiveData.setValue(SignInLiveDataWrapper.inProgress());
+        signInLiveData.setValue(SignInLiveDataWrapper.inProgress());
     }
 
     private void setSuccessSignInLiveDataStatus(){
-        logInLiveData.setValue(SignInLiveDataWrapper.success());
+        signInLiveData.setValue(SignInLiveDataWrapper.success());
     }
 
     private void setErrorSignInLiveDataStatus(String message){
-        logInLiveData.setValue(SignInLiveDataWrapper.error(message));
+        signInLiveData.setValue(SignInLiveDataWrapper.error(message));
+    }
+    public void reset(){
+        setIdleSignInLiveDataStatus();
     }
 
 }

@@ -108,6 +108,13 @@ public class MainActivity extends AppCompatActivity implements FragNavController
         navigation.setSelectedItemId(R.id.navigation_sign_in);
     }
 
+    void onLoginSuccess(){
+        showProgressOverlay();
+        fragNavController.clearStack();
+        changeDisplayedFragmentToMyGames();
+        hideProgressOverlay();
+    }
+
     void showProgressOverlay() {
         progressOverlay.setVisibility(View.VISIBLE);
     }
