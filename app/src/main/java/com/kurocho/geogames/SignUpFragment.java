@@ -12,12 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.kurocho.geogames.utils.SignUpMessageUtils;
 import com.kurocho.geogames.viewmodels.sign_up.SignUpLiveDataWrapper;
 import com.kurocho.geogames.viewmodels.sign_up.SignUpViewModel;
+import dagger.Binds;
+import dagger.Module;
 import dagger.android.support.AndroidSupportInjection;
 
 import javax.inject.Inject;
@@ -33,12 +37,21 @@ public class SignUpFragment extends Fragment {
     @BindView(R.id.sign_up_password)
     EditText password;
 
+    @BindView(R.id.sign_up_error)
+    TextView error;
+
+    @BindView(R.id.sign_up_success)
+    TextView success;
+
     private SignUpViewModel viewModel;
 
     private MainActivity mainActivity;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+
+    @Inject
+    SignUpMessageUtils messageUtils;
 
 
     @Override
@@ -91,10 +104,8 @@ public class SignUpFragment extends Fragment {
                     processInProgressSignUpLiveDataStatus();
                 } else if(wrapper.isSuccess()){
                     processSuccessSignUpLiveDataStatus(wrapper);
-                } else if(wrapper.isApiError()){
-                    processApiErrorSignUpLiveDataStatus(wrapper);
-                } else if(wrapper.isInternetError()){
-                    processInternetErrorSignUpLiveDataStatus(wrapper);
+                } else if(wrapper.isError()){
+                    processErrorSignUpLiveDataStatus(wrapper);
                 }
             }
         });
@@ -110,21 +121,45 @@ public class SignUpFragment extends Fragment {
 
     private void processSuccessSignUpLiveDataStatus(@NonNull SignUpLiveDataWrapper wrapper){
         mainActivity.hideProgressOverlay();
-        Toast.makeText(getActivity(), "success. code: " + wrapper.getStatusCode()
-            + " message: " + wrapper.getMessage(), Toast.LENGTH_LONG).show();
+        getAndSetSuccessMessage(wrapper);
     }
 
-    private void processApiErrorSignUpLiveDataStatus(@NonNull SignUpLiveDataWrapper wrapper){
+    private void processErrorSignUpLiveDataStatus(@NonNull SignUpLiveDataWrapper wrapper){
         mainActivity.hideProgressOverlay();
-        Toast.makeText(getActivity(), "api error. code: " + wrapper.getStatusCode() +
-            " message: " + wrapper.getMessage(), Toast.LENGTH_LONG).show();
+        getAndSetErrorMessage(wrapper);
     }
 
-    private void processInternetErrorSignUpLiveDataStatus(@NonNull SignUpLiveDataWrapper wrapper){
-        mainActivity.hideProgressOverlay();
-        String message = (wrapper.getErrorThrowable() != null) ? wrapper.getErrorThrowable().getMessage() : "";
-        Toast.makeText(getActivity(), "internet error. message: " + message, Toast.LENGTH_LONG).show();
+    private void getAndSetSuccessMessage(@NonNull SignUpLiveDataWrapper wrapper){
+        String message = getMessage(wrapper);
+        showSuccessMessage(message);
     }
 
+    private void getAndSetErrorMessage(@NonNull SignUpLiveDataWrapper wrapper){
+        String message = getMessage(wrapper);
+        showErrorMessage(message);
+    }
 
+    @NonNull
+    private String getMessage(@NonNull SignUpLiveDataWrapper wrapper){
+        return messageUtils.getMessage(wrapper);
+    }
+
+    private void showSuccessMessage(String message){
+        clearMessages();
+        success.setText(message);
+        success.setVisibility(View.VISIBLE);
+    }
+
+    private void showErrorMessage(String message){
+        clearMessages();
+        error.setText(message);
+        error.setVisibility(View.VISIBLE);
+    }
+
+    private void clearMessages(){
+        error.setVisibility(View.GONE);
+        error.setText("");
+        success.setVisibility(View.GONE);
+        success.setText("");
+    }
 }

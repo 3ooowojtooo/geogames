@@ -29,7 +29,7 @@ public interface Api {
 //    Call<List<GameDescription>> listGames(@Header("token") String token,
 //                                          @Query("p") Integer page, @Query("string") String searchString, @Query("o") String orderBy);
 //    @GET("/listing/{username}")
-//    Call<List<GameDescription>> listPrivateGames(@Header("token") String token, @Path("username") String login,
+//    Call<List<GameDescription>> listPrivateGames(@Header("token") String token, @Path("username") String sign_in,
 //                                          @Query("p") Integer page, @Query("string") String searchString, @Query("order") String orderBy);
 
 

@@ -45,6 +45,7 @@ public class SignInLiveDataWrapper {
         return (isApiError() || isInternetError());
     }
 
+    @NonNull
     public SignInLiveDataStatus getStatus(){
         return status;
     }

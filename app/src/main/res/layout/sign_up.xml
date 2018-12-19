@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="visible" >
+
 
         <TextView
                 android:text="@string/create_account_top_text"
@@ -55,5 +51,27 @@
                 android:text="@string/create_account_action_sing_up"
                 android:textStyle="bold" />
 
-    </LinearLayout>
-</RelativeLayout>
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+            <TextView
+                    android:id="@+id/sign_up_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/errorColor"
+                    android:textSize="@dimen/sign_up_fragment_error_font_size"
+                    android:textAlignment="center"
+                    android:visibility="gone"/>
+            <TextView
+                    android:id="@+id/sign_up_success"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/successColor"
+                    android:textSize="@dimen/sign_up_fragment_success_font_size"
+                    android:textAlignment="center"
+                    android:visibility="gone" />
+        </RelativeLayout>
+
+</LinearLayout>
+

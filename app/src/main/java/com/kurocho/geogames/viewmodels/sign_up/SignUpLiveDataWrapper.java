@@ -39,6 +39,10 @@ public class SignUpLiveDataWrapper {
         return (status == SignUpLiveDataStatus.INTERNET_ERROR);
     }
 
+    public boolean isError(){
+        return (isApiError() || isInternetError());
+    }
+
     @NonNull
     public SignUpLiveDataStatus getStatus() {
         return status;
