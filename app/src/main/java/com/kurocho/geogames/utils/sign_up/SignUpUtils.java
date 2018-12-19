@@ -68,7 +68,7 @@ public class SignUpUtils {
                 if(response.isSuccessful()){
                     SignUpApiResponse body = response.body();
 
-                    if(body != null && body.isSuccess()){
+                    if(body != null /*&& body.isSuccess()*/){
                         processSuccessfulResponse(body.getMessage());
                     } else{
                         processInternalServerErrorResponse();
@@ -76,7 +76,7 @@ public class SignUpUtils {
                 } else{
                     SignUpApiResponse errorBody = jsonErrorBodyToObject(response.errorBody());
 
-                    if(errorBody != null && errorBody.isFailure()){
+                    if(errorBody != null/* && errorBody.isFailure()*/){
                         processApiErrorResponse(errorBody.getMessage());
                     } else{
                         processInternalServerErrorResponse();
