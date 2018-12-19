@@ -1,5 +1,7 @@
 package com.kurocho.geogames.utils.sign_in;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import com.kurocho.geogames.api.Api;
 import com.kurocho.geogames.api.SignInCredentials;
@@ -25,6 +27,7 @@ public class SignInUtils{
     private SignInErrorMessageUtils errorMessageUtils;
     private SignInCredentialsVerifier credentialsVerifier;
     private Api api;
+    private MutableLiveData<Boolean> isUserSignedInLiveData;
 
     private SignInCredentials credentials;
     private SignInCallback callback;
@@ -38,6 +41,10 @@ public class SignInUtils{
         this.errorMessageUtils = errorMessageUtils;
         this.credentialsVerifier = credentialsVerifier;
         this.api = api;
+        if(this.isUserSignedInLiveData == null){
+            this.isUserSignedInLiveData = new MutableLiveData<>();
+            initializeLiveData();
+        }
     }
 
     public void signIn(SignInCredentials credentials, SignInCallback callback){
@@ -47,11 +54,18 @@ public class SignInUtils{
         verifyCredentialsAndPerformSignIn();
     }
 
+    public boolean isUserSignedIn(){
+        return tokenUtils.isTokenSet();
+    }
+
+    public LiveData<Boolean> getIsUserSignedInLiveData(){
+        return isUserSignedInLiveData;
+    }
+
     private void verifyCredentialsAndPerformSignIn(){
         try{
             verifyCredentials();
             performSignIn();
-
         } catch(EmptyCredentialsException e){
             processEmptyCredentialsException();
         }
@@ -89,6 +103,7 @@ public class SignInUtils{
 
     private void processSuccessfulResponse(String token){
         tokenUtils.setTokenDeletingExistingOne(new Token(token));
+        setSignedInLiveDataState();
         callback.onSuccess();
     }
 
@@ -100,6 +115,22 @@ public class SignInUtils{
     private void processInternetErrorResponse(){
         String message = errorMessageUtils.getInternetErrorMessage();
         callback.onError(message);
+    }
+
+    private void initializeLiveData(){
+        if(isUserSignedIn()){
+            setSignedInLiveDataState();
+        } else{
+            setNotSignedInLiveDataState();
+        }
+    }
+
+    private void setNotSignedInLiveDataState(){
+        isUserSignedInLiveData.setValue(false);
+    }
+
+    private void setSignedInLiveDataState(){
+        isUserSignedInLiveData.setValue(true);
     }
 
 

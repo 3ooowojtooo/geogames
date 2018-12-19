@@ -2,6 +2,7 @@ package com.kurocho.geogames.utils.sign_in;
 
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.kurocho.geogames.api.Token;
 import com.kurocho.geogames.di.qualifiers.SignInSharedPreferences;
 import com.kurocho.geogames.utils.exception.TokenNotSetException;
@@ -24,13 +25,24 @@ class SignInTokenUtils {
 
 
     @NonNull
-    public Token getToken() throws TokenNotSetException {
-        return new Token(getTokenAsString());
+    Token getToken() throws TokenNotSetException {
+        if(isTokenSet()){
+            return new Token(getTokenAsString());
+        } else{
+            throw new TokenNotSetException();
+        }
     }
 
     void setTokenDeletingExistingOne(@NonNull Token token){
         deleteToken();
         setToken(token.getToken());
+    }
+
+    boolean isTokenSet(){
+        String token = signInSharedPreferences.getString(TOKEN_KEY, TOKEN_NOT_SET);
+        if(token == null || token.equals(TOKEN_NOT_SET))
+            return false;
+        return true;
     }
 
     private void deleteToken(){
@@ -39,13 +51,9 @@ class SignInTokenUtils {
                 apply();
     }
 
-    @NonNull
-    private String getTokenAsString() throws TokenNotSetException {
-        String token = signInSharedPreferences.getString(TOKEN_KEY, TOKEN_NOT_SET);
-        if(token == null || token.equals(TOKEN_NOT_SET)){
-            throw new TokenNotSetException("Token is not set");
-        }
-        return token;
+    @Nullable
+    private String getTokenAsString(){
+        return signInSharedPreferences.getString(TOKEN_KEY, TOKEN_NOT_SET);
     }
 
     private void setToken(@NonNull String token){

@@ -1,14 +1,18 @@
 package com.kurocho.geogames;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.crashlytics.android.Crashlytics;
+import com.kurocho.geogames.utils.sign_in.SignInUtils;
 import com.ncapdevi.fragnav.FragNavController;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
@@ -39,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentInjector;
 
+    @Inject
+    SignInUtils signInUtils;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -47,6 +54,12 @@ public class MainActivity extends AppCompatActivity implements FragNavController
         ButterKnife.bind(this);
         configureCrashlytics();
         initFragNavController(savedInstanceState);
+        signInUtils.getIsUserSignedInLiveData().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                Toast.makeText(MainActivity.this, "change: " + String.valueOf(aBoolean), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void configureCrashlytics() {
