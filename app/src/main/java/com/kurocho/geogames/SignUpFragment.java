@@ -13,15 +13,12 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.kurocho.geogames.utils.SignUpMessageUtils;
+import com.kurocho.geogames.utils.sign_up.SignUpMessageUtils;
 import com.kurocho.geogames.viewmodels.sign_up.SignUpLiveDataWrapper;
 import com.kurocho.geogames.viewmodels.sign_up.SignUpViewModel;
-import dagger.Binds;
-import dagger.Module;
 import dagger.android.support.AndroidSupportInjection;
 
 import javax.inject.Inject;

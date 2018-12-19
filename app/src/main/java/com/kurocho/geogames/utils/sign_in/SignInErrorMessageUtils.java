@@ -1,4 +1,4 @@
-package com.kurocho.geogames.utils;
+package com.kurocho.geogames.utils.sign_in;
 
 import android.content.Context;
 import com.kurocho.geogames.R;

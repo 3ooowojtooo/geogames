@@ -1,4 +1,4 @@
-package com.kurocho.geogames.utils;
+package com.kurocho.geogames.utils.sign_in;
 
 import com.kurocho.geogames.api.SignInCredentials;
 import com.kurocho.geogames.utils.exception.EmptyCredentialsException;
@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class SignInCredentialsVerifier {
+class SignInCredentialsVerifier {
 
     private SignInCredentials credentials;
 
@@ -15,16 +15,14 @@ public class SignInCredentialsVerifier {
     public SignInCredentialsVerifier(){
     }
 
-    public void verify(SignInCredentials credentials) throws EmptyCredentialsException {
+    void verify(SignInCredentials credentials) throws EmptyCredentialsException {
         this.credentials = credentials;
         verifyCredentialsNotEmpty();
     }
 
     private void verifyCredentialsNotEmpty() throws EmptyCredentialsException{
-
         if(credentials.getUsername().isEmpty() || credentials.getPassword().isEmpty()){
-            throw new EmptyCredentialsException("Credentials cannot be empty. Credentials given: username: " + credentials.getUsername() +
-                " password: " + credentials.getPassword());
+            throw new EmptyCredentialsException();
         }
     }
 }

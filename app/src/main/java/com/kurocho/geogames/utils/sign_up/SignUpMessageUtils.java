@@ -1,4 +1,4 @@
-package com.kurocho.geogames.utils;
+package com.kurocho.geogames.utils.sign_up;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,14 +10,27 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class SignUpMessageUtils {
-
+class SignUpMessageUtils {
     private Context context;
 
-    private String accountCreatedMessage;
+    private String emptyCredentialsMessage;
+    //private String accountCreatedMessage;
     private String apiErrorMessage;
     private String internetErrorMessage;
 
+    String getEmptyCredentialsMessage(){
+        return emptyCredentialsMessage;
+    }
+
+    String getApiErrorMessage(){
+        return apiErrorMessage;
+    }
+
+    String getInternetErrorMessage(){
+        return internetErrorMessage;
+    }
+
+    /*
     @NonNull
     public String getMessage(@NonNull SignUpLiveDataWrapper wrapper){
         if(wrapper.isSuccess()){
@@ -25,7 +38,7 @@ public class SignUpMessageUtils {
         } else if(wrapper.isError()){
             return getErrorMessage(wrapper);
         } else{
-            throw new IllegalArgumentException("getMessage called for non success nor error message.");
+            throw new IllegalArgumentException("getMessage called for not success nor error message.");
         }
     }
 
@@ -62,7 +75,7 @@ public class SignUpMessageUtils {
     @NonNull
     private String getStringMessageForInternetError(){
         return internetErrorMessage;
-    }
+    }*/
 
     @Inject
     public SignUpMessageUtils(@ApplicationContext Context context){
@@ -71,8 +84,9 @@ public class SignUpMessageUtils {
     }
 
     private void initialize(){
-        accountCreatedMessage = context.getString(R.string.create_account_account_created);
-        apiErrorMessage = context.getString(R.string.create_account_api_error);
+        emptyCredentialsMessage = context.getString(R.string.create_account_empty_credentials);
+        //accountCreatedMessage = context.getString(R.string.create_account_account_created);
+        apiErrorMessage = context.getString(R.string.create_account_undefined_api_error);
         internetErrorMessage = context.getString(R.string.create_account_internet_error);
     }
 }

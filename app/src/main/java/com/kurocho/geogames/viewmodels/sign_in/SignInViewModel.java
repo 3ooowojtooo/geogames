@@ -4,7 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import com.kurocho.geogames.api.SignInCredentials;
-import com.kurocho.geogames.utils.SignInUtils;
+import com.kurocho.geogames.utils.sign_in.SignInUtils;
 
 import javax.inject.Inject;
 

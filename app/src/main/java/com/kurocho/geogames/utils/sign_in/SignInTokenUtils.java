@@ -1,4 +1,4 @@
-package com.kurocho.geogames.utils;
+package com.kurocho.geogames.utils.sign_in;
 
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class SignInTokenUtils {
+class SignInTokenUtils {
 
     private static final String TOKEN_KEY = "token";
     private static final String TOKEN_NOT_SET = "NOT_SET";
