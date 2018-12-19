@@ -72,40 +72,5 @@ public class SignInViewModel extends ViewModel {
     private void setErrorSignInLiveDataStatus(String message){
         logInLiveData.setValue(SignInLiveDataWrapper.error(message));
     }
-    /*
-    private void setSuccessfulLogInLiveDataStatus(@NonNull Integer statusCode, @NonNull Token token){
-        logInLiveData.setValue(SignInLiveDataWrapper.success(statusCode, token));
-    }
 
-    private void setApiErrorLogInLiveDataStatus(@NonNull Integer statusCode){
-        logInLiveData.setValue(SignInLiveDataWrapper.apiError(statusCode));
-    }
-
-    private void setInternetErrorLogInLiveDataStatus(@NonNull Throwable error){
-        logInLiveData.setValue(SignInLiveDataWrapper.internetError(error));
-    }
-
-   private void retrofitLogin(String username, String password){
-        setInProgressSignInLiveDataStatus();
-        SignInCredentials credentials = new SignInCredentials(username, password);
-        api.signIn(credentials).
-                enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(@NonNull  Call<Void> call, @NonNull Response<Void> response) {
-                        if(response.isSuccessful()){
-                            Integer statusCode = response.code();
-                            Token token = new Token(response.headers().get("Authorization"));
-                            setSuccessfulLogInLiveDataStatus(statusCode, token);
-                        } else{
-                            Integer statusCode  = response.code();
-                            setApiErrorLogInLiveDataStatus(statusCode);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull  Call<Void> call, @NonNull Throwable t) {
-                        setInternetErrorLogInLiveDataStatus(t);
-                    }
-                });
-    }*/
 }
