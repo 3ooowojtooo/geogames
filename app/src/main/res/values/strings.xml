@@ -11,7 +11,7 @@
     <string name="create_account_password">password</string>
     <string name="create_account_top_text">create your account here</string>
     <string name="create_account_empty_credentials">Credentials cannot be empty.</string>
-    <string name="create_account_account_created">Your account has been created successfully. You can sign in now.</string>
+    <string name="create_account_invalid_email">Invalid email.</string>
     <string name="create_account_undefined_api_error">Internal server error. Please, contact the administrator.</string>
     <string name="create_account_internet_error">Couldn`t connect to the server. Check your internet connection.</string>
 

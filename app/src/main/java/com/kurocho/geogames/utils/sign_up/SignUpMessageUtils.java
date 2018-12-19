@@ -14,7 +14,7 @@ class SignUpMessageUtils {
     private Context context;
 
     private String emptyCredentialsMessage;
-    //private String accountCreatedMessage;
+    private String invalidEmailMessage;
     private String apiErrorMessage;
     private String internetErrorMessage;
 
@@ -28,6 +28,10 @@ class SignUpMessageUtils {
 
     String getInternetErrorMessage(){
         return internetErrorMessage;
+    }
+
+    String getInvalidEmailMessage(){
+        return invalidEmailMessage;
     }
 
     /*
@@ -85,7 +89,7 @@ class SignUpMessageUtils {
 
     private void initialize(){
         emptyCredentialsMessage = context.getString(R.string.create_account_empty_credentials);
-        //accountCreatedMessage = context.getString(R.string.create_account_account_created);
+        invalidEmailMessage = context.getString(R.string.create_account_invalid_email);
         apiErrorMessage = context.getString(R.string.create_account_undefined_api_error);
         internetErrorMessage = context.getString(R.string.create_account_internet_error);
     }

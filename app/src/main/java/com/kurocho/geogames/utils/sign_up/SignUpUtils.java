@@ -7,6 +7,7 @@ import com.kurocho.geogames.api.Api;
 import com.kurocho.geogames.api.sign_up.SignUpApiResponse;
 import com.kurocho.geogames.api.sign_up.SignUpCredentials;
 import com.kurocho.geogames.utils.exception.EmptyCredentialsException;
+import com.kurocho.geogames.utils.exception.InvalidEmailException;
 import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
@@ -54,10 +55,12 @@ public class SignUpUtils {
             performSignUp();
         } catch(EmptyCredentialsException e){
             processEmptyCredentialsException();
+        } catch(InvalidEmailException e){
+            processInvalidEmailException();
         }
     }
 
-    private void verifyCredentials() throws EmptyCredentialsException{
+    private void verifyCredentials() throws EmptyCredentialsException, InvalidEmailException {
         credentialsVerifier.verify(credentials);
     }
 
@@ -94,6 +97,11 @@ public class SignUpUtils {
 
     private void processEmptyCredentialsException(){
         String message = messageUtils.getEmptyCredentialsMessage();
+        callback.onError(message);
+    }
+
+    private void processInvalidEmailException(){
+        String message = messageUtils.getInvalidEmailMessage();
         callback.onError(message);
     }
 
