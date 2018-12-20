@@ -1,15 +1,10 @@
 package com.kurocho.geogames.viewmodels.sign_in;
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule;
-import android.arch.lifecycle.MutableLiveData;
-import com.kurocho.geogames.api.Api;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
 import com.kurocho.geogames.api.SignInCredentials;
-import com.kurocho.geogames.viewmodels.sign_up.SignUpLiveDataWrapper;
-import okhttp3.MediaType;
-import okhttp3.ResponseBody;
-import okio.BufferedSource;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import com.kurocho.geogames.utils.sign_in.SignInUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -17,12 +12,8 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+
 
 import java.util.List;
 
@@ -32,16 +23,105 @@ import static org.junit.Assert.*;
 @RunWith(MockitoJUnitRunner.class)
 public class SignInViewModelTest {
 
-   /* @Rule
+    @Rule
     public TestRule instant = new InstantTaskExecutorRule();
 
     @Captor
-    public ArgumentCaptor<SignInLiveDataWrapper> liveDataWrapperArgumentCaptor;
+    private ArgumentCaptor<SignInLiveDataWrapper> liveDataWrapperArgumentCaptor;
 
+    @Mock
+    private SignInUtils signInUtils;
 
-    private static final int SAMPLE_ERROR_CODE = 400;
+    @Mock
+    private Observer<SignInLiveDataWrapper> wrapperObserver;
 
+    @Test
+    public void testResetIsSettingIdleLiveDataStatus() {
+        SignInViewModel viewModel = new SignInViewModel(null);
+        viewModel.getSignInLiveData().observeForever(wrapperObserver);
 
+        // test
+        viewModel.reset();
+
+        verify(wrapperObserver, times(2)).onChanged(liveDataWrapperArgumentCaptor.capture());
+        verifyNoMoreInteractions(wrapperObserver);
+
+        assertTrue(liveDataWrapperArgumentCaptor.getValue().isIdle());
+
+    }
+
+    @Test
+    public void Given_SuccessfulSignInCallback_When_SignInIsCalled_Then_LiveDataStatusIsSetProperly(){
+        // given
+        doAnswer(invocation -> {
+            SignInUtils.SignInCallback callback = invocation.getArgument(1);
+            callback.onSuccess();
+            return null;
+        }).when(signInUtils).signIn(any(SignInCredentials.class), any(SignInUtils.SignInCallback.class));
+
+        SignInViewModel viewModel = new SignInViewModel(signInUtils);
+        viewModel.getSignInLiveData().observeForever(wrapperObserver);
+
+        // when
+        viewModel.signIn("","");
+
+        // then
+        verify(wrapperObserver, times(4)).onChanged(liveDataWrapperArgumentCaptor.capture());
+        verifyNoMoreInteractions(wrapperObserver);
+
+        List<SignInLiveDataWrapper> capturedWrappers = liveDataWrapperArgumentCaptor.getAllValues();
+        assertTrue(capturedWrappers.get(1).isIdle());
+        assertTrue(capturedWrappers.get(2).isInProgress());
+        assertTrue(capturedWrappers.get(3).isSuccessful());
+    }
+
+    @Test
+    public void Given_ErrorSignInCallback_When_SignInIsCalled_Then_LiveDataStatusIsSetProperly(){
+        // given
+        doAnswer(invocation -> {
+            SignInUtils.SignInCallback callback = invocation.getArgument(1);
+            callback.onError("");
+            return null;
+        }).when(signInUtils).signIn(any(SignInCredentials.class), any(SignInUtils.SignInCallback.class));
+
+        SignInViewModel viewModel = new SignInViewModel(signInUtils);
+        viewModel.getSignInLiveData().observeForever(wrapperObserver);
+
+        // when
+        viewModel.signIn("","");
+
+        // then
+        verify(wrapperObserver, times(4)).onChanged(liveDataWrapperArgumentCaptor.capture());
+        verifyNoMoreInteractions(wrapperObserver);
+
+        List<SignInLiveDataWrapper> capturedWrappers = liveDataWrapperArgumentCaptor.getAllValues();
+        assertTrue(capturedWrappers.get(1).isIdle());
+        assertTrue(capturedWrappers.get(2).isInProgress());
+        assertTrue(capturedWrappers.get(3).isError());
+    }
+
+    @Test
+    public void Given_ErrorSignInCallback_When_SignInIsCalled_Then_SignInWrapperHasProperMessage(){
+        final String ERROR_MESSAGE = "error message";
+        // given
+        doAnswer(invocation -> {
+            SignInUtils.SignInCallback callback = invocation.getArgument(1);
+            callback.onError(ERROR_MESSAGE);
+            return null;
+        }).when(signInUtils).signIn(any(SignInCredentials.class), any(SignInUtils.SignInCallback.class));
+
+        SignInViewModel viewModel = new SignInViewModel(signInUtils);
+        viewModel.getSignInLiveData().observeForever(wrapperObserver);
+
+        // when
+        viewModel.signIn("","");
+
+        // then
+        verify(wrapperObserver, atLeast(1)).onChanged(liveDataWrapperArgumentCaptor.capture());
+        assertEquals(ERROR_MESSAGE, liveDataWrapperArgumentCaptor.getValue().getMessage());
+    }
+
+    /*
     @Test
     public void Given_SignInLiveDataIsNull_When_LoginIsCalled_Then_NotRetrofitLoginNorSetIdleLogInLiveDataStatusShouldBeCalled(){
 
