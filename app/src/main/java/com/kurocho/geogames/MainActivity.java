@@ -161,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     }
 
     void processSignOut(){
-        Toast.makeText(this, "ok",Toast.LENGTH_LONG).show();
         showProgressOverlay();
         fragNavController.clearStack();
         signInUtils.signOut();
