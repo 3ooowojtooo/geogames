@@ -1,15 +1,21 @@
 package com.kurocho.geogames;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemSelected;
 import com.crashlytics.android.Crashlytics;
-import com.kurocho.geogames.utils.SignInTokenUtils;
+import com.kurocho.geogames.utils.sign_in.SignInUtils;
 import com.ncapdevi.fragnav.FragNavController;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
@@ -21,7 +27,8 @@ import org.jetbrains.annotations.NotNull;
 import javax.inject.Inject;
 
 
-public class MainActivity extends AppCompatActivity implements FragNavController.RootFragmentListener, HasSupportFragmentInjector {
+public class MainActivity extends AppCompatActivity implements FragNavController.RootFragmentListener, HasSupportFragmentInjector,
+        BottomNavigationView.OnNavigationItemSelectedListener {
 
     private static final int INDEX_SEARCH = 0;
     private static final int INDEX_GAMES = 1;
@@ -41,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     DispatchingAndroidInjector<Fragment> fragmentInjector;
 
     @Inject
-    SignInTokenUtils signInTokenUtils;
+    SignInUtils signInUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
         ButterKnife.bind(this);
         configureCrashlytics();
         initFragNavController(savedInstanceState);
+        initBottomMenu();
     }
 
     private void configureCrashlytics() {
@@ -63,6 +71,24 @@ public class MainActivity extends AppCompatActivity implements FragNavController
         fragNavController = new FragNavController(getSupportFragmentManager(), R.id.main_activity_fragment_container);
         fragNavController.setRootFragmentListener(this);
         fragNavController.initialize(FragNavController.TAB1, savedInstanceState);
+    }
+
+    private void initBottomMenu(){
+        navigation.setOnNavigationItemSelectedListener(this);
+        signInUtils.getIsUserSignedInLiveData().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean isLoggedIn) {
+                if(isLoggedIn != null) {
+                    if (isLoggedIn) {
+                        navigation.getMenu().clear();
+                        navigation.inflateMenu(R.menu.bottom_menu_signed_in);
+                    } else {
+                        navigation.getMenu().clear();
+                        navigation.inflateMenu(R.menu.bottom_menu_signed_out);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -94,22 +120,53 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     }
 
 
-    @OnClick(R.id.navigation_search)
     void changeDisplayedFragmentToSearch() {
-        fragNavController.switchTab(INDEX_SEARCH);
         navigation.setSelectedItemId(R.id.navigation_search);
     }
 
-    @OnClick(R.id.navigation_my_games)
     void changeDisplayedFragmentToMyGames() {
-        fragNavController.switchTab(INDEX_GAMES);
         navigation.setSelectedItemId(R.id.navigation_my_games);
     }
 
-    @OnClick(R.id.navigation_sign_in)
     void changeDisplayedFragmentToLoginFragment() {
-        fragNavController.switchTab(INDEX_SIGN_IN);
         navigation.setSelectedItemId(R.id.navigation_sign_in);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch(menuItem.getItemId()){
+            case R.id.navigation_search:
+                fragNavController.switchTab(INDEX_SEARCH);
+                break;
+            case R.id.navigation_my_games:
+                fragNavController.switchTab(INDEX_GAMES);
+                break;
+            case R.id.navigation_sign_in:
+                fragNavController.switchTab(INDEX_SIGN_IN);
+                break;
+            case R.id.navigation_sign_out:
+                processSignOut();
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
+
+    void onSignInSuccess(){
+        showProgressOverlay();
+        fragNavController.clearStack();
+        changeDisplayedFragmentToMyGames();
+        hideProgressOverlay();
+    }
+
+    void processSignOut(){
+        Toast.makeText(this, "ok",Toast.LENGTH_LONG).show();
+        showProgressOverlay();
+        fragNavController.clearStack();
+        signInUtils.signOut();
+        changeDisplayedFragmentToSearch();
+        hideProgressOverlay();
     }
 
     void showProgressOverlay() {

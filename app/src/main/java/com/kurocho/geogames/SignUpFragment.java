@@ -13,15 +13,11 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.kurocho.geogames.utils.SignUpMessageUtils;
 import com.kurocho.geogames.viewmodels.sign_up.SignUpLiveDataWrapper;
 import com.kurocho.geogames.viewmodels.sign_up.SignUpViewModel;
-import dagger.Binds;
-import dagger.Module;
 import dagger.android.support.AndroidSupportInjection;
 
 import javax.inject.Inject;
@@ -49,9 +45,6 @@ public class SignUpFragment extends Fragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-
-    @Inject
-    SignUpMessageUtils messageUtils;
 
 
     @Override
@@ -85,8 +78,6 @@ public class SignUpFragment extends Fragment {
         return view;
     }
 
-
-
     @OnClick(R.id.sign_up_button)
     public void createAccountOnClick(){
         String email = this.email.getText().toString();
@@ -103,9 +94,11 @@ public class SignUpFragment extends Fragment {
                 } else if(wrapper.isInProgress()){
                     processInProgressSignUpLiveDataStatus();
                 } else if(wrapper.isSuccess()){
-                    processSuccessSignUpLiveDataStatus(wrapper);
+                    String message = wrapper.getMessage();
+                    processSuccessSignUpLiveDataStatus(message);
                 } else if(wrapper.isError()){
-                    processErrorSignUpLiveDataStatus(wrapper);
+                    String message = wrapper.getMessage();
+                    processErrorSignUpLiveDataStatus(message);
                 }
             }
         });
@@ -119,30 +112,17 @@ public class SignUpFragment extends Fragment {
         mainActivity.showProgressOverlay();
     }
 
-    private void processSuccessSignUpLiveDataStatus(@NonNull SignUpLiveDataWrapper wrapper){
+    private void processSuccessSignUpLiveDataStatus(String message){
         mainActivity.hideProgressOverlay();
-        getAndSetSuccessMessage(wrapper);
-    }
-
-    private void processErrorSignUpLiveDataStatus(@NonNull SignUpLiveDataWrapper wrapper){
-        mainActivity.hideProgressOverlay();
-        getAndSetErrorMessage(wrapper);
-    }
-
-    private void getAndSetSuccessMessage(@NonNull SignUpLiveDataWrapper wrapper){
-        String message = getMessage(wrapper);
         showSuccessMessage(message);
+
     }
 
-    private void getAndSetErrorMessage(@NonNull SignUpLiveDataWrapper wrapper){
-        String message = getMessage(wrapper);
+    private void processErrorSignUpLiveDataStatus(String message){
+        mainActivity.hideProgressOverlay();
         showErrorMessage(message);
     }
 
-    @NonNull
-    private String getMessage(@NonNull SignUpLiveDataWrapper wrapper){
-        return messageUtils.getMessage(wrapper);
-    }
 
     private void showSuccessMessage(String message){
         clearMessages();

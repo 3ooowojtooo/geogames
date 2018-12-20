@@ -2,21 +2,24 @@ package com.kurocho.geogames.viewmodels.sign_up;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import com.kurocho.geogames.api.sign_up.SignUpCredentials;
+import com.kurocho.geogames.viewmodels.sign_in.SignInLiveDataStatus;
+import com.kurocho.geogames.viewmodels.sign_in.SignInLiveDataWrapper;
+import org.jetbrains.annotations.NotNull;
 
 public class SignUpLiveDataWrapper {
     @NonNull private SignUpLiveDataStatus status;
-    @Nullable private Integer statusCode;
-    @Nullable private String message;
-    @Nullable private Throwable errorThrowable;
+    @NotNull private String message;
 
-    private SignUpLiveDataWrapper(@NonNull SignUpLiveDataStatus status,
-                                  @Nullable Integer statusCode,
-                                  @Nullable String message,
-                                  @Nullable Throwable errorThrowable) {
+    private SignUpLiveDataWrapper(@NotNull SignUpLiveDataStatus status,
+                                  @NotNull String message){
         this.status = status;
-        this.statusCode = statusCode;
         this.message = message;
-        this.errorThrowable = errorThrowable;
+    }
+
+    @NotNull
+    public String getMessage(){
+        return message;
     }
 
     public boolean isIdle(){
@@ -31,55 +34,24 @@ public class SignUpLiveDataWrapper {
         return (status == SignUpLiveDataStatus.SUCCESS);
     }
 
-    public boolean isApiError(){
-        return (status == SignUpLiveDataStatus.API_ERROR);
-    }
-
-    public boolean isInternetError(){
-        return (status == SignUpLiveDataStatus.INTERNET_ERROR);
-    }
-
     public boolean isError(){
-        return (isApiError() || isInternetError());
-    }
-
-    @NonNull
-    public SignUpLiveDataStatus getStatus() {
-        return status;
-    }
-
-    @Nullable
-    public Integer getStatusCode() {
-        return statusCode;
-    }
-
-    @Nullable
-    public String getMessage() {
-        return message;
-    }
-
-    @Nullable
-    public Throwable getErrorThrowable() {
-        return errorThrowable;
+        return (status == SignUpLiveDataStatus.ERROR);
     }
 
     static SignUpLiveDataWrapper idle(){
-        return new SignUpLiveDataWrapper(SignUpLiveDataStatus.IDLE, null, null, null);
+        return new SignUpLiveDataWrapper(SignUpLiveDataStatus.IDLE, "");
     }
 
     static SignUpLiveDataWrapper inProgress(){
-        return new SignUpLiveDataWrapper(SignUpLiveDataStatus.IN_PROGRESS, null, null, null);
+        return new SignUpLiveDataWrapper(SignUpLiveDataStatus.IN_PROGRESS, "");
     }
 
-    static SignUpLiveDataWrapper success(@NonNull Integer statusCode, @NonNull String message){
-        return new SignUpLiveDataWrapper(SignUpLiveDataStatus.SUCCESS, statusCode, message, null);
+    static SignUpLiveDataWrapper success(@NotNull String message){
+        return new SignUpLiveDataWrapper(SignUpLiveDataStatus.SUCCESS, message);
     }
 
-    static SignUpLiveDataWrapper apiError(@NonNull Integer statusCode, @NonNull String message){
-        return new SignUpLiveDataWrapper(SignUpLiveDataStatus.API_ERROR, statusCode, message, null);
+    static SignUpLiveDataWrapper error(@NotNull String message){
+        return new SignUpLiveDataWrapper(SignUpLiveDataStatus.ERROR, message);
     }
 
-    static SignUpLiveDataWrapper internetError(@NonNull Throwable error){
-        return new SignUpLiveDataWrapper(SignUpLiveDataStatus.INTERNET_ERROR, null, null, error);
-    }
 }

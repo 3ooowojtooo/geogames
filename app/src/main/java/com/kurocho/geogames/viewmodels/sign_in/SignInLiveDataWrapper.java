@@ -7,7 +7,58 @@ import io.reactivex.annotations.Nullable;
 
 public class SignInLiveDataWrapper {
     @NonNull private SignInLiveDataStatus status;
-    @Nullable private  Integer statusCode;
+    @NonNull private String message;
+
+    private SignInLiveDataWrapper(@NonNull SignInLiveDataStatus status,
+                                  @NonNull String message){
+        this.status = status;
+        this.message = message;
+    }
+
+    @NonNull
+    public String getMessage(){
+        return message;
+    }
+
+    public boolean isIdle(){
+        return (status == SignInLiveDataStatus.IDLE);
+    }
+
+    public boolean isInProgress(){
+        return (status == SignInLiveDataStatus.IN_PROGRESS);
+    }
+
+    public boolean isSuccessful(){
+        return (status == SignInLiveDataStatus.SUCCESS);
+    }
+
+    public boolean isError(){
+        return (status == SignInLiveDataStatus.ERROR);
+    }
+
+    public static SignInLiveDataWrapper idle(){
+        return new SignInLiveDataWrapper(SignInLiveDataStatus.IDLE,"");
+    }
+
+    public static SignInLiveDataWrapper inProgress(){
+        return new SignInLiveDataWrapper(SignInLiveDataStatus.IN_PROGRESS, "");
+    }
+
+    public static SignInLiveDataWrapper success(){
+        return new SignInLiveDataWrapper(SignInLiveDataStatus.SUCCESS,"");
+    }
+
+    public static SignInLiveDataWrapper error(String message){
+        return new SignInLiveDataWrapper(SignInLiveDataStatus.ERROR, message);
+    }
+
+
+
+
+
+
+
+    /*@Nullable private  Integer statusCode;
     @Nullable private Token token;
     @Nullable private Throwable errorThrowable;
 
@@ -83,6 +134,6 @@ public class SignInLiveDataWrapper {
 
     static SignInLiveDataWrapper internetError(@NonNull Throwable error){
         return new SignInLiveDataWrapper(SignInLiveDataStatus.INTERNET_ERROR, null, null, error);
-    }
+    }*/
 
 }

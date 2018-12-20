@@ -1,7 +1,8 @@
-package com.kurocho.geogames.utils;
+package com.kurocho.geogames.utils.sign_in;
 
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.kurocho.geogames.api.Token;
 import com.kurocho.geogames.di.qualifiers.SignInSharedPreferences;
 import com.kurocho.geogames.utils.exception.TokenNotSetException;
@@ -10,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class SignInTokenUtils {
+class SignInTokenUtils {
 
     private static final String TOKEN_KEY = "token";
     private static final String TOKEN_NOT_SET = "NOT_SET";
@@ -18,33 +19,41 @@ public class SignInTokenUtils {
     private SharedPreferences signInSharedPreferences;
 
     @Inject
-    public SignInTokenUtils(@SignInSharedPreferences SharedPreferences signInSharedPreferences){
+    SignInTokenUtils(@SignInSharedPreferences SharedPreferences signInSharedPreferences){
         this.signInSharedPreferences = signInSharedPreferences;
     }
 
+
     @NonNull
-    public Token getToken() throws TokenNotSetException {
-        return new Token(getTokenAsString());
+    Token getToken() throws TokenNotSetException {
+        if(isTokenSet()){
+            return new Token(getTokenAsString());
+        } else{
+            throw new TokenNotSetException();
+        }
     }
 
-    public void setTokenDeletingExistingOne(@NonNull Token token){
+    void setTokenDeletingExistingOne(@NonNull Token token){
         deleteToken();
         setToken(token.getToken());
     }
 
-    public void deleteToken(){
+    boolean isTokenSet(){
+        String token = signInSharedPreferences.getString(TOKEN_KEY, TOKEN_NOT_SET);
+        if(token == null || token.equals(TOKEN_NOT_SET))
+            return false;
+        return true;
+    }
+
+    void deleteToken(){
         signInSharedPreferences.edit().
                 putString(TOKEN_KEY, TOKEN_NOT_SET).
                 apply();
     }
 
-    @NonNull
-    private String getTokenAsString() throws TokenNotSetException {
-        String token = signInSharedPreferences.getString(TOKEN_KEY, TOKEN_NOT_SET);
-        if(token == null || token.equals(TOKEN_NOT_SET)){
-            throw new TokenNotSetException("Token is not set");
-        }
-        return token;
+    @Nullable
+    private String getTokenAsString(){
+        return signInSharedPreferences.getString(TOKEN_KEY, TOKEN_NOT_SET);
     }
 
     private void setToken(@NonNull String token){

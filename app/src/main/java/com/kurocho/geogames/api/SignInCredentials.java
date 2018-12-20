@@ -15,6 +15,15 @@ public class SignInCredentials {
         this.password = password;
     }
 
+    @NonNull
+    public String getUsername() {
+        return username;
+    }
+
+    @NonNull
+    public String getPassword() {
+        return password;
+    }
 
     private String hashPassword(String password){
         MessageDigest digest;

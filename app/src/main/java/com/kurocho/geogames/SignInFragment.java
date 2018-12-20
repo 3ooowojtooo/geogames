@@ -13,11 +13,9 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.kurocho.geogames.utils.SignInErrorMessageUtils;
 import com.kurocho.geogames.viewmodels.sign_in.SignInLiveDataWrapper;
 import com.kurocho.geogames.viewmodels.sign_in.SignInViewModel;
 import dagger.android.support.AndroidSupportInjection;
@@ -39,9 +37,6 @@ public class SignInFragment extends Fragment {
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
-    @Inject
-    SignInErrorMessageUtils errorMessageUtils;
-
     private SignInViewModel viewModel;
 
     private MainActivity mainActivity;
@@ -50,7 +45,7 @@ public class SignInFragment extends Fragment {
     public void logInOnClick(){
         String username = this.username.getText().toString();
         String password = this.password.getText().toString();
-        viewModel.login(username, password);
+        viewModel.signIn(username, password);
     }
 
     @OnClick(R.id.sign_in_sign_up_button)
@@ -95,16 +90,17 @@ public class SignInFragment extends Fragment {
 
 
     private void initializeViewModelObserver(){
-        viewModel.getLogInLiveData().observe(this, (@Nullable SignInLiveDataWrapper wrapper) -> {
+        viewModel.getSignInLiveData().observe(this, (@Nullable SignInLiveDataWrapper wrapper) -> {
            if(wrapper != null){
                if(wrapper.isIdle()){
                     processIdleLogInViewModelStatus();
                } else if(wrapper.isInProgress()){
                     processInProgressLogInViewModelStatus();
                } else if(wrapper.isSuccessful()){
-                    processSuccessfulLogInViewModelStatus(wrapper);
+                    processSuccessfulLogInViewModelStatus();
                } else if(wrapper.isError()){
-                   processErrorLogInViewModelStatus(wrapper);
+                   String message = wrapper.getMessage();
+                   processErrorLogInViewModelStatus(message);
                }
            }
         });
@@ -120,24 +116,21 @@ public class SignInFragment extends Fragment {
         clearErrorMessage();
     }
 
-    private void processSuccessfulLogInViewModelStatus(@NonNull SignInLiveDataWrapper wrapper){
+    private void processSuccessfulLogInViewModelStatus(){
+        reset();
+        mainActivity.onSignInSuccess();
+    }
+
+    private void processErrorLogInViewModelStatus(String message){
         mainActivity.hideProgressOverlay();
-        Toast.makeText(getActivity(), "Success. " + wrapper.getToken().getToken(), Toast.LENGTH_LONG).show();
+        showErrorMessage(message);
     }
 
-    private void processErrorLogInViewModelStatus(@NonNull SignInLiveDataWrapper wrapper){
-        mainActivity.hideProgressOverlay();
-        getAndShowErrorMessage(wrapper);
-    }
-
-    private void getAndShowErrorMessage(@NonNull SignInLiveDataWrapper wrapper){
-        String errorMessage = getErrorMessage(wrapper);
-        showErrorMessage(errorMessage);
-    }
-
-    @NonNull
-    private String getErrorMessage(@NonNull SignInLiveDataWrapper wrapper){
-        return errorMessageUtils.getErrorMessage(wrapper);
+    private void reset(){
+        viewModel.reset();
+        username.setText("");
+        password.setText("");
+        clearErrorMessage();
     }
 
     private void showErrorMessage(String message){
