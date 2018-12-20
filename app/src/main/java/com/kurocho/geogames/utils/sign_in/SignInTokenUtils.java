@@ -45,7 +45,7 @@ class SignInTokenUtils {
         return true;
     }
 
-    private void deleteToken(){
+    void deleteToken(){
         signInSharedPreferences.edit().
                 putString(TOKEN_KEY, TOKEN_NOT_SET).
                 apply();

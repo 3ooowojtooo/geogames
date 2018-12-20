@@ -54,6 +54,11 @@ public class SignInUtils{
         verifyCredentialsAndPerformSignIn();
     }
 
+    public void signOut(){
+        tokenUtils.deleteToken();
+        setNotSignedInLiveDataState();
+    }
+
     public boolean isUserSignedIn(){
         return tokenUtils.isTokenSet();
     }

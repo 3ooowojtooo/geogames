@@ -118,7 +118,7 @@ public class SignInFragment extends Fragment {
 
     private void processSuccessfulLogInViewModelStatus(){
         reset();
-        mainActivity.onLoginSuccess();
+        mainActivity.onSignInSuccess();
     }
 
     private void processErrorLogInViewModelStatus(String message){

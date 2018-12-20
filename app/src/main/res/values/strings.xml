@@ -4,6 +4,7 @@
     <string name="main_activity_search_title">Search</string>
     <string name="main_activity_games_title">Games</string>
     <string name="main_activity_sign_in_title">Sign In</string>
+    <string name="main_activity_sign_out_title">Sign out</string>
 
     <string name="create_account_action_sing_up">sign Up</string>
     <string name="create_account_username">username</string>
