@@ -29,11 +29,16 @@
     <string name="add_game_dialog_game_author">Game Author</string>
     <string name="add_game_dialog_game_description">Game Description</string>
     <string name="add_game_dialog_game_password">Password</string>
-    <string name="title_search">Search</string>
-    <string name="title_my_games">Games</string>
-    <string name="title_sign_in">Sign In</string>
+
+    <string name="app_bar_title_search">Search games</string>
+    <string name="app_bar_title_my_games">Downloaded games</string>
+    <string name="app_bar_title_sign_in">Sign In</string>
     <string name="create_account_if_you_dont_have_it_yet">You don\'t have an account? Create it here.</string>
     <string name="progress">Progress:</string>
     <string name="game_title">Game Title</string>
     <string name="author">Author</string>
+
+
+    <string name="app_label">App label</string>
+    <string name="search_hint">Search games</string>
 </resources>
