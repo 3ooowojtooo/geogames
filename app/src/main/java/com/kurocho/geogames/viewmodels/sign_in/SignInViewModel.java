@@ -22,11 +22,6 @@ public class SignInViewModel extends ViewModel {
             this.signInUtils = signInUtils;
     }
 
-    SignInViewModel(SignInUtils signInUtils, MutableLiveData<SignInLiveDataWrapper> signInLiveData){
-        this.signInUtils = signInUtils;
-        this.signInLiveData = signInLiveData;
-    }
-
     public LiveData<SignInLiveDataWrapper> getSignInLiveData() {
         return signInLiveData;
     }
@@ -39,7 +34,6 @@ public class SignInViewModel extends ViewModel {
                 performSignIn(username, password);
             }
         }
-
     }
 
     private void performSignIn(String username, String password){
