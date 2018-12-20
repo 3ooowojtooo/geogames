@@ -1,19 +1,16 @@
 package com.kurocho.geogames;
 
-import android.arch.lifecycle.Observer;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.OnItemSelected;
 import com.crashlytics.android.Crashlytics;
 import com.kurocho.geogames.utils.sign_in.SignInUtils;
 import com.ncapdevi.fragnav.FragNavController;
@@ -75,17 +72,14 @@ public class MainActivity extends AppCompatActivity implements FragNavController
 
     private void initBottomMenu(){
         navigation.setOnNavigationItemSelectedListener(this);
-        signInUtils.getIsUserSignedInLiveData().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean isLoggedIn) {
-                if(isLoggedIn != null) {
-                    if (isLoggedIn) {
-                        navigation.getMenu().clear();
-                        navigation.inflateMenu(R.menu.bottom_menu_signed_in);
-                    } else {
-                        navigation.getMenu().clear();
-                        navigation.inflateMenu(R.menu.bottom_menu_signed_out);
-                    }
+        signInUtils.getIsUserSignedInLiveData().observe(this, isLoggedIn -> {
+            if(isLoggedIn != null) {
+                if (isLoggedIn) {
+                    navigation.getMenu().clear();
+                    navigation.inflateMenu(R.menu.bottom_menu_signed_in);
+                } else {
+                    navigation.getMenu().clear();
+                    navigation.inflateMenu(R.menu.bottom_menu_signed_out);
                 }
             }
         });
@@ -134,15 +128,19 @@ public class MainActivity extends AppCompatActivity implements FragNavController
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        setBarTitle(R.string.app_name);
         switch(menuItem.getItemId()){
             case R.id.navigation_search:
                 fragNavController.switchTab(INDEX_SEARCH);
+                setBarTitle(R.string.app_bar_title_search);
                 break;
             case R.id.navigation_my_games:
                 fragNavController.switchTab(INDEX_GAMES);
+                setBarTitle(R.string.app_bar_title_my_games);
                 break;
             case R.id.navigation_sign_in:
                 fragNavController.switchTab(INDEX_SIGN_IN);
+                setBarTitle(R.string.app_bar_title_sign_in);
                 break;
             case R.id.navigation_sign_out:
                 processSignOut();
@@ -151,6 +149,13 @@ public class MainActivity extends AppCompatActivity implements FragNavController
                 return false;
         }
         return true;
+    }
+
+    private void setBarTitle(int resources){
+        ActionBar bar = getSupportActionBar();
+        if(bar != null){
+            bar.setTitle(resources);
+        }
     }
 
     void onSignInSuccess(){

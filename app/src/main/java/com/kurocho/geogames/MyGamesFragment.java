@@ -43,9 +43,12 @@ public class MyGamesFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         setUpRecyclerViewAdapter();
-        // Test
-        a.add(new GameDetails("Szukanie skrytek na wawelu","testowy autor",2,3));
-        a.add(new GameDetails("Rajd elektryka","testowy autor2",9,120));
+
+        if(a.size() == 0){
+            // Do usuniecia, pokazowe
+            a.add(new GameDetails("Szukanie skrytek na wawelu","testowy autor",2,3));
+            a.add(new GameDetails("Rajd elektryka","testowy autor2",9,120));
+        }
         mAdapter.setList(a);
         return view;
     }
@@ -60,6 +63,7 @@ public class MyGamesFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getActivity() instanceof MainActivity) {
+
             mainActivity = (MainActivity) getActivity();
         } else {
             throw new RuntimeException(this.getClass().getCanonicalName() + " can only be attached into MainActivity");
