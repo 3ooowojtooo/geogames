@@ -13,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.crashlytics.android.Crashlytics;
 import com.kurocho.geogames.utils.sign_in.SignInUtils;
+import com.kurocho.geogames.views.BottomMenu;
 import com.ncapdevi.fragnav.FragNavController;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
 
 
     @BindView(R.id.navigation)
-    BottomNavigationView navigation;
+    BottomMenu navigation;
 
     @BindView(R.id.main_activity_progress_overlay)
     View progressOverlay;
@@ -72,14 +73,12 @@ public class MainActivity extends AppCompatActivity implements FragNavController
 
     private void initBottomMenu(){
         navigation.setOnNavigationItemSelectedListener(this);
-        signInUtils.getIsUserSignedInLiveData().observe(this, isLoggedIn -> {
-            if(isLoggedIn != null) {
-                if (isLoggedIn) {
-                    navigation.getMenu().clear();
-                    navigation.inflateMenu(R.menu.bottom_menu_signed_in);
+        signInUtils.getIsUserSignedInLiveData().observe(this, isSignedIn -> {
+            if(isSignedIn != null) {
+                if (isSignedIn) {
+                    navigation.showSignedInMenu();
                 } else {
-                    navigation.getMenu().clear();
-                    navigation.inflateMenu(R.menu.bottom_menu_signed_out);
+                    navigation.showSignedOutMenu();
                 }
             }
         });

@@ -20,14 +20,15 @@
                 android:layout_weight="1"
                 android:layout_margin="0dp"/>
 
-        <android.support.design.widget.BottomNavigationView
+        <com.kurocho.geogames.views.BottomMenu
                 android:id="@+id/navigation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
                 android:layout_marginStart="0dp"
                 android:background="?android:attr/windowBackground"
-                app:menu="@menu/bottom_menu_signed_out"/>
+                app:signedInMenu="@menu/bottom_menu_signed_in"
+                app:signedOutMenu="@menu/bottom_menu_signed_out"/>
 
     </LinearLayout>
 
