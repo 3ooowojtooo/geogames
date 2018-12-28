@@ -2,6 +2,7 @@ package com.kurocho.geogames.di.viewmodel_factory;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
+import com.kurocho.geogames.viewmodels.main_activity.MainActivityViewModel;
 import com.kurocho.geogames.viewmodels.sign_in.SignInViewModel;
 import com.kurocho.geogames.viewmodels.sign_up.SignUpViewModel;
 import dagger.Binds;
@@ -12,6 +13,11 @@ import dagger.multibindings.IntoMap;
 public abstract class ViewModelFactoryModule {
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainActivityViewModel.class)
+    abstract ViewModel bindMainActivityViewModel(MainActivityViewModel mainActivityViewModel);
 
     @Binds
     @IntoMap
