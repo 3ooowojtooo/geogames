@@ -15,7 +15,11 @@ public class MainActivityViewModel extends ViewModel {
         this.signInUtils = signInUtils;
     }
 
-    LiveData<Boolean> getIsSignedInLiveData(){
+    public LiveData<Boolean> getIsSignedInLiveData(){
         return signInUtils.getIsUserSignedInLiveData();
+    }
+
+    public void signOut(){
+        signInUtils.signOut();
     }
 }
