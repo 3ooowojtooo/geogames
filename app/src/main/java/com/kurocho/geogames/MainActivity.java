@@ -1,5 +1,6 @@
 package com.kurocho.geogames;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,7 +13,9 @@ import android.view.View;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.crashlytics.android.Crashlytics;
+import com.kurocho.geogames.di.viewmodel_factory.ViewModelFactory;
 import com.kurocho.geogames.utils.sign_in.SignInUtils;
+import com.kurocho.geogames.viewmodels.main_activity.MainActivityViewModel;
 import com.kurocho.geogames.views.BottomMenu;
 import com.ncapdevi.fragnav.FragNavController;
 import dagger.android.AndroidInjection;
@@ -46,13 +49,16 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     DispatchingAndroidInjector<Fragment> fragmentInjector;
 
     @Inject
-    SignInUtils signInUtils;
+    ViewModelFactory viewModelFactory;
+
+    private MainActivityViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainActivityViewModel.class);
         ButterKnife.bind(this);
         configureCrashlytics();
         initFragNavController(savedInstanceState);
@@ -73,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
 
     private void initBottomMenu(){
         navigation.setOnNavigationItemSelectedListener(this);
-        signInUtils.getIsUserSignedInLiveData().observe(this, isSignedIn -> {
+        viewModel.getIsSignedInLiveData().observe(this, isSignedIn -> {
             if(isSignedIn != null) {
                 if (isSignedIn) {
                     navigation.showSignedInMenu();
@@ -167,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     void processSignOut(){
         showProgressOverlay();
         fragNavController.clearStack();
-        signInUtils.signOut();
+        viewModel.signOut();
         changeDisplayedFragmentToSearch();
         hideProgressOverlay();
     }
