@@ -1,4 +1,4 @@
-package com.kurocho.geogames.views;
+package com.kurocho.geogames.views.bottom_menu;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -34,6 +34,10 @@ public class BottomMenu extends BottomNavigationView {
     public void showSignedOutMenu(){
         deleteMenuItems();
         inflateMenu(signedOutMenuResource);
+    }
+
+    public void selectAfterSignOutDefaultItem(){
+        setSelectedItemId(R.id.navigation_search);
     }
 
     private void deleteMenuItems(){

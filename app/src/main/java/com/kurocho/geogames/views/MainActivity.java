@@ -16,6 +16,8 @@ import com.kurocho.geogames.BuildConfig;
 import com.kurocho.geogames.R;
 import com.kurocho.geogames.di.viewmodel_factory.ViewModelFactory;
 import com.kurocho.geogames.viewmodels.main_activity.MainActivityViewModel;
+import com.kurocho.geogames.views.bottom_menu.BottomMenu;
+import com.kurocho.geogames.views.bottom_menu.BottomMenuController;
 import com.ncapdevi.fragnav.FragNavController;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     ViewModelFactory viewModelFactory;
 
     private MainActivityViewModel viewModel;
+    private BottomMenuController bottomMenuController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +80,38 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     }
 
     private void initBottomMenu(){
-        navigation.setOnNavigationItemSelectedListener(this);
+        bottomMenuController = new BottomMenuController(navigation);
+        bottomMenuController.setBottomMenuEventsCallback(new BottomMenuController.BottomMenuEventsCallback() {
+            @Override
+            public void onSelectedMenuItemChanged(MenuItem item) {
+                setBarTitle(R.string.app_name);
+                switch(item.getItemId()){
+                    case R.id.navigation_search:
+                        fragNavController.switchTab(INDEX_SEARCH);
+                        setBarTitle(R.string.app_bar_title_search);
+                        break;
+                    case R.id.navigation_my_games:
+                        fragNavController.switchTab(INDEX_GAMES);
+                        setBarTitle(R.string.app_bar_title_my_games);
+                        break;
+                    case R.id.navigation_sign_in:
+                        fragNavController.switchTab(INDEX_SIGN_IN);
+                        setBarTitle(R.string.app_bar_title_sign_in);
+                        break;
+                    case R.id.navigation_sign_out:
+                        processSignOut();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
         viewModel.getIsSignedInLiveData().observe(this, isSignedIn -> {
             if(isSignedIn != null) {
                 if (isSignedIn) {
-                    navigation.showSignedInMenu();
+                    bottomMenuController.onSignedIn();
                 } else {
-                    navigation.showSignedOutMenu();
+                    bottomMenuController.onSignedOut();
                 }
             }
         });
@@ -173,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
         showProgressOverlay();
         fragNavController.clearStack();
         viewModel.signOut();
-        changeDisplayedFragmentToSearch();
+        //changeDisplayedFragmentToSearch();
         hideProgressOverlay();
     }
 
