@@ -1,4 +1,4 @@
-package com.kurocho.geogames;
+package com.kurocho.geogames.views;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +8,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.*;
 import butterknife.ButterKnife;
+import com.kurocho.geogames.R;
 
 public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener {
 

@@ -1,4 +1,4 @@
-package com.kurocho.geogames;
+package com.kurocho.geogames.views;
 
 import android.app.Activity;
 import android.app.Application;

@@ -1,7 +1,6 @@
-package com.kurocho.geogames;
+package com.kurocho.geogames.views;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -13,10 +12,10 @@ import android.view.View;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.crashlytics.android.Crashlytics;
+import com.kurocho.geogames.BuildConfig;
+import com.kurocho.geogames.R;
 import com.kurocho.geogames.di.viewmodel_factory.ViewModelFactory;
-import com.kurocho.geogames.utils.sign_in.SignInUtils;
 import com.kurocho.geogames.viewmodels.main_activity.MainActivityViewModel;
-import com.kurocho.geogames.views.BottomMenu;
 import com.ncapdevi.fragnav.FragNavController;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
