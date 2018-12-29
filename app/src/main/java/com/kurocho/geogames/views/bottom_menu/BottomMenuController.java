@@ -12,6 +12,7 @@ public class BottomMenuController implements BottomNavigationView.OnNavigationIt
 
     @IdRes private int afterSignOutMenuItemId;
     private boolean afterSignOutMenuItemIdSet = false;
+    private boolean shouldOnSignOutChangeSelectedMenuItem = false;
 
     public BottomMenuController(BottomMenu view){
         this.view = view;
@@ -28,21 +29,31 @@ public class BottomMenuController implements BottomNavigationView.OnNavigationIt
 
     public void onSignedIn(){
         view.showSignedInMenu();
+        view.selectAfterSignInDefaultItem();
     }
 
     public void onSignedOut(){
         view.showSignedOutMenu();
-        if(afterSignOutMenuItemIdSet){
-            view.setSelectedItemId(afterSignOutMenuItemId);
-            afterSignOutMenuItemIdSet = false;
-        } else{
-            view.selectAfterSignOutDefaultItem();
+        if(shouldOnSignOutChangeSelectedMenuItem) {
+            if (afterSignOutMenuItemIdSet) {
+                view.setSelectedItemId(afterSignOutMenuItemId);
+                afterSignOutMenuItemIdSet = false;
+            } else {
+                view.selectAfterSignOutDefaultItem();
+            }
+            shouldOnSignOutChangeSelectedMenuItem = false;
         }
     }
 
-    public void setAfterSignOutMenuItemId(@IdRes int id){
-        this.afterSignOutMenuItemId = id;
+    public void setCurrentMenuItemAsAfterSignOutMenuItem(){
+        this.afterSignOutMenuItemId = view.getSelectedItemId();
         this.afterSignOutMenuItemIdSet = true;
+        this.shouldOnSignOutChangeSelectedMenuItem = true;
+    }
+
+    public void setDefaultSignOutMenuItemAsAfterSignOutMenuItem(){
+        this.afterSignOutMenuItemIdSet = false;
+        this.shouldOnSignOutChangeSelectedMenuItem = true;
     }
 
     @Override

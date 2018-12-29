@@ -36,12 +36,15 @@ public class BottomMenu extends BottomNavigationView {
         inflateMenu(signedOutMenuResource);
     }
 
-    public void selectAfterSignOutDefaultItem(){
+    public void selectAfterSignInDefaultItem(){
         setSelectedItemId(R.id.navigation_search);
+    }
+
+    public void selectAfterSignOutDefaultItem(){
+        setSelectedItemId(R.id.navigation_sign_in);
     }
 
     private void deleteMenuItems(){
         getMenu().clear();
     }
-
 }

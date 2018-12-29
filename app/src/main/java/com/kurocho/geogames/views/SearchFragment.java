@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.*;
 import butterknife.ButterKnife;
 import com.kurocho.geogames.R;
+import com.kurocho.geogames.views.base_fragment.SignInGuardedFragment;
 import com.kurocho.geogames.views.base_fragment.UnGuardedFragment;
 
 public class SearchFragment extends UnGuardedFragment implements SearchView.OnQueryTextListener {
