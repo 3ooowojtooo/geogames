@@ -7,12 +7,16 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.*;
+import butterknife.BindString;
 import butterknife.ButterKnife;
 import com.kurocho.geogames.R;
 import com.kurocho.geogames.views.base_fragment.SignInGuardedFragment;
 import com.kurocho.geogames.views.base_fragment.UnGuardedFragment;
 
 public class SearchFragment extends UnGuardedFragment implements SearchView.OnQueryTextListener {
+
+    @BindString(R.string.app_bar_title_search)
+    String appBarTitle;
 
     private MainActivity mainActivity;
 
@@ -42,6 +46,12 @@ public class SearchFragment extends UnGuardedFragment implements SearchView.OnQu
             throw new RuntimeException(this.getClass().getCanonicalName() + " can only be attached into MainActivity");
         }
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mainActivity.setBarTitle(appBarTitle);
     }
 
     @Override

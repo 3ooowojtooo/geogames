@@ -84,19 +84,15 @@ public class MainActivity extends AppCompatActivity implements FragNavController
         bottomMenuController.setBottomMenuEventsCallback(new BottomMenuController.BottomMenuEventsCallback() {
             @Override
             public void onSelectedMenuItemChanged(MenuItem item) {
-                setBarTitle(R.string.app_name);
                 switch(item.getItemId()){
                     case R.id.navigation_search:
                         fragNavController.switchTab(INDEX_SEARCH);
-                        setBarTitle(R.string.app_bar_title_search);
                         break;
                     case R.id.navigation_my_games:
                         fragNavController.switchTab(INDEX_GAMES);
-                        setBarTitle(R.string.app_bar_title_my_games);
                         break;
                     case R.id.navigation_sign_in:
                         fragNavController.switchTab(INDEX_SIGN_IN);
-                        setBarTitle(R.string.app_bar_title_sign_in);
                         break;
                     case R.id.navigation_sign_out:
                         processSignOut();
@@ -146,10 +142,10 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     }
 
 
-    private void setBarTitle(int resources){
+    void setBarTitle(String title){
         ActionBar bar = getSupportActionBar();
         if(bar != null){
-            bar.setTitle(resources);
+            bar.setTitle(title);
         }
     }
 

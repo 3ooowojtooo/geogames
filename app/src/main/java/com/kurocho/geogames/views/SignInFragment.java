@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -35,6 +36,9 @@ public class SignInFragment extends SignOutGuardedFragment {
 
     @BindView(R.id.sign_in_error)
     TextView error;
+
+    @BindString(R.string.app_bar_title_sign_in)
+    String appBarTitle;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -90,6 +94,11 @@ public class SignInFragment extends SignOutGuardedFragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mainActivity.setBarTitle(appBarTitle);
+    }
 
     private void initializeViewModelObserver(){
         viewModel.getSignInLiveData().observe(this, (@Nullable SignInLiveDataWrapper wrapper) -> {

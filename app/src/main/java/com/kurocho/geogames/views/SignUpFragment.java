@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -40,6 +41,9 @@ public class SignUpFragment extends SignOutGuardedFragment {
 
     @BindView(R.id.sign_up_success)
     TextView success;
+
+    @BindString(R.string.app_bar_title_sign_up)
+    String appBarTitle;
 
     private SignUpViewModel viewModel;
 
@@ -78,6 +82,12 @@ public class SignUpFragment extends SignOutGuardedFragment {
         View view = inflater.inflate(R.layout.sign_up, container, false);
         ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mainActivity.setBarTitle(appBarTitle);
     }
 
     @OnClick(R.id.sign_up_button)
