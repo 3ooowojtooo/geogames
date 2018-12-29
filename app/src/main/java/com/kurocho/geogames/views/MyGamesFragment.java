@@ -14,10 +14,11 @@ import butterknife.ButterKnife;
 import com.kurocho.geogames.R;
 import com.kurocho.geogames.api.GameDetails;
 import com.kurocho.geogames.viewmodels.my_games.GameItemAdapter;
+import com.kurocho.geogames.views.base_fragment.UnGuardedFragment;
 
 import java.util.ArrayList;
 
-public class MyGamesFragment extends Fragment {
+public class MyGamesFragment extends UnGuardedFragment {
 
     @BindView(R.id.my_games_recycler_view)
     RecyclerView mRecyclerView;

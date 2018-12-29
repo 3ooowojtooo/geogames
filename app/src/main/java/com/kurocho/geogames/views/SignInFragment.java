@@ -19,12 +19,13 @@ import butterknife.OnClick;
 import com.kurocho.geogames.R;
 import com.kurocho.geogames.viewmodels.sign_in.SignInLiveDataWrapper;
 import com.kurocho.geogames.viewmodels.sign_in.SignInViewModel;
+import com.kurocho.geogames.views.base_fragment.SignOutGuardedFragment;
 import dagger.android.support.AndroidSupportInjection;
 
 import javax.inject.Inject;
 
 
-public class SignInFragment extends Fragment {
+public class SignInFragment extends SignOutGuardedFragment {
 
     @BindView(R.id.sign_in_username)
     AutoCompleteTextView username;

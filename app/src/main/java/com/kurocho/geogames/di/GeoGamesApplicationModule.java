@@ -1,7 +1,7 @@
 package com.kurocho.geogames.di;
 
 import android.content.Context;
-import com.kurocho.geogames.views.GeoGamesApplication;
+import com.kurocho.geogames.GeoGamesApplication;
 import com.kurocho.geogames.views.MainActivity;
 import com.kurocho.geogames.di.api.ApiModule;
 import com.kurocho.geogames.di.main_activity.MainActivityModule;

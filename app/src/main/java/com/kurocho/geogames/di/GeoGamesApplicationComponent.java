@@ -1,6 +1,6 @@
 package com.kurocho.geogames.di;
 
-import com.kurocho.geogames.views.GeoGamesApplication;
+import com.kurocho.geogames.GeoGamesApplication;
 import dagger.Component;
 import dagger.android.AndroidInjector;
 
