@@ -1,5 +1,6 @@
 package com.kurocho.geogames.di.main_activity;
 
+import com.kurocho.geogames.views.SearchFragment;
 import com.kurocho.geogames.views.SignInFragment;
 import com.kurocho.geogames.views.SignUpFragment;
 import com.kurocho.geogames.di.sign_in_fragment.SignInFragmentModule;
@@ -18,5 +19,9 @@ public abstract class MainActivityModule {
     @PerFragment
     @ContributesAndroidInjector(modules = SignUpFragmentModule.class)
     abstract SignUpFragment injectSignUpFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract SearchFragment injectSearchFragment();
 }
 

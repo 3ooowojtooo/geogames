@@ -19,7 +19,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
         SearchItemBinding binding;
 
         public SearchItemViewHolder(SearchItemBinding binding) {
-            super(binding);
+            super(binding.getRoot());
             this.binding = binding;
         }
     }
