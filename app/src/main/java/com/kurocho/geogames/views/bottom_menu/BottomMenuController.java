@@ -1,6 +1,5 @@
 package com.kurocho.geogames.views.bottom_menu;
 
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.view.MenuItem;
@@ -10,12 +9,11 @@ public class BottomMenuController implements BottomNavigationView.OnNavigationIt
     private BottomMenu view;
     private BottomMenuEventsCallback callback = null;
 
-    @IdRes private int afterSignOutMenuItemId;
-    private boolean afterSignOutMenuItemIdSet = false;
-    private boolean shouldOnSignOutChangeSelectedMenuItem = false;
+    private AfterSignOutMenuItemManager signOutMenuItemManager;
 
     public BottomMenuController(BottomMenu view){
         this.view = view;
+        this.signOutMenuItemManager = new AfterSignOutMenuItemManager();
         init();
     }
 
@@ -34,26 +32,24 @@ public class BottomMenuController implements BottomNavigationView.OnNavigationIt
 
     public void onSignedOut(){
         view.showSignedOutMenu();
-        if(shouldOnSignOutChangeSelectedMenuItem) {
-            if (afterSignOutMenuItemIdSet) {
-                view.setSelectedItemId(afterSignOutMenuItemId);
-                afterSignOutMenuItemIdSet = false;
-            } else {
+        if(signOutMenuItemManager.shouldChangeMenu()){
+            if(signOutMenuItemManager.shouldUseNotDefaultId()){
+                int menuItemId = signOutMenuItemManager.getNotDefaultAfterSignOutMenuId();
+                view.setSelectedItemId(menuItemId);
+            } else if(signOutMenuItemManager.shouldUseDefaultId()){
                 view.selectAfterSignOutDefaultItem();
             }
-            shouldOnSignOutChangeSelectedMenuItem = false;
+            signOutMenuItemManager.reset();
         }
     }
 
     public void setCurrentMenuItemAsAfterSignOutMenuItem(){
-        this.afterSignOutMenuItemId = view.getSelectedItemId();
-        this.afterSignOutMenuItemIdSet = true;
-        this.shouldOnSignOutChangeSelectedMenuItem = true;
+        int currentMenuItemId = view.getSelectedItemId();
+        signOutMenuItemManager.useNotDefaultMenuItemId(currentMenuItemId);
     }
 
     public void setDefaultSignOutMenuItemAsAfterSignOutMenuItem(){
-        this.afterSignOutMenuItemIdSet = false;
-        this.shouldOnSignOutChangeSelectedMenuItem = true;
+        signOutMenuItemManager.useDefaultItemId();
     }
 
     @Override
