@@ -1,10 +1,11 @@
-package com.kurocho.geogames;
+package com.kurocho.geogames.views;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
+import com.kurocho.geogames.R;
 
 public class GameDialog extends DialogFragment {
 

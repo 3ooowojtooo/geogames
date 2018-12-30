@@ -1,7 +1,7 @@
 package com.kurocho.geogames.di.main_activity;
 
-import com.kurocho.geogames.SignInFragment;
-import com.kurocho.geogames.SignUpFragment;
+import com.kurocho.geogames.views.SignInFragment;
+import com.kurocho.geogames.views.SignUpFragment;
 import com.kurocho.geogames.di.sign_in_fragment.SignInFragmentModule;
 import com.kurocho.geogames.di.scopes.PerFragment;
 import com.kurocho.geogames.di.sign_up_fragment.SignUpFragmentModule;

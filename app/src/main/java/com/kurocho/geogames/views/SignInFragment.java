@@ -1,4 +1,4 @@
-package com.kurocho.geogames;
+package com.kurocho.geogames.views;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -13,17 +13,20 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.kurocho.geogames.R;
 import com.kurocho.geogames.viewmodels.sign_in.SignInLiveDataWrapper;
 import com.kurocho.geogames.viewmodels.sign_in.SignInViewModel;
+import com.kurocho.geogames.views.base_fragment.SignOutGuardedFragment;
 import dagger.android.support.AndroidSupportInjection;
 
 import javax.inject.Inject;
 
 
-public class SignInFragment extends Fragment {
+public class SignInFragment extends SignOutGuardedFragment {
 
     @BindView(R.id.sign_in_username)
     AutoCompleteTextView username;
@@ -33,6 +36,9 @@ public class SignInFragment extends Fragment {
 
     @BindView(R.id.sign_in_error)
     TextView error;
+
+    @BindString(R.string.app_bar_title_sign_in)
+    String appBarTitle;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -88,6 +94,11 @@ public class SignInFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mainActivity.setBarTitle(appBarTitle);
+    }
 
     private void initializeViewModelObserver(){
         viewModel.getSignInLiveData().observe(this, (@Nullable SignInLiveDataWrapper wrapper) -> {

@@ -1,6 +1,5 @@
-package com.kurocho.geogames;
+package com.kurocho.geogames.views;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,14 +9,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.kurocho.geogames.R;
 import com.kurocho.geogames.api.GameDetails;
 import com.kurocho.geogames.viewmodels.my_games.GameItemAdapter;
+import com.kurocho.geogames.views.base_fragment.UnGuardedFragment;
 
 import java.util.ArrayList;
 
-public class MyGamesFragment extends Fragment {
+public class MyGamesFragment extends UnGuardedFragment {
+
+    @BindString(R.string.app_bar_title_my_games)
+    String appBarTitle;
 
     @BindView(R.id.my_games_recycler_view)
     RecyclerView mRecyclerView;
@@ -51,6 +56,12 @@ public class MyGamesFragment extends Fragment {
         }
         mAdapter.setList(a);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mainActivity.setBarTitle(appBarTitle);
     }
 
     private void setUpRecyclerViewAdapter(){

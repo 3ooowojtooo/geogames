@@ -1,4 +1,4 @@
-package com.kurocho.geogames;
+package com.kurocho.geogames.views;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -13,16 +13,19 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.kurocho.geogames.R;
 import com.kurocho.geogames.viewmodels.sign_up.SignUpLiveDataWrapper;
 import com.kurocho.geogames.viewmodels.sign_up.SignUpViewModel;
+import com.kurocho.geogames.views.base_fragment.SignOutGuardedFragment;
 import dagger.android.support.AndroidSupportInjection;
 
 import javax.inject.Inject;
 
-public class SignUpFragment extends Fragment {
+public class SignUpFragment extends SignOutGuardedFragment {
 
     @BindView(R.id.sign_up_email)
     AutoCompleteTextView email;
@@ -38,6 +41,9 @@ public class SignUpFragment extends Fragment {
 
     @BindView(R.id.sign_up_success)
     TextView success;
+
+    @BindString(R.string.app_bar_title_sign_up)
+    String appBarTitle;
 
     private SignUpViewModel viewModel;
 
@@ -76,6 +82,12 @@ public class SignUpFragment extends Fragment {
         View view = inflater.inflate(R.layout.sign_up, container, false);
         ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mainActivity.setBarTitle(appBarTitle);
     }
 
     @OnClick(R.id.sign_up_button)

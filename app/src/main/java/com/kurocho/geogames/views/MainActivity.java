@@ -1,7 +1,6 @@
-package com.kurocho.geogames;
+package com.kurocho.geogames.views;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -13,10 +12,13 @@ import android.view.View;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.crashlytics.android.Crashlytics;
+import com.kurocho.geogames.BuildConfig;
+import com.kurocho.geogames.R;
 import com.kurocho.geogames.di.viewmodel_factory.ViewModelFactory;
-import com.kurocho.geogames.utils.sign_in.SignInUtils;
 import com.kurocho.geogames.viewmodels.main_activity.MainActivityViewModel;
-import com.kurocho.geogames.views.BottomMenu;
+import com.kurocho.geogames.views.base_fragment.GuardedFragment;
+import com.kurocho.geogames.views.bottom_menu.BottomMenu;
+import com.kurocho.geogames.views.bottom_menu.BottomMenuController;
 import com.ncapdevi.fragnav.FragNavController;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
@@ -28,8 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.inject.Inject;
 
 
-public class MainActivity extends AppCompatActivity implements FragNavController.RootFragmentListener, HasSupportFragmentInjector,
-        BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements FragNavController.RootFragmentListener, HasSupportFragmentInjector {
 
     private static final int INDEX_SEARCH = 0;
     private static final int INDEX_GAMES = 1;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     ViewModelFactory viewModelFactory;
 
     private MainActivityViewModel viewModel;
+    private BottomMenuController bottomMenuController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,13 +80,34 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     }
 
     private void initBottomMenu(){
-        navigation.setOnNavigationItemSelectedListener(this);
+        bottomMenuController = new BottomMenuController(navigation);
+        bottomMenuController.setBottomMenuEventsCallback(new BottomMenuController.BottomMenuEventsCallback() {
+            @Override
+            public void onSelectedMenuItemChanged(MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.navigation_search:
+                        fragNavController.switchTab(INDEX_SEARCH);
+                        break;
+                    case R.id.navigation_my_games:
+                        fragNavController.switchTab(INDEX_GAMES);
+                        break;
+                    case R.id.navigation_sign_in:
+                        fragNavController.switchTab(INDEX_SIGN_IN);
+                        break;
+                    case R.id.navigation_sign_out:
+                        processSignOut();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
         viewModel.getIsSignedInLiveData().observe(this, isSignedIn -> {
             if(isSignedIn != null) {
                 if (isSignedIn) {
-                    navigation.showSignedInMenu();
+                    bottomMenuController.onSignedIn();
                 } else {
-                    navigation.showSignedOutMenu();
+                    bottomMenuController.onSignedOut();
                 }
             }
         });
@@ -119,63 +142,39 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     }
 
 
-    void changeDisplayedFragmentToSearch() {
-        navigation.setSelectedItemId(R.id.navigation_search);
-    }
-
-    void changeDisplayedFragmentToMyGames() {
-        navigation.setSelectedItemId(R.id.navigation_my_games);
-    }
-
-    void changeDisplayedFragmentToLoginFragment() {
-        navigation.setSelectedItemId(R.id.navigation_sign_in);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        setBarTitle(R.string.app_name);
-        switch(menuItem.getItemId()){
-            case R.id.navigation_search:
-                fragNavController.switchTab(INDEX_SEARCH);
-                setBarTitle(R.string.app_bar_title_search);
-                break;
-            case R.id.navigation_my_games:
-                fragNavController.switchTab(INDEX_GAMES);
-                setBarTitle(R.string.app_bar_title_my_games);
-                break;
-            case R.id.navigation_sign_in:
-                fragNavController.switchTab(INDEX_SIGN_IN);
-                setBarTitle(R.string.app_bar_title_sign_in);
-                break;
-            case R.id.navigation_sign_out:
-                processSignOut();
-                break;
-            default:
-                return false;
-        }
-        return true;
-    }
-
-    private void setBarTitle(int resources){
+    void setBarTitle(String title){
         ActionBar bar = getSupportActionBar();
         if(bar != null){
-            bar.setTitle(resources);
+            bar.setTitle(title);
         }
     }
 
     void onSignInSuccess(){
-        showProgressOverlay();
         fragNavController.clearStack();
-        changeDisplayedFragmentToMyGames();
-        hideProgressOverlay();
     }
 
     void processSignOut(){
-        showProgressOverlay();
         fragNavController.clearStack();
+        setAfterSignOutMenuItem();
         viewModel.signOut();
-        changeDisplayedFragmentToSearch();
-        hideProgressOverlay();
+    }
+
+    private void setAfterSignOutMenuItem(){
+        GuardedFragment currentFragment;
+        try{
+            currentFragment = (GuardedFragment)fragNavController.getCurrentFrag();
+        } catch(ClassCastException e){
+            throw new RuntimeException("All fragments managed by bottom menu must extend GuardedFragment", e);
+        }
+
+        if(currentFragment != null){
+            if(currentFragment.requiresSignedInGuardType()){
+                bottomMenuController.setDefaultSignOutMenuItemAsAfterSignOutMenuItem();
+            } else{
+                bottomMenuController.setCurrentMenuItemAsAfterSignOutMenuItem();
+            }
+        }
+
     }
 
     void showProgressOverlay() {
@@ -203,4 +202,5 @@ public class MainActivity extends AppCompatActivity implements FragNavController
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentInjector;
     }
+
 }
