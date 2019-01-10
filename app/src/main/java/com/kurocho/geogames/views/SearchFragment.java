@@ -1,6 +1,5 @@
 package com.kurocho.geogames.views;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import butterknife.ButterKnife;
 import com.kurocho.geogames.R;
 import com.kurocho.geogames.di.viewmodel_factory.ViewModelFactory;
 import com.kurocho.geogames.repository.search.GameDetails;
-import com.kurocho.geogames.repository.search.GamesDetailsLiveDataWrapper;
 import com.kurocho.geogames.viewmodels.search.SearchItemAdapter;
 import com.kurocho.geogames.viewmodels.search.SearchViewModel;
 import com.kurocho.geogames.views.base_fragment.UnGuardedFragment;
@@ -59,6 +57,7 @@ public class SearchFragment extends UnGuardedFragment implements SearchView.OnQu
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SearchViewModel.class);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -75,40 +74,41 @@ public class SearchFragment extends UnGuardedFragment implements SearchView.OnQu
         super.onActivityCreated(savedInstanceState);
         if (getActivity() instanceof MainActivity) {
             mainActivity = (MainActivity) getActivity();
-            initializeViewModelObserver();
+            setLiveDataObservers();
         } else {
             throw new RuntimeException(this.getClass().getCanonicalName() + " can only be attached into MainActivity");
         }
-        setHasOptionsMenu(true);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mainActivity.setBarTitle(appBarTitle);
+        viewModel.loadGamesDetails();
     }
 
     @Override
     public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
         MenuItem item = menu.findItem(R.id.action_search);
-        SearchView sv = (SearchView) item.getActionView();
-        sv.setOnQueryTextListener(this);
-        sv.setIconifiedByDefault(false);
-        sv.setOnSearchClickListener(view -> Log.v("SEARCH","Clicked: "));
+        SearchView search = (SearchView) item.getActionView();
+        search.setOnQueryTextListener(this);
+        search.setIconifiedByDefault(false);
+        search.setOnSearchClickListener(view -> {
+                search.setQuery(viewModel.getSearchQuery(),false);
+        });
         super.onCreateOptionsMenu(menu,inflater);
     }
 
-
     @Override
     public boolean onQueryTextSubmit(String query) {
-        Log.v("SEARCH","Submitted: "+query);
+        viewModel.setSearchQuery(query);
+        viewModel.loadGamesDetails();
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        Log.v("SEARCH","Changed: "+newText);
         return false;
     }
 
@@ -117,14 +117,10 @@ public class SearchFragment extends UnGuardedFragment implements SearchView.OnQu
         recyclerView.setLayoutManager(recyclerViewLayoutManager);
         recyclerViewAdapter = new SearchItemAdapter();
         recyclerView.setAdapter(recyclerViewAdapter);
-
-        viewModel.loadGamesDetails("Asd");
     }
 
-    private void initializeViewModelObserver(){
-        viewModel.getGamesDetailsLiveData().observe(this, new Observer<GamesDetailsLiveDataWrapper>() {
-            @Override
-            public void onChanged(@Nullable GamesDetailsLiveDataWrapper wrapper) {
+    private void setLiveDataObservers(){
+        viewModel.getGamesDetailsLiveData().observe(this, wrapper -> {
                 if(wrapper != null){
                     if(wrapper.isIdle()){
                         processIdleLiveDataStatus();
@@ -136,7 +132,6 @@ public class SearchFragment extends UnGuardedFragment implements SearchView.OnQu
                         processSuccessLiveDataStatus(wrapper.getData());
                     }
                 }
-            }
         });
     }
 
