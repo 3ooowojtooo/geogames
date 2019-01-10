@@ -24,7 +24,6 @@ public class SearchViewModel extends ViewModel {
     }
 
     public void loadGamesDetails(){
-        Log.i("SEARCH", "LOAD - VM");
         repository.loadGameDetails(searchQuery);
     }
 
