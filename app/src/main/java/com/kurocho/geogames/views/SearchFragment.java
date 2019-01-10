@@ -160,7 +160,7 @@ public class SearchFragment extends UnGuardedFragment implements SearchView.OnQu
 
     @OnClick(R.id.create_game)
     void createGameButtonClickHandler(FloatingActionButton view){
-        Toast.makeText(mainActivity, "ok", Toast.LENGTH_LONG).show();
+        //Toast.makeText(mainActivity, "ok", Toast.LENGTH_LONG).show();
     }
 
 }
