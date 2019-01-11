@@ -2,10 +2,9 @@ package com.kurocho.geogames.views;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,8 +17,6 @@ import com.kurocho.geogames.R;
 import com.kurocho.geogames.di.viewmodel_factory.ViewModelFactory;
 import com.kurocho.geogames.viewmodels.create_game.CreateGameRecyclerViewAdapter;
 import com.kurocho.geogames.viewmodels.create_game.CreateGameViewModel;
-import com.kurocho.geogames.viewmodels.search.SearchItemAdapter;
-import com.kurocho.geogames.views.base_fragment.GuardedFragment;
 import com.kurocho.geogames.views.base_fragment.SignInGuardedFragment;
 import dagger.android.support.AndroidSupportInjection;
 
@@ -78,7 +75,8 @@ public class CreateGameFragment extends SignInGuardedFragment {
     private void initializeRecyclerView(){
         recyclerViewLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(recyclerViewLayoutManager);
-        recyclerViewAdapter = new CreateGameRecyclerViewAdapter(viewModel.getGameDetailsCreationObservable(), viewModel.getGameLevelCreationObservableList());
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        recyclerViewAdapter = new CreateGameRecyclerViewAdapter(viewModel.getGameDetailsCreationObservable(), viewModel.getGameLevelCreationObservablesList());
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 }

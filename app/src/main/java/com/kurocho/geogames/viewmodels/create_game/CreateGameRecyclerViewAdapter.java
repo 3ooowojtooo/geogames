@@ -5,18 +5,18 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import com.kurocho.geogames.R;
 import com.kurocho.geogames.databinding.CreateGameGameDetailsItemBinding;
 import com.kurocho.geogames.databinding.CreateGameLevelDetailsItemBinding;
-
-import java.util.List;
 
 public class CreateGameRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
    public static class GameDetailsViewHolder extends RecyclerView.ViewHolder {
        CreateGameGameDetailsItemBinding binding;
-        public GameDetailsViewHolder(CreateGameGameDetailsItemBinding binding){
+       GameDetailsViewHolder(CreateGameGameDetailsItemBinding binding){
             super(binding.getRoot());
             this.binding = binding;
         }
@@ -25,11 +25,20 @@ public class CreateGameRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
   public static class LevelDetailsViewHolder extends RecyclerView.ViewHolder {
       CreateGameLevelDetailsItemBinding binding;
 
-      public LevelDetailsViewHolder(CreateGameLevelDetailsItemBinding binding){
+      LevelDetailsViewHolder(CreateGameLevelDetailsItemBinding binding){
           super(binding.getRoot());
           this.binding = binding;
       }
 
+   }
+
+   public static class AddLevelViewHolder extends RecyclerView.ViewHolder {
+       Button addLevelButton;
+
+       AddLevelViewHolder(View addLevelView){
+           super(addLevelView);
+           addLevelButton = addLevelView.findViewById(R.id.add_level_button);
+       }
    }
 
     private static final int TYPE_GAME_DETAILS = 0;
@@ -37,10 +46,10 @@ public class CreateGameRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     private static final int TYPE_ADD_LEVEL = 2;
 
     private GameDetailsCreationObservable gameDetailsCreationObservable;
-    private List<GameLevelCreationObservable> gameLevelCreationObservableList;
+    private ListOfGameLevelCreationObservables gameLevelCreationObservableList;
 
     public CreateGameRecyclerViewAdapter(GameDetailsCreationObservable gameDetailsCreationObservable,
-                                         List<GameLevelCreationObservable> gameLevelCreationObservableList){
+                                         ListOfGameLevelCreationObservables gameLevelCreationObservableList){
         super();
         this.gameDetailsCreationObservable = gameDetailsCreationObservable;
         this.gameLevelCreationObservableList = gameLevelCreationObservableList;
@@ -60,8 +69,12 @@ public class CreateGameRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                         DataBindingUtil.inflate(LayoutInflater.from(viewGroup.getContext()),
                                 R.layout.create_game_level_details_item, viewGroup, false);
                 return new LevelDetailsViewHolder(binding2);
+            case TYPE_ADD_LEVEL:
+                View addLevelLayout = LayoutInflater.from(viewGroup.getContext()).
+                        inflate(R.layout.create_game_add_level_item, viewGroup, false);
+                return new AddLevelViewHolder(addLevelLayout);
             default:
-                return null;
+                throw new RuntimeException("Unknown view holder type: " + String.valueOf(viewType));
         }
     }
 
@@ -82,28 +95,32 @@ public class CreateGameRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                 });
                 break;
             case TYPE_ADD_LEVEL:
+                AddLevelViewHolder holder3 = (AddLevelViewHolder) viewHolder;
+                holder3.addLevelButton.setOnClickListener(v -> {
+                    gameLevelCreationObservableList.createAndAppendNewGameLevelObject();
+                    notifyDataSetChanged();
+                });
                 break;
             default:
-                break;
+                throw new RuntimeException("Unknown view holder type: " + String.valueOf(viewHolder.getItemViewType()));
         }
 
     }
 
     @Override
     public int getItemViewType(int position) {
-        Log.i("TYPE", "ABC");
         if(position == 0) {
-            Log.i("TYPE", "GD: "+ String.valueOf(position));
             return TYPE_GAME_DETAILS;
         }
-       else {
-            Log.i("TYPE", "LD: "+ String.valueOf(position));
+       else if(position == (getItemCount()-1)){
+            return TYPE_ADD_LEVEL;
+        } else {
             return TYPE_LEVEL_DETAILS;
         }
     }
 
     @Override
     public int getItemCount() {
-        return (1 + gameLevelCreationObservableList.size());
+        return (1 + gameLevelCreationObservableList.size() + 1);
     }
 }

@@ -8,10 +8,14 @@ public class GameLevelCreationObservable {
     public ObservableField<String> description;
     public ObservableField<String> ord;
 
-    public GameLevelCreationObservable(){
+    public GameLevelCreationObservable(int ord){
         answer = new ObservableField<>("");
         description = new ObservableField<>("");
-        ord = new ObservableField<>("");
+        this.ord = new ObservableField<>(String.valueOf(ord));
+    }
+
+    public void setOrdInteger(int ord){
+        this.ord.set(String.valueOf(ord));
     }
 
 }
