@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="com.kurocho.geogames.viewmodels.create_game.GameDetailsCreationObservable"/>
+        <variable name="gameDetailsCreationObservable" type="GameDetailsCreationObservable"/>
+    </data>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+        <EditText
+                android:id="@+id/game_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@{gameDetailsCreationObservable.title}"
+                android:hint="Game title"/>
+
+        <EditText
+                android:id="@+id/game_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start"
+                android:inputType="textMultiLine"
+                android:minLines="5"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:text="@{gameDetailsCreationObservable.description}"
+                android:hint="Game description"/>
+
+        <RadioGroup
+                android:id="@+id/game_type_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{gameDetailsCreationObservable.gameType.equals(GameDetailsCreationObservable.TYPE_PUBLIC)}"
+                    android:onClick="@{() -> gameDetailsCreationObservable.setGameType(GameDetailsCreationObservable.TYPE_PUBLIC)}"
+                    android:text="Public game"/>
+
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{gameDetailsCreationObservable.gameType.equals(GameDetailsCreationObservable.TYPE_PRIVATE)}"
+                    android:onClick="@{() -> gameDetailsCreationObservable.setGameType(GameDetailsCreationObservable.TYPE_PRIVATE)}"
+                    android:text="Private game"
+            />
+
+        </RadioGroup>
+
+    </LinearLayout>
+</layout>
