@@ -2,7 +2,6 @@ package com.kurocho.geogames.utils.create_game;
 
 import android.support.annotation.NonNull;
 import com.kurocho.geogames.api.Api;
-import com.kurocho.geogames.api.Token;
 import com.kurocho.geogames.api.create_game.GameCreationRequest;
 import com.kurocho.geogames.utils.exception.EmptyCredentialsException;
 import com.kurocho.geogames.utils.exception.TokenNotSetException;
@@ -67,7 +66,7 @@ public class CreateGameUtils {
         try{
             userToken = signInUtils.getToken().getToken();
         } catch (TokenNotSetException e){
-            callback.onError("Token not set"); //todo
+            callback.onError(messageUtils.getUnauthorizedMessage());
             return;
         }
 
@@ -98,7 +97,14 @@ public class CreateGameUtils {
     }
 
     private void processErrorResponse(Integer code){
-        callback.onError("api error: " + String.valueOf(code));
+        switch(code){
+            case 401:
+                callback.onError(messageUtils.getUnauthorizedMessage());
+                break;
+            default:
+                callback.onError(messageUtils.getInternalServerErrorMessage());
+                break;
+        }
     }
 
     private void processInternetErrorResponse(){

@@ -9,11 +9,12 @@ import java.util.ArrayList;
 public class GameCreationRequest {
 
     @NonNull private GameDetailsCreation gameDetailsCreation;
-    @NonNull private ArrayList<GameLevelCreation> gameLevels;
+    @NonNull private GameLevelCreation [] gameLevels;
 
-    public GameCreationRequest(GameDetailsCreation gameDetailsCreation, ArrayList<GameLevelCreation> gameLevels){
+    public GameCreationRequest(@NonNull GameDetailsCreation gameDetailsCreation, @NonNull ArrayList<GameLevelCreation> gameLevels){
         this.gameDetailsCreation = gameDetailsCreation;
-        this.gameLevels = gameLevels;
+        this.gameLevels = new GameLevelCreation[gameLevels.size()];
+        gameLevels.toArray(this.gameLevels);
     }
 
     @NonNull
@@ -22,7 +23,7 @@ public class GameCreationRequest {
     }
 
     @NonNull
-    public ArrayList<GameLevelCreation> getGameLevels() {
+    public GameLevelCreation[] getGameLevels() {
         return gameLevels;
     }
 }

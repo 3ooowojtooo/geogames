@@ -3,7 +3,6 @@ package com.kurocho.geogames.viewmodels.create_game;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,8 +89,10 @@ public class CreateGameRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                 GameLevelCreationObservable levelCreationObservable = gameLevelCreationObservableList.get(position-1);
                 holder2.binding.setGameLevelCreationObservable(levelCreationObservable);
                 holder2.binding.levelDeleteButton.setOnClickListener(v -> {
-                    gameLevelCreationObservableList.remove(levelCreationObservable);
-                    notifyDataSetChanged();
+                    if(gameLevelCreationObservableList.size() > 1) {
+                        gameLevelCreationObservableList.remove(levelCreationObservable);
+                        notifyDataSetChanged();
+                    }
                 });
                 break;
             case TYPE_ADD_LEVEL:

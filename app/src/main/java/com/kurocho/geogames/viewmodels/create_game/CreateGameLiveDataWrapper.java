@@ -40,8 +40,8 @@ public class CreateGameLiveDataWrapper {
         return new CreateGameLiveDataWrapper(CreateGameLiveDataStatus.IN_PROGRESS, "");
     }
 
-    static CreateGameLiveDataWrapper success(){
-        return new CreateGameLiveDataWrapper(CreateGameLiveDataStatus.SUCCESS, "");
+    static CreateGameLiveDataWrapper success(String message){
+        return new CreateGameLiveDataWrapper(CreateGameLiveDataStatus.SUCCESS, message);
     }
 
     static CreateGameLiveDataWrapper error(String errorMessage){

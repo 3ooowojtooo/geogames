@@ -1,5 +1,6 @@
 package com.kurocho.geogames.views;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.kurocho.geogames.R;
 import com.kurocho.geogames.di.viewmodel_factory.ViewModelFactory;
+import com.kurocho.geogames.viewmodels.create_game.CreateGameLiveDataWrapper;
 import com.kurocho.geogames.viewmodels.create_game.CreateGameRecyclerViewAdapter;
 import com.kurocho.geogames.viewmodels.create_game.CreateGameViewModel;
 import com.kurocho.geogames.views.base_fragment.SignInGuardedFragment;
@@ -64,6 +66,7 @@ public class CreateGameFragment extends SignInGuardedFragment {
         super.onActivityCreated(savedInstanceState);
         if (getActivity() instanceof MainActivity) {
             mainActivity = (MainActivity) getActivity();
+            initializeCreateGameLiveDataObserver();
         } else {
             throw new RuntimeException(this.getClass().getCanonicalName() + " can only be attached into MainActivity");
         }
@@ -76,14 +79,6 @@ public class CreateGameFragment extends SignInGuardedFragment {
         ButterKnife.bind(this, view);
         initializeRecyclerView();
         return view;
-    }
-
-    private void initializeRecyclerView(){
-        recyclerViewLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(recyclerViewLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        recyclerViewAdapter = new CreateGameRecyclerViewAdapter(viewModel.getGameDetailsCreationObservable(), viewModel.getGameLevelCreationObservablesList());
-        recyclerView.setAdapter(recyclerViewAdapter);
     }
 
     @Override
@@ -103,27 +98,50 @@ public class CreateGameFragment extends SignInGuardedFragment {
         }
     }
 
-
-    public static class SnackbarPushUpViewBehaviour extends CoordinatorLayout.Behavior<RecyclerView> {
-
-        public SnackbarPushUpViewBehaviour(){
-            super();
-        }
-
-        public SnackbarPushUpViewBehaviour(Context context, AttributeSet attr){
-            super(context, attr);
-        }
-
-        @Override
-        public boolean layoutDependsOn(@NonNull CoordinatorLayout parent, @NonNull RecyclerView child, @NonNull View dependency) {
-            return dependency instanceof Snackbar.SnackbarLayout;
-        }
-
-        @Override
-        public boolean onDependentViewChanged(@NonNull CoordinatorLayout parent, @NonNull RecyclerView child, @NonNull View dependency) {
-            float translationY = Math.min(0, dependency.getTranslationY() - dependency.getHeight());
-            child.setTranslationY(translationY);
-            return true;
-        }
+    private void initializeRecyclerView(){
+        recyclerViewLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(recyclerViewLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        recyclerViewAdapter = new CreateGameRecyclerViewAdapter(viewModel.getGameDetailsCreationObservable(), viewModel.getGameLevelCreationObservablesList());
+        recyclerView.setAdapter(recyclerViewAdapter);
     }
+
+    private void initializeCreateGameLiveDataObserver(){
+        viewModel.getCreateGameLiveData().observe(this, new Observer<CreateGameLiveDataWrapper>() {
+            @Override
+            public void onChanged(@Nullable CreateGameLiveDataWrapper wrapper) {
+                if(wrapper.isIdle()){
+                    processIdleLiveDataStatus();
+                } else if(wrapper.isInProgress()){
+                    processInProgressLiveDataStatus();
+                } else if(wrapper.isError()){
+                    String message = wrapper.getMessage();
+                    processErrorLiveDataStatus(message);
+                } else if(wrapper.isSuccess()){
+                    String message = wrapper.getMessage();
+                    processSuccessLiveDataStatus(message);
+                }
+            }
+        });
+    }
+
+    private void processIdleLiveDataStatus(){
+        mainActivity.hideProgressOverlay();
+    }
+
+    private void processInProgressLiveDataStatus(){
+        mainActivity.showProgressOverlay();
+    }
+
+    private void processSuccessLiveDataStatus(String message){
+        mainActivity.hideProgressOverlay();
+        Snackbar.make(createGameLayout, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    private void processErrorLiveDataStatus(String message){
+        mainActivity.hideProgressOverlay();
+        Snackbar.make(createGameLayout, message, Snackbar.LENGTH_LONG).show();
+    }
+
+
 }
