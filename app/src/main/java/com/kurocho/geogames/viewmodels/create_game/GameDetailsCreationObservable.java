@@ -23,4 +23,8 @@ public class GameDetailsCreationObservable {
     public void setGameType(String gameType){
         this.gameType = gameType;
     }
+
+    public GameDetailsCreation toNotObservable(){
+        return new GameDetailsCreation(title.get(), description.get(), gameType);
+    }
 }

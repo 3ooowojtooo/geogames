@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 public class ListOfGameLevelCreationObservables extends ArrayList<GameLevelCreationObservable> {
 
-    public ListOfGameLevelCreationObservables(){
+    ListOfGameLevelCreationObservables(){
         super();
     }
 
-    public void createAndAppendNewGameLevelObject(){
+    void createAndAppendNewGameLevelObject(){
         GameLevelCreationObservable newLevel = new GameLevelCreationObservable(size()+1);
         add(newLevel);
     }
@@ -45,4 +45,14 @@ public class ListOfGameLevelCreationObservables extends ArrayList<GameLevelCreat
             }
         }
     }
+
+    ArrayList<GameLevelCreation> toNotObservable(){
+        ArrayList<GameLevelCreation> result = new ArrayList<>();
+        for(GameLevelCreationObservable currentElement : this){
+            result.add(currentElement.toNotObservable());
+        }
+        return result;
+    }
+
+
 }
