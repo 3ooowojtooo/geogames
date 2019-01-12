@@ -1,5 +1,6 @@
 package com.kurocho.geogames.api;
 
+import com.kurocho.geogames.api.create_game.GameCreationRequest;
 import com.kurocho.geogames.api.sign_up.SignUpApiResponse;
 import com.kurocho.geogames.api.sign_up.SignUpCredentials;
 import retrofit2.Call;
@@ -15,6 +16,9 @@ public interface Api {
 
     @POST(AUTH_API_URL+"auth/authenticate")
     Call<Void> signIn(@Body SignInCredentials c);
+
+    @POST(BASE_URL+"game/create")
+    Call<Void> createGame(@Body GameCreationRequest gameCreationRequest, @Header("Authenticate") String token);
 
 //    @POST("users/{user}")
 //    Call<User> getUser(@Path("user") String username);

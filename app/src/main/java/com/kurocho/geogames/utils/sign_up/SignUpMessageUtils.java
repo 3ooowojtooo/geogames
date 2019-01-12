@@ -35,7 +35,7 @@ class SignUpMessageUtils {
     }
 
     @Inject
-    public SignUpMessageUtils(@ApplicationContext Context context){
+    SignUpMessageUtils(@ApplicationContext Context context){
         this.context = context;
         initialize();
     }

@@ -32,7 +32,7 @@ public class GameLevelCreationObservable {
     }
 
     GameLevelCreation toNotObservable(){
-        return new GameLevelCreation(description.get(), answer.get(), ord.get());
+        return new GameLevelCreation(description.get(), answer.get(), Integer.valueOf(ord.get()));
     }
 
 }

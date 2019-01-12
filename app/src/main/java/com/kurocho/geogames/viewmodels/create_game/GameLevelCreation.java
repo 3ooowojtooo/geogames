@@ -4,10 +4,10 @@ public class GameLevelCreation {
 
     private String description;
     private String answer;
-    private String ord;
+    private int ord;
     private String coordinates;
 
-    public GameLevelCreation(String description, String answer, String ord){
+    public GameLevelCreation(String description, String answer, int ord){
         this.description = description;
         this.answer = answer;
         this.ord = ord;
@@ -22,7 +22,7 @@ public class GameLevelCreation {
         return answer;
     }
 
-    public String getOrd() {
+    public int getOrd() {
         return ord;
     }
 

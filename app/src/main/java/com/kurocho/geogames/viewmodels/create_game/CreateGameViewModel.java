@@ -2,17 +2,21 @@ package com.kurocho.geogames.viewmodels.create_game;
 
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
+import com.kurocho.geogames.utils.create_game.CreateGameUtils;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 
 public class CreateGameViewModel extends ViewModel {
 
+    private CreateGameUtils createGameUtils;
+
     private GameDetailsCreationObservable gameDetailsCreationObservable;
     private ListOfGameLevelCreationObservables gameLevelCreationObservableList;
 
     @Inject
-    CreateGameViewModel(){
+    CreateGameViewModel(CreateGameUtils createGameUtils){
+        this.createGameUtils = createGameUtils;
         gameDetailsCreationObservable = new GameDetailsCreationObservable();
         gameLevelCreationObservableList = new ListOfGameLevelCreationObservables();
     }
@@ -29,7 +33,7 @@ public class CreateGameViewModel extends ViewModel {
         GameDetailsCreation gameDetails = gameDetailsCreationObservable.toNotObservable();
         ArrayList<GameLevelCreation> levelsDetails = gameLevelCreationObservableList.toNotObservable();
 
-        Log.i("CREATE", "T: " + gameDetails.getDescription());
+
     }
 
 }

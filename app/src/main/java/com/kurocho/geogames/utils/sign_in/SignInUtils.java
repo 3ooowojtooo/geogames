@@ -7,6 +7,7 @@ import com.kurocho.geogames.api.Api;
 import com.kurocho.geogames.api.SignInCredentials;
 import com.kurocho.geogames.api.Token;
 import com.kurocho.geogames.utils.exception.EmptyCredentialsException;
+import com.kurocho.geogames.utils.exception.TokenNotSetException;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,6 +62,10 @@ public class SignInUtils{
 
     public boolean isUserSignedIn(){
         return tokenUtils.isTokenSet();
+    }
+
+    public Token getToken() throws TokenNotSetException {
+        return tokenUtils.getToken();
     }
 
     public LiveData<Boolean> getIsUserSignedInLiveData(){
