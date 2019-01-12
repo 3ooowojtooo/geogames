@@ -14,7 +14,8 @@
     <string name="create_account_empty_credentials">Credentials cannot be empty.</string>
     <string name="create_account_invalid_email">Invalid email.</string>
     <string name="create_account_undefined_api_error">Internal server error. Please, contact the administrator.</string>
-    <string name="create_account_internet_error">Couldn`t connect to the server. Check your internet connection.</string>
+    <string name="create_account_internet_error">Couldn`t connect to the server. Check your internet connection.
+    </string>
 
     <string name="sign_in_username">username</string>
     <string name="sign_in_password">password</string>
@@ -39,7 +40,14 @@
     <string name="game_title">Game Title</string>
     <string name="author">Author</string>
 
+    <string name="create_game_empty_fields">No field can be empty.</string>
+    <string name="create_game_success">Game has been created successfully.</string>
+    <string name="create_game_internet_error">Check your internet connection.</string>
+    <string name="create_game_unauthorized_error">Session has expired. Please sign in again.</string>
+    <string name="create_game_internal_server_error">Internal server error.</string>
+
 
     <string name="app_label">App label</string>
     <string name="search_hint">Search games</string>
+
 </resources>

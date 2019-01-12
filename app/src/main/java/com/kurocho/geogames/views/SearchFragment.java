@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -165,13 +164,17 @@ public class SearchFragment extends UnGuardedFragment implements SearchView.OnQu
     @OnClick(R.id.create_game)
     void createGameButtonClickHandler(FloatingActionButton view){
        if(viewModel.canCreateGame()){
-
+            switchToCreateGameFragment();
        } else {
-            showNotallowedToCreateGameMessage();
+            showNotAllowedToCreateGameMessage();
        }
     }
 
-    private void showNotallowedToCreateGameMessage(){
+    private void switchToCreateGameFragment(){
+        mainActivity.getFragNavController().pushFragment(CreateGameFragment.newInstance());
+    }
+
+    private void showNotAllowedToCreateGameMessage(){
         Snackbar.make(searchLayout, "You must be signed in.", Snackbar.LENGTH_LONG).show();
     }
 
