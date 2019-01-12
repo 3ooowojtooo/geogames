@@ -16,11 +16,6 @@ public class ListOfGameLevelCreationObservables extends ArrayList<GameLevelCreat
         add(newLevel);
     }
 
-    @Override
-    public void clear() {
-        super.clear();
-        reindexLevelsOrdinalNumbers();
-    }
 
     @Override
     public GameLevelCreationObservable remove(int index) {

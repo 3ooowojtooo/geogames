@@ -9,15 +9,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class SignUpLiveDataWrapper {
     @NonNull private SignUpLiveDataStatus status;
-    @NotNull private String message;
+    @NonNull private String message;
 
-    private SignUpLiveDataWrapper(@NotNull SignUpLiveDataStatus status,
-                                  @NotNull String message){
+    private SignUpLiveDataWrapper(@NonNull SignUpLiveDataStatus status,
+                                  @NonNull String message){
         this.status = status;
         this.message = message;
     }
 
-    @NotNull
+    @NonNull
     public String getMessage(){
         return message;
     }
@@ -46,11 +46,11 @@ public class SignUpLiveDataWrapper {
         return new SignUpLiveDataWrapper(SignUpLiveDataStatus.IN_PROGRESS, "");
     }
 
-    static SignUpLiveDataWrapper success(@NotNull String message){
+    static SignUpLiveDataWrapper success(@NonNull String message){
         return new SignUpLiveDataWrapper(SignUpLiveDataStatus.SUCCESS, message);
     }
 
-    static SignUpLiveDataWrapper error(@NotNull String message){
+    static SignUpLiveDataWrapper error(@NonNull String message){
         return new SignUpLiveDataWrapper(SignUpLiveDataStatus.ERROR, message);
     }
 

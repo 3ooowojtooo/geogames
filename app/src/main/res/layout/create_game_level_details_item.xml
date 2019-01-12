@@ -51,6 +51,7 @@
                 android:scrollbars="vertical"
                 android:scrollHorizontally="false"
                 android:text="@{gameLevelCreationObservable.description}"
+                android:afterTextChanged="@{gameLevelCreationObservable::afterDescriptionChanged}"
                 android:hint="Level description"/>
 
         <EditText
@@ -59,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:text="@{gameLevelCreationObservable.answer}"
+                android:afterTextChanged="@{gameLevelCreationObservable::afterAnswerChanged}"
                 android:hint="Answer" />
     </LinearLayout>
 </layout>
