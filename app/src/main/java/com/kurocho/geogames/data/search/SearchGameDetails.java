@@ -1,17 +1,15 @@
 package com.kurocho.geogames.data.search;
 
-import com.kurocho.geogames.data.Timestamp;
-
 public class SearchGameDetails {
 
-    private Timestamp dateCreated;
+    private long dateCreated;
     private String description;
     private int gameId;
     private String gameType;
     private String inviteUrl;
     private String title;
 
-    public SearchGameDetails(Timestamp dateCreated, String description, int gameId, String gameType, String inviteUrl, String title) {
+    public SearchGameDetails(long dateCreated, String description, int gameId, String gameType, String inviteUrl, String title) {
         this.dateCreated = dateCreated;
         this.description = description;
         this.gameId = gameId;
@@ -20,7 +18,7 @@ public class SearchGameDetails {
         this.title = title;
     }
 
-    public Timestamp getDateCreated() {
+    public long getDateCreated() {
         return dateCreated;
     }
 
@@ -44,72 +42,4 @@ public class SearchGameDetails {
         return title;
     }
 
-
-
-//    public static class Timestamp{
-//        private int date;
-//        private int day;
-//        private int hours;
-//        private int minutes;
-//        private int month;
-//        private int nans;
-//        private int seconds;
-//        private int time;
-//        private int timezoneOffset;
-//        private int year;
-//
-//
-//        Timestamp(int date, int day, int hours, int minutes, int month, int nans, int seconds, int time, int timezoneOffset, int year) {
-//            this.date = date;
-//            this.day = day;
-//            this.hours = hours;
-//            this.minutes = minutes;
-//            this.month = month;
-//            this.nans = nans;
-//            this.seconds = seconds;
-//            this.time = time;
-//            this.timezoneOffset = timezoneOffset;
-//            this.year = year;
-//        }
-//
-//        public int getDate() {
-//            return date;
-//        }
-//
-//        public int getDay() {
-//            return day;
-//        }
-//
-//        public int getHours() {
-//            return hours;
-//        }
-//
-//        public int getMinutes() {
-//            return minutes;
-//        }
-//
-//        public int getMonth() {
-//            return month;
-//        }
-//
-//        public int getNans() {
-//            return nans;
-//        }
-//
-//        public int getSeconds() {
-//            return seconds;
-//        }
-//
-//        public int getTime() {
-//            return time;
-//        }
-//
-//        public int getTimezoneOffset() {
-//            return timezoneOffset;
-//        }
-//
-//        public int getYear() {
-//            return year;
-//        }
-//    }
 }

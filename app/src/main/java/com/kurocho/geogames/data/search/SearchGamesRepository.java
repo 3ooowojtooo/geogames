@@ -2,7 +2,12 @@ package com.kurocho.geogames.data.search;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.support.annotation.NonNull;
+import com.kurocho.geogames.api.Api;
 import com.kurocho.geogames.data.Timestamp;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,10 +19,12 @@ public class SearchGamesRepository {
 
     private MutableLiveData<SearchGamesDetailsLiveDataWrapper> gameDetailsLiveData;
     private SearchCache cache;
+    private Api api;
 
     @Inject
-    SearchGamesRepository(SearchCache cache){
+    SearchGamesRepository(SearchCache cache, Api api){
         this.cache = cache;
+        this.api = api;
         gameDetailsLiveData = new MutableLiveData<>();
         setIdleLiveDataStatus();
     }
@@ -27,15 +34,50 @@ public class SearchGamesRepository {
     }
 
     public void loadGameDetails(String query){
-        setInProgressLiveDataStatus();
+        if(gameDetailsLiveData.getValue() != null) {
+            if(!gameDetailsLiveData.getValue().isInProgress()) {
+                setInProgressLiveDataStatus();
 
-        if(cache.isQueryCached(query)){
-            setSuccessLiveDataStatus(cache.getCachedData());
-        } else {
-            List<SearchGameDetails> data = getExampleGameDetails(); // acquire data from api
-            cache.store(query, data);
-            setSuccessLiveDataStatus(data);
+                if (cache.isQueryCached(query)) {
+                    setSuccessLiveDataStatus(cache.getCachedData());
+                } else {
+                    loadGameDetailsFromAPI(query);
+                }
+            }
         }
+    }
+
+    private void loadGameDetailsFromAPI(String query){
+        api.getPublicGames().enqueue(new Callback<List<SearchGameDetails>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<SearchGameDetails>> call, @NonNull Response<List<SearchGameDetails>> response) {
+                if(response.isSuccessful()){
+                    List<SearchGameDetails> body = response.body();
+                    if(body != null){
+                        processSuccessResponse(query, body);
+                    } else{
+                        processErrorResponse("Internal server error");
+                    }
+                } else{
+                    processErrorResponse("Api error: " + String.valueOf(response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<SearchGameDetails>> call, @NonNull Throwable t) {
+                processErrorResponse(t.getMessage());
+            }
+        });
+    }
+
+    private void processSuccessResponse(String query, @NonNull List<SearchGameDetails> games){
+        cache.store(query, games);
+        setSuccessLiveDataStatus(games);
+    }
+
+    private void processErrorResponse(String message){
+        setErrorLiveDataStatus(message);
+        setIdleLiveDataStatus();
     }
 
     private void setIdleLiveDataStatus(){
@@ -50,10 +92,8 @@ public class SearchGamesRepository {
         gameDetailsLiveData.setValue(SearchGamesDetailsLiveDataWrapper.success(data));
     }
 
-    private List<SearchGameDetails> getExampleGameDetails(){
-        SearchGameDetails game1 = new SearchGameDetails(new Timestamp(0, 2, 3, 2, 4, 5, 6, 7, 8, 9),
-                "This is super op description", 1, "PUBLIC", "www.google.pl", "Saple game 1");
-        return Arrays.asList(game1);
+    private void setErrorLiveDataStatus(String message){
+        gameDetailsLiveData.setValue(SearchGamesDetailsLiveDataWrapper.error(message));
     }
 
 }
