@@ -1,4 +1,4 @@
-package com.kurocho.geogames.repository.search;
+package com.kurocho.geogames.data.search;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.Collection;
 
 class SearchCache {
     private String query;
-    private ArrayList<GameDetails> data;
+    private ArrayList<SearchGameDetails> data;
     private boolean isCached;
 
     @Inject
@@ -16,7 +16,7 @@ class SearchCache {
         isCached = false;
     }
 
-    void store(String query, Collection<? extends GameDetails> data){
+    void store(String query, Collection<? extends SearchGameDetails> data){
         this.query = query;
         this.data.clear();
         this.data.addAll(data);
@@ -27,7 +27,7 @@ class SearchCache {
         return (this.isCached && this.query.equals(query));
     }
 
-    ArrayList<GameDetails> getCachedData(){
+    ArrayList<SearchGameDetails> getCachedData(){
         return data;
     }
 }

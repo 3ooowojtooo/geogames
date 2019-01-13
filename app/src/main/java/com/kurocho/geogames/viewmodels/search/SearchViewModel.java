@@ -2,9 +2,8 @@ package com.kurocho.geogames.viewmodels.search;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
-import android.util.Log;
-import com.kurocho.geogames.repository.search.GamesDetailsLiveDataWrapper;
-import com.kurocho.geogames.repository.search.SearchGamesRepository;
+import com.kurocho.geogames.data.search.SearchGamesDetailsLiveDataWrapper;
+import com.kurocho.geogames.data.search.SearchGamesRepository;
 import com.kurocho.geogames.utils.sign_in.SignInUtils;
 
 import javax.inject.Inject;
@@ -22,7 +21,7 @@ public class SearchViewModel extends ViewModel {
         searchQuery = "";
     }
 
-    public LiveData<GamesDetailsLiveDataWrapper> getGamesDetailsLiveData(){
+    public LiveData<SearchGamesDetailsLiveDataWrapper> getGamesDetailsLiveData(){
         return repository.getGameDetailsLiveData();
     }
 

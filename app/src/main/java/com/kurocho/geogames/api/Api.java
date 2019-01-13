@@ -17,7 +17,7 @@ public interface Api {
     @POST(AUTH_API_URL+"auth/authenticate")
     Call<Void> signIn(@Body SignInCredentials c);
 
-    @POST(BASE_URL+"game/create")
+    @POST(BASE_URL+"private/create")
     Call<Void> createGame(@Body GameCreationRequest gameCreationRequest, @Header("Authorization") String token);
 
 //    @POST("users/{user}")

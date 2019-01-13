@@ -18,8 +18,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.kurocho.geogames.R;
+import com.kurocho.geogames.data.search.SearchGameDetails;
 import com.kurocho.geogames.di.viewmodel_factory.ViewModelFactory;
-import com.kurocho.geogames.repository.search.GameDetails;
 import com.kurocho.geogames.viewmodels.search.SearchItemAdapter;
 import com.kurocho.geogames.viewmodels.search.SearchViewModel;
 import com.kurocho.geogames.views.base_fragment.UnGuardedFragment;
@@ -154,7 +154,7 @@ public class SearchFragment extends UnGuardedFragment implements SearchView.OnQu
         Toast.makeText(mainActivity, message, Toast.LENGTH_LONG).show();
     }
 
-    private void processSuccessLiveDataStatus(List<GameDetails> data){
+    private void processSuccessLiveDataStatus(List<SearchGameDetails> data){
         mainActivity.hideProgressOverlay();
         if(data != null){
             recyclerViewAdapter.setData(data);

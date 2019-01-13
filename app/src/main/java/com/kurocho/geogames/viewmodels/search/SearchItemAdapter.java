@@ -6,8 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import com.kurocho.geogames.R;
+import com.kurocho.geogames.data.search.SearchGameDetails;
 import com.kurocho.geogames.databinding.SearchItemBinding;
-import com.kurocho.geogames.repository.search.GameDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +24,13 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
         }
     }
 
-    private List<GameDetails> data;
+    private List<SearchGameDetails> data;
 
     public SearchItemAdapter(){
         data = new ArrayList<>();
     }
 
-    public void setData(List<GameDetails> games){
+    public void setData(List<SearchGameDetails> games){
         this.data.clear();
         this.data.addAll(games);
         this.notifyDataSetChanged();
@@ -47,7 +47,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
 
     @Override
     public void onBindViewHolder(@NonNull SearchItemViewHolder searchItemViewHolder, int i) {
-        GameDetails game = data.get(i);
+        SearchGameDetails game = data.get(i);
         searchItemViewHolder.binding.setGame(game);
     }
 
