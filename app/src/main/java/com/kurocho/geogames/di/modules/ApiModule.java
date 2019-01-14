@@ -1,4 +1,4 @@
-package com.kurocho.geogames.di.api;
+package com.kurocho.geogames.di.modules;
 
 import com.kurocho.geogames.api.Api;
 import dagger.Module;

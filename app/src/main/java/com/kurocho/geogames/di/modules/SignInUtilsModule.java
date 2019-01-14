@@ -1,4 +1,4 @@
-package com.kurocho.geogames.di.sign_in_utils;
+package com.kurocho.geogames.di.modules;
 
 import android.content.Context;
 import android.content.SharedPreferences;

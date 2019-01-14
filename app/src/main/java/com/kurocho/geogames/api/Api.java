@@ -1,10 +1,14 @@
 package com.kurocho.geogames.api;
 
 import com.kurocho.geogames.api.create_game.GameCreationRequest;
+import com.kurocho.geogames.api.download_game.GameRetrievalRequest;
 import com.kurocho.geogames.api.sign_up.SignUpApiResponse;
 import com.kurocho.geogames.api.sign_up.SignUpCredentials;
+import com.kurocho.geogames.data.search.SearchGameDetails;
 import retrofit2.Call;
 import retrofit2.http.*;
+
+import java.util.List;
 
 public interface Api {
 
@@ -17,8 +21,16 @@ public interface Api {
     @POST(AUTH_API_URL+"auth/authenticate")
     Call<Void> signIn(@Body SignInCredentials c);
 
-    @POST(BASE_URL+"game/create")
+    @POST(BASE_URL+"private/create")
     Call<Void> createGame(@Body GameCreationRequest gameCreationRequest, @Header("Authorization") String token);
+
+    @GET(BASE_URL+"public/games")
+    Call<List<SearchGameDetails>> getPublicGames();
+
+    @GET(BASE_URL+"public/{gameid}")
+    Call<GameRetrievalRequest> getGame(@Path("gameid") Integer gameId);
+
+
 
 //    @POST("users/{user}")
 //    Call<User> getUser(@Path("user") String username);

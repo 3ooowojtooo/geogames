@@ -3,11 +3,13 @@ package com.kurocho.geogames.viewmodels.search;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import com.kurocho.geogames.R;
+import com.kurocho.geogames.data.search.SearchGameDetails;
 import com.kurocho.geogames.databinding.SearchItemBinding;
-import com.kurocho.geogames.repository.search.GameDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +26,15 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
         }
     }
 
-    private List<GameDetails> data;
+    private List<SearchGameDetails> data;
+    private DownloadGameInterface downloadGameInterface;
 
-    public SearchItemAdapter(){
+    public SearchItemAdapter(DownloadGameInterface downloadGameInterface){
+        this.downloadGameInterface = downloadGameInterface;
         data = new ArrayList<>();
     }
 
-    public void setData(List<GameDetails> games){
+    public void setData(List<SearchGameDetails> games){
         this.data.clear();
         this.data.addAll(games);
         this.notifyDataSetChanged();
@@ -47,12 +51,23 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
 
     @Override
     public void onBindViewHolder(@NonNull SearchItemViewHolder searchItemViewHolder, int i) {
-        GameDetails game = data.get(i);
+        SearchGameDetails game = data.get(i);
         searchItemViewHolder.binding.setGame(game);
+        searchItemViewHolder.binding.download.setOnClickListener(v -> {
+            downloadGameInterface.download(game);
+        });
     }
 
     @Override
     public int getItemCount() {
         return data.size();
     }
+
+
+
+    @FunctionalInterface
+    public interface DownloadGameInterface{
+        void download(SearchGameDetails gameDetails);
+    }
 }
+

@@ -8,18 +8,18 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.*;
-import android.widget.Toast;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.kurocho.geogames.R;
+import com.kurocho.geogames.data.search.SearchGameDetails;
 import com.kurocho.geogames.di.viewmodel_factory.ViewModelFactory;
-import com.kurocho.geogames.repository.search.GameDetails;
 import com.kurocho.geogames.viewmodels.search.SearchItemAdapter;
 import com.kurocho.geogames.viewmodels.search.SearchViewModel;
 import com.kurocho.geogames.views.base_fragment.UnGuardedFragment;
@@ -121,7 +121,8 @@ public class SearchFragment extends UnGuardedFragment implements SearchView.OnQu
     private void initializeRecyclerView(){
         recyclerViewLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(recyclerViewLayoutManager);
-        recyclerViewAdapter = new SearchItemAdapter();
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        recyclerViewAdapter = new SearchItemAdapter(viewModel::downloadGame);
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
@@ -135,9 +136,23 @@ public class SearchFragment extends UnGuardedFragment implements SearchView.OnQu
                     } else if(wrapper.isError()){
                         processErrorLiveDataStatus(wrapper.getErrorMessage());
                     } else if(wrapper.isSuccess()){
-                        processSuccessLiveDataStatus(wrapper.getData());
+                        processSuccessGameDetailsLiveDataStatus(wrapper.getData());
                     }
                 }
+        });
+
+        viewModel.getDownloadGameLiveData().observe(this, wrapper ->{
+            if(wrapper != null){
+                if(wrapper.isIdle()){
+                    processIdleLiveDataStatus();
+                } else if(wrapper.isInProgress()){
+                    processInProgressLiveDataStatus();
+                } else if(wrapper.isError()){
+                    processErrorLiveDataStatus(wrapper.getMessage());
+                } else if(wrapper.isSuccess()){
+                    processSuccessDownloadGameLiveDataStatus(wrapper.getMessage());
+                }
+            }
         });
     }
 
@@ -151,14 +166,19 @@ public class SearchFragment extends UnGuardedFragment implements SearchView.OnQu
 
     private void processErrorLiveDataStatus(String message){
         mainActivity.hideProgressOverlay();
-        Toast.makeText(mainActivity, message, Toast.LENGTH_LONG).show();
+        Snackbar.make(searchLayout, message, Snackbar.LENGTH_LONG).show();
     }
 
-    private void processSuccessLiveDataStatus(List<GameDetails> data){
+    private void processSuccessGameDetailsLiveDataStatus(List<SearchGameDetails> data){
         mainActivity.hideProgressOverlay();
         if(data != null){
             recyclerViewAdapter.setData(data);
         }
+    }
+
+    private void processSuccessDownloadGameLiveDataStatus(String message){
+        mainActivity.hideProgressOverlay();
+        Snackbar.make(searchLayout, message, Snackbar.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.create_game)
