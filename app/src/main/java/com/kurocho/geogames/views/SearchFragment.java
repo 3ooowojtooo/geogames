@@ -123,7 +123,7 @@ public class SearchFragment extends UnGuardedFragment implements SearchView.OnQu
         recyclerViewLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(recyclerViewLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        recyclerViewAdapter = new SearchItemAdapter();
+        recyclerViewAdapter = new SearchItemAdapter(viewModel::downloadGame);
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 

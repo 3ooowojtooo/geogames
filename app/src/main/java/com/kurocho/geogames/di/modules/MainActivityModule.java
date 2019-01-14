@@ -1,12 +1,10 @@
-package com.kurocho.geogames.di.main_activity;
+package com.kurocho.geogames.di.modules;
 
 import com.kurocho.geogames.views.CreateGameFragment;
 import com.kurocho.geogames.views.SearchFragment;
 import com.kurocho.geogames.views.SignInFragment;
 import com.kurocho.geogames.views.SignUpFragment;
-import com.kurocho.geogames.di.sign_in_fragment.SignInFragmentModule;
 import com.kurocho.geogames.di.scopes.PerFragment;
-import com.kurocho.geogames.di.sign_up_fragment.SignUpFragmentModule;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
@@ -14,11 +12,11 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class MainActivityModule {
 
     @PerFragment
-    @ContributesAndroidInjector(modules = SignInFragmentModule.class)
+    @ContributesAndroidInjector
     abstract SignInFragment injectSignInFragment();
 
     @PerFragment
-    @ContributesAndroidInjector(modules = SignUpFragmentModule.class)
+    @ContributesAndroidInjector
     abstract SignUpFragment injectSignUpFragment();
 
     @PerFragment

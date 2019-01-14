@@ -3,8 +3,10 @@ package com.kurocho.geogames.viewmodels.search;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import com.kurocho.geogames.R;
 import com.kurocho.geogames.data.search.SearchGameDetails;
 import com.kurocho.geogames.databinding.SearchItemBinding;
@@ -25,8 +27,10 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
     }
 
     private List<SearchGameDetails> data;
+    private DownloadGameInterface downloadGameInterface;
 
-    public SearchItemAdapter(){
+    public SearchItemAdapter(DownloadGameInterface downloadGameInterface){
+        this.downloadGameInterface = downloadGameInterface;
         data = new ArrayList<>();
     }
 
@@ -49,10 +53,22 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
     public void onBindViewHolder(@NonNull SearchItemViewHolder searchItemViewHolder, int i) {
         SearchGameDetails game = data.get(i);
         searchItemViewHolder.binding.setGame(game);
+        searchItemViewHolder.binding.download.setOnClickListener(v -> {
+            Log.i("SEARCH", "download: " + String.valueOf(game.getGameId()));
+            downloadGameInterface.download(game);
+        });
     }
 
     @Override
     public int getItemCount() {
         return data.size();
     }
+
+
+
+    @FunctionalInterface
+    public interface DownloadGameInterface{
+        void download(SearchGameDetails gameDetails);
+    }
 }
+

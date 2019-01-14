@@ -1,6 +1,7 @@
 package com.kurocho.geogames.api;
 
 import com.kurocho.geogames.api.create_game.GameCreationRequest;
+import com.kurocho.geogames.api.download_game.GameRetrievalRequest;
 import com.kurocho.geogames.api.sign_up.SignUpApiResponse;
 import com.kurocho.geogames.api.sign_up.SignUpCredentials;
 import com.kurocho.geogames.data.search.SearchGameDetails;
@@ -25,6 +26,11 @@ public interface Api {
 
     @GET(BASE_URL+"public/games")
     Call<List<SearchGameDetails>> getPublicGames();
+
+    @GET(BASE_URL+"public/{gameid}")
+    Call<GameRetrievalRequest> getGame(@Path("gameid") Integer gameId);
+
+
 
 //    @POST("users/{user}")
 //    Call<User> getUser(@Path("user") String username);

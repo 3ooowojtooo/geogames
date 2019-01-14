@@ -4,7 +4,6 @@ import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
-import com.kurocho.geogames.data.Timestamp;
 
 @Entity(tableName = "game_details",
     indices = {@Index(value = {"gameId"}, unique = true)})
@@ -17,9 +16,22 @@ public class GameDetailsEntity {
     private String description;
     private String gameType;
     private String inviteUrl;
+    private int levelsCompleted;
+    private int numbersOfLevels;
+    private long dateCreated;
 
-    @Embedded
-    private Timestamp dateCreated;
+    public static GameDetailsEntity fromGameDetails(GameDetails gameDetails, int levelsCompleted, int numberOfLevels){
+        GameDetailsEntity entity = new GameDetailsEntity();
+        entity.setGameId(gameDetails.getGameId());
+        entity.setLevelsCompleted(levelsCompleted);
+        entity.setNumbersOfLevels(numberOfLevels);
+        entity.setTitle(gameDetails.getTitle());
+        entity.setInviteUrl(gameDetails.getInviteUrl());
+        entity.setGameType(gameDetails.getGameType());
+        entity.setDescription(gameDetails.getDescription());
+        entity.setDateCreated(gameDetails.getDateCreated());
+        return entity;
+    }
 
     public int getGameId() {
         return gameId;
@@ -61,11 +73,27 @@ public class GameDetailsEntity {
         this.inviteUrl = inviteUrl;
     }
 
-    public Timestamp getDateCreated() {
+    public long getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Timestamp dateCreated) {
+    public void setDateCreated(long dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public int getLevelsCompleted() {
+        return levelsCompleted;
+    }
+
+    public void setLevelsCompleted(int levelsCompleted) {
+        this.levelsCompleted = levelsCompleted;
+    }
+
+    public int getNumbersOfLevels() {
+        return numbersOfLevels;
+    }
+
+    public void setNumbersOfLevels(int numbersOfLevels) {
+        this.numbersOfLevels = numbersOfLevels;
     }
 }
