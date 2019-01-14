@@ -46,6 +46,6 @@ public class CreateGameMessageUtils {
         this.successMessage = context.getString(R.string.create_game_success);
         this.internetErrorMessage = context.getString(R.string.create_game_internet_error);
         this.unauthorizedMessage = context.getString(R.string.create_game_unauthorized_error);
-        this.internetErrorMessage = context.getString(R.string.create_game_internal_server_error);
+        this.internalServerErrorMessage = context.getString(R.string.create_game_internal_server_error);
     }
 }
