@@ -1,6 +1,7 @@
 package com.kurocho.geogames.viewmodels.search;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 import com.kurocho.geogames.api.download_game.GameRetrievalRequest;
@@ -23,6 +24,9 @@ public class SearchViewModel extends ViewModel {
 
     private String searchQuery;
 
+
+    private MutableLiveData<DownloadGameLiveDataWrapper> downloadGameLiveData;
+
     @Inject
     SearchViewModel(SearchGamesRepository repository, SignInUtils signInUtils, DownloadGameUtils downloadGameUtils, MyGamesUtils myGamesUtils){
         this.repository = repository;
@@ -31,10 +35,17 @@ public class SearchViewModel extends ViewModel {
         this.myGamesUtils = myGamesUtils;
 
         searchQuery = "";
+        downloadGameLiveData = new MutableLiveData<>();
+        setIdleDownloadGameLiveDataStatus();
+
     }
 
     public LiveData<SearchGamesDetailsLiveDataWrapper> getGamesDetailsLiveData(){
         return repository.getGameDetailsLiveData();
+    }
+
+    public LiveData<DownloadGameLiveDataWrapper> getDownloadGameLiveData(){
+        return downloadGameLiveData;
     }
 
     public void loadGamesDetails(){
@@ -54,36 +65,62 @@ public class SearchViewModel extends ViewModel {
     }
 
     public void downloadGame(SearchGameDetails gameDetails){
-        downloadGameUtils.downloadGame(gameDetails.getGameId(), new DownloadGameUtils.DownloadGameCallback() {
-            @Override
-            public void onSuccess(GameRetrievalRequest game) {
-                myGamesUtils.saveGame(game, new MyGamesUtils.SaveGameCallback() {
+        if(downloadGameLiveData.getValue() != null) {
+            if(!downloadGameLiveData.getValue().isInProgress()) {
+                setInProgressDownloadGameLiveDataStatus();
+                downloadGameUtils.downloadGame(gameDetails.getGameId(), new DownloadGameUtils.DownloadGameCallback() {
                     @Override
-                    public void onSuccess() {
-                        Log.i("DOWNLOAD", "success-saved");
+                    public void onSuccess(GameRetrievalRequest game) {
+                        myGamesUtils.saveGame(game, new MyGamesUtils.SaveGameCallback() {
+                            @Override
+                            public void onSuccess() {
+                                setSuccessDownloadGameLiveDataStatus("Game has been added to My Games.");
+                                setIdleDownloadGameLiveDataStatus();
+                            }
+
+                            @Override
+                            public void onDuplicate() {
+                                setErrorDownloadGameLiveDataStatus("Game already added to My Games.");
+                                setIdleDownloadGameLiveDataStatus();
+                            }
+                        });
                     }
 
                     @Override
-                    public void onDuplicate() {
-                        Log.i("DOWNLOAD", "duplicated");
+                    public void onGameNotFound() {
+                        setErrorDownloadGameLiveDataStatus("Game not found.");
+                        setIdleDownloadGameLiveDataStatus();
+                    }
+
+                    @Override
+                    public void onInternalServerError() {
+                        setErrorDownloadGameLiveDataStatus("Internal server error");
+                        setIdleDownloadGameLiveDataStatus();
+                    }
+
+                    @Override
+                    public void onInternetError(String message) {
+                        setErrorDownloadGameLiveDataStatus("Check your internet connection.");
+                        setIdleDownloadGameLiveDataStatus();
                     }
                 });
             }
+        }
+    }
 
-            @Override
-            public void onGameNotFound() {
-                Log.i("DOWNLOAD", "not found");
-            }
+    private void setIdleDownloadGameLiveDataStatus(){
+        downloadGameLiveData.setValue(DownloadGameLiveDataWrapper.idle());
+    }
 
-            @Override
-            public void onInternalServerError() {
-                Log.i("DOWNLOAD", "internal server error");
-            }
+    private void setInProgressDownloadGameLiveDataStatus(){
+        downloadGameLiveData.setValue(DownloadGameLiveDataWrapper.inProgress());
+    }
 
-            @Override
-            public void onInternetError(String message) {
-                Log.i("DOWNLOAD", message);
-            }
-        });
+    private void setSuccessDownloadGameLiveDataStatus(String message){
+        downloadGameLiveData.setValue(DownloadGameLiveDataWrapper.success(message));
+    }
+
+    private void setErrorDownloadGameLiveDataStatus(String message){
+        downloadGameLiveData.setValue(DownloadGameLiveDataWrapper.error(message));
     }
 }

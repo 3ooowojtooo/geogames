@@ -137,9 +137,23 @@ public class SearchFragment extends UnGuardedFragment implements SearchView.OnQu
                     } else if(wrapper.isError()){
                         processErrorLiveDataStatus(wrapper.getErrorMessage());
                     } else if(wrapper.isSuccess()){
-                        processSuccessLiveDataStatus(wrapper.getData());
+                        processSuccessGameDetailsLiveDataStatus(wrapper.getData());
                     }
                 }
+        });
+
+        viewModel.getDownloadGameLiveData().observe(this, wrapper ->{
+            if(wrapper != null){
+                if(wrapper.isIdle()){
+                    processIdleLiveDataStatus();
+                } else if(wrapper.isInProgress()){
+                    processInProgressLiveDataStatus();
+                } else if(wrapper.isError()){
+                    processErrorLiveDataStatus(wrapper.getMesssage());
+                } else if(wrapper.isSuccess()){
+                    processSuccessDownloadGameLiveDataStatus(wrapper.getMesssage());
+                }
+            }
         });
     }
 
@@ -153,14 +167,19 @@ public class SearchFragment extends UnGuardedFragment implements SearchView.OnQu
 
     private void processErrorLiveDataStatus(String message){
         mainActivity.hideProgressOverlay();
-        Toast.makeText(mainActivity, message, Toast.LENGTH_LONG).show();
+        Snackbar.make(searchLayout, message, Snackbar.LENGTH_LONG).show();
     }
 
-    private void processSuccessLiveDataStatus(List<SearchGameDetails> data){
+    private void processSuccessGameDetailsLiveDataStatus(List<SearchGameDetails> data){
         mainActivity.hideProgressOverlay();
         if(data != null){
             recyclerViewAdapter.setData(data);
         }
+    }
+
+    private void processSuccessDownloadGameLiveDataStatus(String message){
+        mainActivity.hideProgressOverlay();
+        Snackbar.make(searchLayout, message, Snackbar.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.create_game)
