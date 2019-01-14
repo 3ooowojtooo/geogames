@@ -1,7 +1,5 @@
 package com.kurocho.geogames.data.my_games;
 
-import com.kurocho.geogames.data.Timestamp;
-
 public class GameDetails {
     private int gameId;
     private String title;

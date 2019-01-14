@@ -54,7 +54,6 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
         SearchGameDetails game = data.get(i);
         searchItemViewHolder.binding.setGame(game);
         searchItemViewHolder.binding.download.setOnClickListener(v -> {
-            Log.i("SEARCH", "download: " + String.valueOf(game.getGameId()));
             downloadGameInterface.download(game);
         });
     }

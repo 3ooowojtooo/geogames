@@ -2,7 +2,6 @@ package com.kurocho.geogames.utils.my_games;
 
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
-import android.util.Log;
 import com.kurocho.geogames.api.download_game.GameRetrievalRequest;
 import com.kurocho.geogames.data.my_games.DecryptedLevelEntity;
 import com.kurocho.geogames.data.my_games.EncryptedLevelEntity;
@@ -23,15 +22,23 @@ public class MyGamesUtils {
         void onDuplicate();
     }
 
+    public interface GetAllGamesCallback{
+        void onSuccess(List<GameDetailsEntity> games);
+    }
+
     private MyGamesDatabase database;
 
     @Inject
-    public MyGamesUtils(MyGamesDatabase database){
+    MyGamesUtils(MyGamesDatabase database){
         this.database = database;
     }
 
     public void saveGame(GameRetrievalRequest gameRetrievalRequest, SaveGameCallback callback){
         new SaveGameAsyncTask(database, callback).execute(gameRetrievalRequest);
+    }
+
+    public void getAllGames(GetAllGamesCallback callback){
+        new GetAllGamesAsyncTask(database, callback).execute();
     }
 
 
@@ -40,7 +47,7 @@ public class MyGamesUtils {
         private SaveGameCallback callback;
         private MyGamesDatabase database;
 
-        public SaveGameAsyncTask(MyGamesDatabase database, SaveGameCallback callback) {
+        SaveGameAsyncTask(MyGamesDatabase database, SaveGameCallback callback) {
             super();
             this.database = database;
             this.callback = callback;
@@ -48,8 +55,6 @@ public class MyGamesUtils {
 
         @Override
         protected SaveGameStatus doInBackground(GameRetrievalRequest... gameRetrievalRequests) {
-            Log.i("DOWNLOAD", "DIB");
-            Log.i("DOWNLOAD", String.valueOf(database.myGamesDao().getAllGames().size()));
             GameRetrievalRequest gameRetrievalRequest = gameRetrievalRequests[0];
             GameDetailsEntity gameDetailsEntity = GameDetailsEntity.fromGameDetails(gameRetrievalRequest.getGameDetails(),
                     0,
@@ -87,5 +92,25 @@ public class MyGamesUtils {
 
     private enum SaveGameStatus{
         SUCCESS, DUPLICATED
+    }
+
+    private static class GetAllGamesAsyncTask extends AsyncTask<Void, Void, List<GameDetailsEntity>>{
+        private MyGamesDatabase database;
+        private GetAllGamesCallback callback;
+
+        GetAllGamesAsyncTask(MyGamesDatabase database, GetAllGamesCallback callback){
+            this.database = database;
+            this.callback = callback;
+        }
+
+        @Override
+        protected List<GameDetailsEntity> doInBackground(Void... voids) {
+            return database.myGamesDao().getAllGames();
+        }
+
+        @Override
+        protected void onPostExecute(List<GameDetailsEntity> gameDetailsEntities) {
+            callback.onSuccess(gameDetailsEntities);
+        }
     }
 }

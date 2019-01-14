@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.widget.SearchView;
 import com.kurocho.geogames.viewmodels.create_game.CreateGameViewModel;
 import com.kurocho.geogames.viewmodels.main_activity.MainActivityViewModel;
+import com.kurocho.geogames.viewmodels.my_games.MyGamesViewModel;
 import com.kurocho.geogames.viewmodels.search.SearchViewModel;
 import com.kurocho.geogames.viewmodels.sign_in.SignInViewModel;
 import com.kurocho.geogames.viewmodels.sign_up.SignUpViewModel;
@@ -40,5 +41,10 @@ public abstract class ViewModelFactoryModule {
     @Binds
     @IntoMap
     @ViewModelKey(CreateGameViewModel.class)
-    abstract ViewModel bindCreateGameModel(CreateGameViewModel createGameViewModel);
+    abstract ViewModel bindCreateGameViewModel(CreateGameViewModel createGameViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MyGamesViewModel.class)
+    abstract ViewModel bindMyGamesViewModel(MyGamesViewModel myGamesViewModel);
 }

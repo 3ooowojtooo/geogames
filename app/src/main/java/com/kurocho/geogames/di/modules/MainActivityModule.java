@@ -1,9 +1,6 @@
 package com.kurocho.geogames.di.modules;
 
-import com.kurocho.geogames.views.CreateGameFragment;
-import com.kurocho.geogames.views.SearchFragment;
-import com.kurocho.geogames.views.SignInFragment;
-import com.kurocho.geogames.views.SignUpFragment;
+import com.kurocho.geogames.views.*;
 import com.kurocho.geogames.di.scopes.PerFragment;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -26,5 +23,9 @@ public abstract class MainActivityModule {
     @PerFragment
     @ContributesAndroidInjector
     abstract CreateGameFragment injectCreateGameFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract MyGamesFragment injectMyGamesFragment();
 }
 

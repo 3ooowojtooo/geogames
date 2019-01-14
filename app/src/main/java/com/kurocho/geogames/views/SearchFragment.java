@@ -13,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.*;
-import android.widget.Toast;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -149,9 +148,9 @@ public class SearchFragment extends UnGuardedFragment implements SearchView.OnQu
                 } else if(wrapper.isInProgress()){
                     processInProgressLiveDataStatus();
                 } else if(wrapper.isError()){
-                    processErrorLiveDataStatus(wrapper.getMesssage());
+                    processErrorLiveDataStatus(wrapper.getMessage());
                 } else if(wrapper.isSuccess()){
-                    processSuccessDownloadGameLiveDataStatus(wrapper.getMesssage());
+                    processSuccessDownloadGameLiveDataStatus(wrapper.getMessage());
                 }
             }
         });

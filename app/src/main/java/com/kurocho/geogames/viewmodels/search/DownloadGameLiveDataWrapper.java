@@ -4,11 +4,11 @@ import android.support.annotation.NonNull;
 
 public class DownloadGameLiveDataWrapper {
     private @NonNull Status status;
-    private @NonNull String messsage;
+    private @NonNull String message;
 
     private DownloadGameLiveDataWrapper(@NonNull Status status, @NonNull String message){
         this.status = status;
-        this.messsage = message;
+        this.message = message;
     }
 
     @NonNull
@@ -17,8 +17,8 @@ public class DownloadGameLiveDataWrapper {
     }
 
     @NonNull
-    public String getMesssage() {
-        return messsage;
+    public String getMessage() {
+        return message;
     }
 
     public boolean isIdle(){
