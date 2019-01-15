@@ -32,11 +32,11 @@ public abstract class MyGamesDao {
     public abstract List<GameDetailsEntity> getAllGames();
 
     @Query("SELECT * FROM game_details WHERE gameId = :gameId")
-    abstract GameDetailsEntity getGameById(int gameId);
+    public abstract GameDetailsEntity getGameById(int gameId);
 
     @Query("SELECT * FROM encrypted_levels WHERE gameId = :gameId ORDER BY ord ASC")
-    abstract List<EncryptedLevelEntity> getEncryptedLevelsByGameId(int gameId);
+    public abstract List<EncryptedLevelEntity> getEncryptedLevelsByGameId(int gameId);
 
     @Query("SELECT * FROM decrypted_levels WHERE gameId = :gameId ORDER BY ord ASC")
-    abstract List<DecryptedLevelEntity> getDecryptedLevelsByGameId(int gameId);
+    public abstract List<DecryptedLevelEntity> getDecryptedLevelsByGameId(int gameId);
 }

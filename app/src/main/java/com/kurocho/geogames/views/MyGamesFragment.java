@@ -112,13 +112,16 @@ public class MyGamesFragment extends UnGuardedFragment {
     }
 
     private void launchGame(int gameId){
-        Toast.makeText(mainActivity, String.valueOf(gameId), Toast.LENGTH_LONG).show();
+        Bundle bundle = new Bundle();
+        bundle.putInt("gameId", gameId);
+        PlayGameFragment fragment = new PlayGameFragment();
+        fragment.setArguments(bundle);
+        mainActivity.getFragNavController().pushFragment(fragment);
     }
 
     private void processIdleListMyGamesLiveDataStatus(){
         mainActivity.hideProgressOverlay();
     }
-
     private void processInProgressListMyGamesLiveDataStatus(){
         mainActivity.showProgressOverlay();
     }
