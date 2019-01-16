@@ -63,7 +63,7 @@ public class SearchGamesRepository {
 
             @Override
             public void onFailure(@NonNull Call<List<SearchGameDetails>> call, @NonNull Throwable t) {
-                processErrorResponse(t.getMessage());
+                processErrorResponse("Check your internet connection.");
             }
         });
     }
