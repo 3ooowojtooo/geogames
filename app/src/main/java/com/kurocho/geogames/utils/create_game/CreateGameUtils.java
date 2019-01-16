@@ -69,8 +69,9 @@ public class CreateGameUtils {
             callback.onError(messageUtils.getUnauthorizedMessage());
             return;
         }
-
+        addVirtualLevel(gameLevelCreations);
         GameCreationRequest gameCreationRequest = new GameCreationRequest(gameDetailsCreation, gameLevelCreations);
+
 
         api.createGame(gameCreationRequest, userToken).enqueue(new Callback<Void>() {
             @Override
@@ -89,7 +90,11 @@ public class CreateGameUtils {
             }
         });
 
+    }
 
+    private void addVirtualLevel(ArrayList<GameLevelCreation> gameLevels){
+        GameLevelCreation virtualLevel = new GameLevelCreation("virtuallevel", "virtuallevel", gameLevels.size()+1);
+        gameLevels.add(virtualLevel);
     }
 
     private void processSuccessfulResponse(){

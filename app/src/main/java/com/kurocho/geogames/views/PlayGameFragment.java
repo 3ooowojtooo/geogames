@@ -12,9 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.TextView;
+import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.kurocho.geogames.R;
 import com.kurocho.geogames.data.my_games.DecryptedLevelEntity;
 import com.kurocho.geogames.data.my_games.GameDetailsEntity;
@@ -27,6 +28,12 @@ import javax.inject.Inject;
 
 public class PlayGameFragment extends UnGuardedFragment {
 
+    @BindView(R.id.game_level_layout)
+    LinearLayout gameLevelLayout;
+
+    @BindView(R.id.game_completed)
+    TextView gameCompleted;
+
     @BindView(R.id.game_title)
     TextView title;
 
@@ -38,6 +45,9 @@ public class PlayGameFragment extends UnGuardedFragment {
 
     @BindView(R.id.level_description)
     TextView levelDescription;
+
+    @BindView(R.id.level_answer)
+    EditText levelAnswer;
 
     private PlayGameViewModel viewModel;
 
@@ -79,11 +89,12 @@ public class PlayGameFragment extends UnGuardedFragment {
         }
     }
 
+
+
     private void obtainGameIdAndInitializeViewModel(){
         Bundle arguments = getArguments();
         if(arguments != null && arguments.containsKey("gameId")){
             int gameId = arguments.getInt("gameId");
-            Log.i("PLAY", String.valueOf(gameId));
             viewModel.initialize(gameId);
         } else {
             throw new RuntimeException("PlayGameFragment: gameId argument not set.");
@@ -99,30 +110,51 @@ public class PlayGameFragment extends UnGuardedFragment {
                     processInProgressLiveDataStatus();
                 } else if(wrapper.isLoaded()){
                     processLoadedLiveDataStatus(wrapper.getGame(), wrapper.getLevel());
+                } else if(wrapper.isGameCompleted()){
+                    processCompletedLiveDataStatus();
+                } else if(wrapper.isError()){
+                    processErrorLiveDataStatus(wrapper.getMessage());
                 }
             }
         });
     }
 
+    @OnClick(R.id.check_answer)
+    public void checkAnswer(View v){
+        String answer = levelAnswer.getText().toString();
+        viewModel.decryptCurrentLevel(answer);
+    }
+
     private void processIdleLiveDataStatus(){
         mainActivity.hideProgressOverlay();
-        Log.i("PLAY", "idle");
     }
 
     private void processInProgressLiveDataStatus(){
         mainActivity.showProgressOverlay();
-        Log.i("PLAY", "progress");
     }
 
     private void processLoadedLiveDataStatus(GameDetailsEntity gameDetails, DecryptedLevelEntity currentLevel){
-        Log.i("PLAY", "loaded");
         if(gameDetails != null && currentLevel != null){
+            this.gameLevelLayout.setVisibility(View.VISIBLE);
+            this.gameCompleted.setVisibility(View.GONE);
+
             this.title.setText(gameDetails.getTitle());
             this.currentLevel.setText(String.valueOf(gameDetails.getLevelsCompleted()+1));
-            this.numberOfLevels.setText(String.valueOf(gameDetails.getNumbersOfLevels()));
+            this.numberOfLevels.setText(String.valueOf(gameDetails.getNumbersOfLevels()-1));
             this.levelDescription.setText(currentLevel.getDescription());
         }
         mainActivity.hideProgressOverlay();
+    }
+
+    private void processCompletedLiveDataStatus(){
+        this.gameLevelLayout.setVisibility(View.GONE);
+        this.gameCompleted.setVisibility(View.VISIBLE);
+        mainActivity.hideProgressOverlay();
+    }
+
+    private void processErrorLiveDataStatus(String message){
+        mainActivity.hideProgressOverlay();
+        Toast.makeText(mainActivity, message, Toast.LENGTH_LONG).show();
     }
 
 

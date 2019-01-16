@@ -1,6 +1,7 @@
 package com.kurocho.geogames.data.my_games;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
@@ -30,6 +31,11 @@ public class GameDetailsEntity {
         entity.setDescription(gameDetails.getDescription());
         entity.setDateCreated(gameDetails.getDateCreated());
         return entity;
+    }
+
+    @Ignore
+    public boolean isGameCompleted(){
+        return (getLevelsCompleted()+1) == getNumbersOfLevels();
     }
 
     public int getGameId() {

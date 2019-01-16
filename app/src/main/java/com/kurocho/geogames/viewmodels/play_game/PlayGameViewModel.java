@@ -7,6 +7,8 @@ import android.util.Log;
 import com.kurocho.geogames.data.my_games.DecryptedLevelEntity;
 import com.kurocho.geogames.data.my_games.EncryptedLevelEntity;
 import com.kurocho.geogames.data.my_games.GameDetailsEntity;
+import com.kurocho.geogames.utils.play_game.GameDecryptUtils;
+import com.kurocho.geogames.utils.play_game.GameDecryptUtils_Factory;
 import com.kurocho.geogames.utils.play_game.PlayGameUtils;
 
 import javax.inject.Inject;
@@ -14,10 +16,9 @@ import javax.inject.Inject;
 public class PlayGameViewModel extends ViewModel {
 
     private PlayGameUtils playGameUtils;
+    private GameDecryptUtils gameDecryptUtils;
 
-    private boolean isInitialized;
     private int gameId;
-    private boolean lastLevel;
 
     private GameDetailsEntity gameDetailsEntity;
     private DecryptedLevelEntity currentLevel;
@@ -26,15 +27,14 @@ public class PlayGameViewModel extends ViewModel {
     private MutableLiveData<PlayGameLiveDataWrapper> playGameLiveData;
 
     @Inject
-    PlayGameViewModel(PlayGameUtils playGameUtils){
+    PlayGameViewModel(PlayGameUtils playGameUtils, GameDecryptUtils gameDecryptUtils){
         this.playGameUtils = playGameUtils;
+        this.gameDecryptUtils = gameDecryptUtils;
         this.playGameLiveData = new MutableLiveData<>();
         clear();
     }
 
     public void clear(){
-        isInitialized = false;
-        lastLevel = false;
         gameDetailsEntity = null;
         currentLevel = null;
         nextLevel = null;
@@ -43,8 +43,6 @@ public class PlayGameViewModel extends ViewModel {
 
     public void initialize(int gameId){
         this.gameId = gameId;
-        this.isInitialized = true;
-        Log.i("PLAY", "vm-init: " + gameId);
         loadCurrentGameAndLevel();
     }
 
@@ -57,20 +55,51 @@ public class PlayGameViewModel extends ViewModel {
             if(!playGameLiveData.getValue().isInProgress()) {
                 setInProgressLiveDataStatus();
                 playGameUtils.getGameAndCurrentLevel(gameId, (game, nextLevel, decryptedLevel) -> {
-                    Log.i("PLAY", "got game");
                     this.gameDetailsEntity = game;
                     this.currentLevel = decryptedLevel;
                     this.nextLevel = nextLevel;
-
-                    if (nextLevel == null) {
-                        lastLevel = true;
-                    } else {
-                        lastLevel = false;
+                    if(this.gameDetailsEntity.isGameCompleted()){
+                        setGameCompletedLiveDataStatus();
+                    } else{
+                        setLoadedLiveDataStatus();
                     }
-                    setLoadedLiveDataStatus();
                 });
             }
         }
+    }
+
+    public void decryptCurrentLevel(String answer){
+        if(playGameLiveData.getValue() != null){
+            if(!playGameLiveData.getValue().isInProgress()){
+                setInProgressLiveDataStatus();
+                gameDecryptUtils.decryptEncryptedLevelEntity(nextLevel, answer, new GameDecryptUtils.DecryptLevelCallback() {
+                    @Override
+                    public void onSuccess(DecryptedLevelEntity decryptedLevelEntity) {
+                        processSuccessfullyDecryptedLevel(decryptedLevelEntity);
+                    }
+
+                    @Override
+                    public void onIncorrectPassword() {
+                        setErrorLiveDataStatus("Incorrect password.");
+                        setIdleLiveDataStatus();
+                    }
+                });
+            }
+        }
+    }
+
+    private void processSuccessfullyDecryptedLevel(DecryptedLevelEntity decryptedLevelEntity){
+        this.gameDetailsEntity.setLevelsCompleted(this.gameDetailsEntity.getLevelsCompleted() + 1);
+        if(gameDetailsEntity.isGameCompleted()){
+            playGameUtils.updateGameDetails(gameDetailsEntity, this::setGameCompletedLiveDataStatus);
+        } else{
+            this.currentLevel = decryptedLevelEntity;
+            playGameUtils.updateGameAndGetNextLevel(this.gameDetailsEntity, decryptedLevelEntity, (nextLevel) -> {
+                this.nextLevel = nextLevel;
+                setLoadedLiveDataStatus();
+            });
+        }
+
     }
 
     private void setIdleLiveDataStatus(){
