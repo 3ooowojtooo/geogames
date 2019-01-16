@@ -128,6 +128,7 @@ public class CreateGameFragment extends SignInGuardedFragment {
                     String message = wrapper.getMessage();
                     processErrorLiveDataStatus(message);
                 } else if(wrapper.isSuccess()){
+                    viewModel.clear();
                     String message = wrapper.getMessage();
                     processSuccessLiveDataStatus(message);
                 }

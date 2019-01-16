@@ -113,19 +113,14 @@ public class PlayGameFragment extends UnGuardedFragment {
         viewModel.getPlayGameLiveData().observe(this, wrapper -> {
             if(wrapper != null){
                 if(wrapper.isIdle()){
-                    Log.i("PLAY", "idle");
                     processIdleLiveDataStatus();
                 } else if(wrapper.isInProgress()){
-                    Log.i("PLAY", "progress");
                     processInProgressLiveDataStatus();
                 } else if(wrapper.isLoaded()){
-                    Log.i("PLAY", "loaded, ord: " + wrapper.getLevel().getOrd());
                     processLoadedLiveDataStatus(wrapper.getGame(), wrapper.getLevel());
                 } else if(wrapper.isGameCompleted()){
-                    Log.i("PLAY", "completed");
                     processCompletedLiveDataStatus();
                 } else if(wrapper.isError()){
-                    Log.i("PLAY", "error");
                     processErrorLiveDataStatus(wrapper.getMessage());
                 }
             }
@@ -155,6 +150,8 @@ public class PlayGameFragment extends UnGuardedFragment {
             this.currentLevel.setText(String.valueOf(gameDetails.getLevelsCompleted()+1));
             this.numberOfLevels.setText(String.valueOf(gameDetails.getNumbersOfLevels()-1));
             this.levelDescription.setText(currentLevel.getDescription());
+
+            this.levelAnswer.setText("");
         }
         mainActivity.hideProgressOverlay();
     }

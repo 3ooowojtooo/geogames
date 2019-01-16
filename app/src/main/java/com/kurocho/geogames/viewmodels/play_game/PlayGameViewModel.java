@@ -8,7 +8,6 @@ import com.kurocho.geogames.data.my_games.DecryptedLevelEntity;
 import com.kurocho.geogames.data.my_games.EncryptedLevelEntity;
 import com.kurocho.geogames.data.my_games.GameDetailsEntity;
 import com.kurocho.geogames.utils.play_game.GameDecryptUtils;
-import com.kurocho.geogames.utils.play_game.GameDecryptUtils_Factory;
 import com.kurocho.geogames.utils.play_game.PlayGameUtils;
 
 import javax.inject.Inject;
@@ -35,7 +34,6 @@ public class PlayGameViewModel extends ViewModel {
     }
 
     public void clear(){
-        Log.i("PLAY", "vm-clear");
         gameDetailsEntity = null;
         currentLevel = null;
         nextLevel = null;
@@ -43,7 +41,6 @@ public class PlayGameViewModel extends ViewModel {
     }
 
     public void initialize(int gameId){
-        Log.i("PLAY", "vm-init");
         this.gameId = gameId;
         loadCurrentGameAndLevel();
     }
@@ -53,13 +50,12 @@ public class PlayGameViewModel extends ViewModel {
     }
 
     private void loadCurrentGameAndLevel(){
-        Log.i("PLAY", "vm-load-current");
         if(playGameLiveData.getValue() != null) {
             if(!playGameLiveData.getValue().isInProgress()) {
                 setInProgressLiveDataStatus();
-                playGameUtils.getGameAndCurrentLevel(gameId, (game, nextLevel, decryptedLevel) -> {
+                playGameUtils.getGameAndCurrentLevel(gameId, (game, nextLevel, currentLevel) -> {
                     this.gameDetailsEntity = game;
-                    this.currentLevel = decryptedLevel;
+                    this.currentLevel = currentLevel;
                     this.nextLevel = nextLevel;
                     if(this.gameDetailsEntity.isGameCompleted()){
                         setGameCompletedLiveDataStatus();
@@ -72,14 +68,12 @@ public class PlayGameViewModel extends ViewModel {
     }
 
     public void decryptCurrentLevel(String answer){
-        Log.i("PLAY", "vm-decrypt-start");
         if(playGameLiveData.getValue() != null){
             if(!playGameLiveData.getValue().isInProgress()){
                 setInProgressLiveDataStatus();
                 gameDecryptUtils.decryptEncryptedLevelEntity(nextLevel, answer, new GameDecryptUtils.DecryptLevelCallback() {
                     @Override
                     public void onSuccess(DecryptedLevelEntity decryptedLevelEntity) {
-                        Log.i("PLAY", "vm-decrypt-ok");
                         processSuccessfullyDecryptedLevel(decryptedLevelEntity);
                     }
 
@@ -94,16 +88,12 @@ public class PlayGameViewModel extends ViewModel {
     }
 
     private void processSuccessfullyDecryptedLevel(DecryptedLevelEntity decryptedLevelEntity){
-        Log.i("PLAY", "vm-process-decrypt-ok");
         this.gameDetailsEntity.setLevelsCompleted(this.gameDetailsEntity.getLevelsCompleted() + 1);
         if(gameDetailsEntity.isGameCompleted()){
-            Log.i("PLAY", "vm-decrypt-ok-completed");
             playGameUtils.updateGameDetails(gameDetailsEntity, this::setGameCompletedLiveDataStatus);
         } else{
-            Log.i("PLAY", "vm-decrypt-ok-not-completed");
             this.currentLevel = decryptedLevelEntity;
             playGameUtils.updateGameAndGetNextLevel(this.gameDetailsEntity, decryptedLevelEntity, (nextLevel) -> {
-                Log.i("PLAY", "vm-decrypt-ok-not-completed-next-level");
                 this.nextLevel = nextLevel;
                 setLoadedLiveDataStatus();
             });

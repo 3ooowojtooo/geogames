@@ -24,11 +24,16 @@ public class CreateGameViewModel extends ViewModel {
         this.createGameUtils = createGameUtils;
         gameDetailsCreationObservable = new GameDetailsCreationObservable();
         gameLevelCreationObservableList = new ListOfGameLevelCreationObservables();
-
-        gameLevelCreationObservableList.createAndAppendNewGameLevelObject();
-
         createGameLiveData = new MutableLiveData<>();
+        clear();
         setIdleLiveDataStatus();
+    }
+
+    public void clear(){
+        gameDetailsCreationObservable.title.set("");
+        gameDetailsCreationObservable.description.set("");
+        gameLevelCreationObservableList.clear();
+        gameLevelCreationObservableList.createAndAppendNewGameLevelObject();
     }
 
     public GameDetailsCreationObservable getGameDetailsCreationObservable(){
