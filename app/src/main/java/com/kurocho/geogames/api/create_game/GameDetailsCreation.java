@@ -1,4 +1,4 @@
-package com.kurocho.geogames.viewmodels.create_game;
+package com.kurocho.geogames.api.create_game;
 
 public class GameDetailsCreation {
 

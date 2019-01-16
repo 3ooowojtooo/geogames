@@ -1,8 +1,6 @@
 package com.kurocho.geogames.api.create_game;
 
 import android.support.annotation.NonNull;
-import com.kurocho.geogames.viewmodels.create_game.GameDetailsCreation;
-import com.kurocho.geogames.viewmodels.create_game.GameLevelCreation;
 
 import java.util.ArrayList;
 

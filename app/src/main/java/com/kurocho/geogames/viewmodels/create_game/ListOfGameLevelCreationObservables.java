@@ -1,6 +1,7 @@
 package com.kurocho.geogames.viewmodels.create_game;
 
 
+import com.kurocho.geogames.api.create_game.GameLevelCreation;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
