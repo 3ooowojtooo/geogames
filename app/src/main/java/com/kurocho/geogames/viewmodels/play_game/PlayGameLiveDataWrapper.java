@@ -71,7 +71,7 @@ public class PlayGameLiveDataWrapper {
     }
 
     public static PlayGameLiveDataWrapper error(String message){
-        return new PlayGameLiveDataWrapper(Status.IDLE, message, null, null);
+        return new PlayGameLiveDataWrapper(Status.ERROR, message, null, null);
     }
 
     private enum Status {

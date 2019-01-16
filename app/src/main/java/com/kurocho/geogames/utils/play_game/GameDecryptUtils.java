@@ -1,5 +1,6 @@
 package com.kurocho.geogames.utils.play_game;
 
+import android.util.Log;
 import com.google.crypto.tink.Aead;
 import com.google.crypto.tink.aead.AeadConfig;
 import com.google.crypto.tink.subtle.AesGcmJce;
@@ -38,12 +39,17 @@ public class GameDecryptUtils {
     }
 
     public void decryptEncryptedLevelEntity(EncryptedLevelEntity encryptedLevelEntity, String password, DecryptLevelCallback callback) {
+        Log.i("PLAY", "password: " + password);
+        Log.i("PLAY", "ord: " + encryptedLevelEntity.getOrd());
+        Log.i("PLAY", "desc: " + encryptedLevelEntity.getEncryptedDescription());
+        password = password.toLowerCase().replaceAll("\\s","");
         byte[] hashedPassword = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
         byte[] decryptedDescriptionBytes;
         try {
             Aead aead = new AesGcmJce(hashedPassword);
             decryptedDescriptionBytes = aead.decrypt(hexStringToByteArray(encryptedLevelEntity.getEncryptedDescription()), null);
         } catch (GeneralSecurityException e){
+            e.printStackTrace();
             callback.onIncorrectPassword();
             return;
         }

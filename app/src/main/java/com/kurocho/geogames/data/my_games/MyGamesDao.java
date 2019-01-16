@@ -35,7 +35,7 @@ public abstract class MyGamesDao {
     public EncryptedLevelEntity updateGameAndGetNextLevel(GameDetailsEntity gameDetailsEntity, DecryptedLevelEntity decryptedLevelEntity){
         updateGameDetails(gameDetailsEntity);
         insertDecryptedLevel(decryptedLevelEntity);
-        return getEncryptedLevel(gameDetailsEntity.getGameId(), gameDetailsEntity.getLevelsCompleted()+1);
+        return getEncryptedLevel(gameDetailsEntity.getGameId(), gameDetailsEntity.getLevelsCompleted()+2);
     }
 
     @Query("SELECT * FROM game_details")
