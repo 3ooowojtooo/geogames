@@ -34,19 +34,23 @@ public class SearchGamesRepository {
     public void loadGameDetails(String query){
         if(gameDetailsLiveData.getValue() != null) {
             if(!gameDetailsLiveData.getValue().isInProgress()) {
-                setInProgressLiveDataStatus();
-
-                if (cache.isQueryCached(query)) {
-                    setSuccessLiveDataStatus(cache.getCachedData());
+                if(query.isEmpty()){
+                    setIdleLiveDataStatus();
                 } else {
-                    loadGameDetailsFromAPI(query);
+                    setInProgressLiveDataStatus();
+
+                    if (cache.isQueryCached(query)) {
+                        setSuccessLiveDataStatus(cache.getCachedData());
+                    } else {
+                        loadGameDetailsFromAPI(query);
+                    }
                 }
             }
         }
     }
 
     private void loadGameDetailsFromAPI(String query){
-        api.getPublicGames().enqueue(new Callback<List<SearchGameDetails>>() {
+        api.getPublicGames(query).enqueue(new Callback<List<SearchGameDetails>>() {
             @Override
             public void onResponse(@NonNull Call<List<SearchGameDetails>> call, @NonNull Response<List<SearchGameDetails>> response) {
                 if(response.isSuccessful()){

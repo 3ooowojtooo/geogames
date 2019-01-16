@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.*;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -48,6 +49,9 @@ public class PlayGameFragment extends UnGuardedFragment {
 
     @BindView(R.id.level_answer)
     EditText levelAnswer;
+
+    @BindString(R.string.app_bar_title_play_game)
+    String appBarTitle;
 
     private PlayGameViewModel viewModel;
 
@@ -89,7 +93,11 @@ public class PlayGameFragment extends UnGuardedFragment {
         }
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        mainActivity.setBarTitle(appBarTitle);
+    }
 
     private void obtainGameIdAndInitializeViewModel(){
         Bundle arguments = getArguments();

@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.*;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.kurocho.geogames.R;
@@ -33,6 +34,9 @@ public class CreateGameFragment extends SignInGuardedFragment {
 
     @BindView(R.id.create_game_recycler_view)
     RecyclerView recyclerView;
+
+    @BindString(R.string.app_bar_title_create_game)
+    String appBarTitle;
 
     private MainActivity mainActivity;
 
@@ -96,6 +100,12 @@ public class CreateGameFragment extends SignInGuardedFragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mainActivity.setBarTitle(appBarTitle);
     }
 
     private void initializeRecyclerView(){
