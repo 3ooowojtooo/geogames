@@ -1,8 +1,8 @@
 package com.kurocho.geogames.utils.create_game;
 
 import com.kurocho.geogames.utils.exception.EmptyCredentialsException;
-import com.kurocho.geogames.viewmodels.create_game.GameDetailsCreation;
-import com.kurocho.geogames.viewmodels.create_game.GameLevelCreation;
+import com.kurocho.geogames.api.create_game.GameDetailsCreation;
+import com.kurocho.geogames.api.create_game.GameLevelCreation;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

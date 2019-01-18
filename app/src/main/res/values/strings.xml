@@ -35,6 +35,9 @@
     <string name="app_bar_title_my_games">Downloaded games</string>
     <string name="app_bar_title_sign_in">Sign In</string>
     <string name="app_bar_title_sign_up">Sign Up</string>
+    <string name="app_bar_title_create_game">Create new game</string>
+    <string name="app_bar_title_play_game">Play game</string>
+
     <string name="create_account_if_you_dont_have_it_yet">You don\'t have an account? Create it here.</string>
     <string name="progress">Progress:</string>
     <string name="game_title">Game Title</string>
@@ -49,5 +52,8 @@
 
     <string name="app_label">App label</string>
     <string name="search_hint">Search games</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

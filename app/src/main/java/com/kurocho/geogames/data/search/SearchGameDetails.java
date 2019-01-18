@@ -1,5 +1,11 @@
 package com.kurocho.geogames.data.search;
 
+import android.arch.persistence.room.Ignore;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class SearchGameDetails {
 
     private long dateCreated;
@@ -40,6 +46,12 @@ public class SearchGameDetails {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getFormattedCreationData(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        Date date = new Date(dateCreated);
+        return dateFormat.format(date);
     }
 
 }

@@ -27,5 +27,9 @@ public abstract class MainActivityModule {
     @PerFragment
     @ContributesAndroidInjector
     abstract MyGamesFragment injectMyGamesFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract PlayGameFragment injectPlayGameFragment();
 }
 

@@ -6,8 +6,8 @@ import com.kurocho.geogames.api.create_game.GameCreationRequest;
 import com.kurocho.geogames.utils.exception.EmptyCredentialsException;
 import com.kurocho.geogames.utils.exception.TokenNotSetException;
 import com.kurocho.geogames.utils.sign_in.SignInUtils;
-import com.kurocho.geogames.viewmodels.create_game.GameDetailsCreation;
-import com.kurocho.geogames.viewmodels.create_game.GameLevelCreation;
+import com.kurocho.geogames.api.create_game.GameDetailsCreation;
+import com.kurocho.geogames.api.create_game.GameLevelCreation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,8 +69,9 @@ public class CreateGameUtils {
             callback.onError(messageUtils.getUnauthorizedMessage());
             return;
         }
-
+        addVirtualLevel(gameLevelCreations);
         GameCreationRequest gameCreationRequest = new GameCreationRequest(gameDetailsCreation, gameLevelCreations);
+
 
         api.createGame(gameCreationRequest, userToken).enqueue(new Callback<Void>() {
             @Override
@@ -89,7 +90,11 @@ public class CreateGameUtils {
             }
         });
 
+    }
 
+    private void addVirtualLevel(ArrayList<GameLevelCreation> gameLevels){
+        GameLevelCreation virtualLevel = new GameLevelCreation("virtuallevel", "virtuallevel", gameLevels.size()+1);
+        gameLevels.add(virtualLevel);
     }
 
     private void processSuccessfulResponse(){

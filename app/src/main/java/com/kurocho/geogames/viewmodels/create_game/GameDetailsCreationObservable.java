@@ -2,6 +2,7 @@ package com.kurocho.geogames.viewmodels.create_game;
 
 import android.databinding.ObservableField;
 import android.text.Editable;
+import com.kurocho.geogames.api.create_game.GameDetailsCreation;
 
 import java.util.Objects;
 

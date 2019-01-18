@@ -25,7 +25,7 @@ public interface Api {
     Call<Void> createGame(@Body GameCreationRequest gameCreationRequest, @Header("Authorization") String token);
 
     @GET(BASE_URL+"public/games")
-    Call<List<SearchGameDetails>> getPublicGames();
+    Call<List<SearchGameDetails>> getPublicGames(@Query("title") String title);
 
     @GET(BASE_URL+"public/{gameid}")
     Call<GameRetrievalRequest> getGame(@Path("gameid") Integer gameId);
