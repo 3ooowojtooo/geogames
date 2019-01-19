@@ -15,7 +15,8 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "0.02"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -63,8 +64,11 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:2.23.4'
     testImplementation 'android.arch.core:core-testing:1.1.1'
     androidTestImplementation 'org.mockito:mockito-android:2.7.22'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation "androidx.test.ext:junit:1.1.0"
+    androidTestImplementation 'androidx.test:rules:1.1.1'
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.1.1"
+
 
     implementation 'com.google.crypto.tink:tink-android:1.2.1'
 }
