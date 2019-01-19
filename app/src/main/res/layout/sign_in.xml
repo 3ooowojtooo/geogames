@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/sign_in_form"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+
+    <AutoCompleteTextView
+            android:id="@+id/sign_in_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sign_in_username"
+            android:inputType="textAutoComplete"
+            android:maxLines="1"
+            android:singleLine="true"/>
+
+    <EditText
+            android:id="@+id/sign_in_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/sign_in_password"
+            android:imeOptions="actionUnspecified"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true"/>
+
+    <Button
+            android:id="@+id/sign_in_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/sign_in_action_sign_in"
+            android:textStyle="bold"/>
+
+    <TextView
+            android:id="@+id/sign_in_sign_up_button"
+            android:text="@string/sign_in_create_account_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/linkColor"/>
+
+    <TextView
+            android:id="@+id/sign_in_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/errorColor"
+            android:textSize="@dimen/sign_in_fragment_error_font_size"
+            android:textAlignment="center"
+            android:visibility="gone"
+    />
+</LinearLayout>
